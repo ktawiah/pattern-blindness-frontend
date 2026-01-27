@@ -1,0 +1,250 @@
+import { api } from "./client";
+import type {
+  PatternResponse,
+  DataStructureResponse,
+  ProblemResponse,
+  ProblemBriefResponse,
+  ProblemWithSolutionResponse,
+  AttemptResponseDto,
+  ConfidenceDashboardDto,
+} from "@/types";
+
+// Pattern API - matches backend PatternEndpoints
+export const patternApi = {
+  getAll: () => api.get<PatternResponse[]>("/api/patterns"),
+
+  getById: (id: string) => api.get<PatternResponse>(`/api/patterns/${id}`),
+
+  getByCategory: (category: string) =>
+    api.get<PatternResponse[]>(
+      `/api/patterns/category/${encodeURIComponent(category)}`,
+    ),
+};
+
+// Data Structure API - matches backend DataStructureEndpoints
+export const dataStructureApi = {
+  getAll: () => api.get<DataStructureResponse[]>("/api/data-structures"),
+
+  getById: (id: string) =>
+    api.get<DataStructureResponse>(`/api/data-structures/${id}`),
+
+  getByCategory: (category: number) =>
+    api.get<DataStructureResponse[]>(
+      `/api/data-structures/category/${category}`,
+    ),
+
+  search: (query: string) =>
+    api.get<DataStructureResponse[]>(
+      `/api/data-structures/search?query=${encodeURIComponent(query)}`,
+    ),
+};
+
+// Problem API - matches backend ProblemEndpoints
+export const problemApi = {
+  getAll: () => api.get<ProblemBriefResponse[]>("/api/problems"),
+
+  getById: (id: string) => api.get<ProblemResponse>(`/api/problems/${id}`),
+
+  getByDifficulty: (difficulty: "Easy" | "Medium" | "Hard") =>
+    api.get<ProblemBriefResponse[]>(`/api/problems/difficulty/${difficulty}`),
+
+  getRandom: (difficulty?: "Easy" | "Medium" | "Hard") => {
+    const query = difficulty ? `?difficulty=${difficulty}` : "";
+    return api.get<ProblemResponse>(`/api/problems/random${query}`);
+  },
+};
+
+// Cold Start Settings response type
+export interface ColdStartSettingsResponse {
+  recommendedDurationSeconds: number;
+  performanceTier: "new" | "good" | "moderate" | "struggling";
+  recentAccuracyPercent: number;
+  attemptsSampled: number;
+  recommendMultipleHypothesis: boolean;
+  interviewPrompt: string;
+}
+
+// Attempt API - matches backend AttemptEndpoints
+export const attemptApi = {
+  start: (problemId: string) =>
+    api.post<{ id: string }>("/api/attempts", { problemId }),
+
+  submitColdStart: (
+    attemptId: string,
+    data: {
+      identifiedSignals: string;
+      rejectedPatterns?: string;
+      chosenPatternId: string;
+      secondaryPatternId?: string;
+      primaryVsSecondaryReason?: string;
+      rejectedPatternId?: string;
+      rejectionReason?: string;
+      thinkingDurationSeconds: number;
+    },
+  ) => api.post(`/api/attempts/${attemptId}/cold-start`, data),
+
+  complete: (
+    attemptId: string,
+    data: { confidence: number; isPatternCorrect: boolean },
+  ) =>
+    api.post<ProblemWithSolutionResponse>(
+      `/api/attempts/${attemptId}/complete`,
+      data,
+    ),
+
+  getById: (id: string) => api.get<AttemptResponseDto>(`/api/attempts/${id}`),
+
+  // Get all attempts for the current authenticated user
+  getAll: () => api.get<AttemptResponseDto[]>("/api/attempts"),
+
+  getConfidenceDashboard: () =>
+    api.get<ConfidenceDashboardDto>("/api/attempts/dashboard"),
+
+  // Get adaptive cold start settings based on user performance
+  getColdStartSettings: () =>
+    api.get<ColdStartSettingsResponse>("/api/attempts/cold-start-settings"),
+};
+
+export { api } from "./client";
+export { authApi } from "./auth";
+
+// LeetCode API types
+export interface LeetCodeProblem {
+  questionId: string;
+  frontendId: string;
+  title: string;
+  titleSlug: string;
+  difficulty: string;
+  acceptanceRate: number;
+  tags: string[];
+}
+
+export interface LeetCodeExample {
+  input: string;
+  output: string;
+  explanation?: string;
+}
+
+export interface LeetCodeProblemDetail {
+  questionId: string;
+  frontendId: string;
+  title: string;
+  titleSlug: string;
+  content: string;
+  difficulty: string;
+  tags: string[];
+  examples: LeetCodeExample[];
+}
+
+export interface LeetCodeSyncResult {
+  totalFetched: number;
+  newlyCreated: number;
+  skipped: number;
+  failed: number;
+  errors: string[];
+}
+
+// New types for the dynamic LeetCode flow
+export interface CachedProblemResponse {
+  id: string;
+  leetCodeId: string;
+  frontendId: string;
+  title: string;
+  titleSlug: string;
+  difficulty: string;
+  content: string;
+  tags: string[];
+  hasAnalysis: boolean;
+  cachedAt: string;
+}
+
+export interface ProblemAnalysisResponse {
+  id: string;
+  primaryPatterns: string[];
+  secondaryPatterns: string[];
+  keySignals: string;
+  commonMistakes: string;
+  timeComplexity: string;
+  spaceComplexity: string;
+  keyInsight: string;
+  approachExplanation: string;
+  similarProblems: string[];
+  analyzedAt: string;
+}
+
+export interface AttemptStartResponse {
+  attemptId: string;
+  problemCacheId: string;
+  title: string;
+  titleSlug: string;
+  content: string;
+  difficulty: string;
+  tags: string[];
+}
+
+export interface ReflectionResponse {
+  id: string;
+  feedback: string;
+  correctIdentifications: string;
+  missedSignals: string;
+  nextTimeAdvice: string;
+  patternTips: string;
+  confidenceCalibration: string;
+  isCorrectPattern: boolean;
+  generatedAt: string;
+}
+
+// LeetCode API - for fetching and syncing problems
+export const leetcodeApi = {
+  // Search problems (filtered to algorithmic)
+  search: (query: string, limit: number = 20) =>
+    api.get<LeetCodeProblem[]>(
+      `/api/leetcode/search?query=${encodeURIComponent(query)}&limit=${limit}`,
+    ),
+
+  // Fetch problems directly from LeetCode (public)
+  getProblems: (limit: number = 50, skip: number = 0) =>
+    api.get<LeetCodeProblem[]>(
+      `/api/leetcode/problems?limit=${limit}&skip=${skip}`,
+    ),
+
+  // Fetch a specific problem's details (caches locally)
+  getProblemDetail: (titleSlug: string) =>
+    api.get<CachedProblemResponse>(`/api/leetcode/problems/${titleSlug}`),
+
+  // Analyze a problem using LLM
+  analyzeProblem: (titleSlug: string) =>
+    api.post<ProblemAnalysisResponse>(
+      `/api/leetcode/problems/${titleSlug}/analyze`,
+      {},
+    ),
+
+  // Start an attempt on a LeetCode problem
+  startAttempt: (titleSlug: string) =>
+    api.post<AttemptStartResponse>(
+      `/api/leetcode/problems/${titleSlug}/start`,
+      {},
+    ),
+
+  // Sync problems to database (admin only)
+  syncProblems: (count: number = 50) =>
+    api.post<LeetCodeSyncResult>(`/api/leetcode/sync?count=${count}`, {}),
+};
+
+// Reflection API - for generating and retrieving reflections
+export const reflectionApi = {
+  // Generate a reflection for a completed attempt
+  generate: (
+    attemptId: string,
+    data: {
+      chosenPattern: string;
+      identifiedSignals: string;
+      confidenceLevel: number;
+    },
+  ) =>
+    api.post<ReflectionResponse>(`/api/attempts/${attemptId}/reflection`, data),
+
+  // Get an existing reflection
+  get: (attemptId: string) =>
+    api.get<ReflectionResponse>(`/api/attempts/${attemptId}/reflection`),
+};
