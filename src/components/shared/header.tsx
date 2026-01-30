@@ -29,12 +29,12 @@ export function Header() {
   return (
     <header className="border-b">
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href={ROUTES.home} className="flex items-center gap-2">
+        <Button className="flex items-center justify-center gap-2 mb-4 bg-white hover:bg-white text-black rounded-full pointer-cursor">
           <span className="text-2xl" aria-hidden="true">
             🧠
           </span>
           <span className="font-bold text-xl">Pattern Blindness</span>
-        </Link>
+        </Button>
 
         <div className="flex items-center gap-2 md:gap-4">
           {/* Always visible links */}

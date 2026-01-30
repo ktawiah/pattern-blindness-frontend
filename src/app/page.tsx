@@ -102,7 +102,7 @@ export default function Home() {
   // Redirect authenticated users to dashboard
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      router.push("/dashboard");
+      router.push("/patterns");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -154,7 +154,8 @@ export default function Home() {
             <div className="max-w-4xl mx-auto text-center">
               <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary/30 bg-primary/5">
                 <Zap className="h-3 w-3 mr-1 text-primary" />
-                Built for experienced engineers
+                Built for experienced by engineers
+                <Zap className="h-3 w-3 mr-1 text-primary" />
               </Badge>
 
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">

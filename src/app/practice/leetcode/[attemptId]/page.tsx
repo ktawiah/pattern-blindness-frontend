@@ -18,6 +18,7 @@ import { Header } from "@/components/shared";
 import {
   leetcodeApi,
   reflectionApi,
+  attemptApi,
   type CachedProblemResponse,
   type ProblemAnalysisResponse,
   type ReflectionResponse,
@@ -225,12 +226,14 @@ export default function LeetCodePracticePage({
     setError(null);
 
     try {
+      // Generate the reflection - this also completes the attempt in the backend
       const reflectionResult = await reflectionApi.generate(attemptId, {
         chosenPattern,
         identifiedSignals,
         confidenceLevel,
       });
       setReflection(reflectionResult);
+
       setPhase("reflection");
     } catch (err) {
       console.error("Failed to generate reflection:", err);
@@ -408,7 +411,7 @@ export default function LeetCodePracticePage({
                 </CardHeader>
                 <CardContent>
                   <div
-                    className="prose prose-sm dark:prose-invert max-w-none"
+                    className="prose-invert prose-sm bg-gray-50 p-5 rounded-md max-w-none"
                     dangerouslySetInnerHTML={{ __html: attempt.content }}
                   />
                 </CardContent>
