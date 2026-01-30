@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { dataStructureApi } from "@/lib/api";
 import type { DataStructureResponse } from "@/types";
-import { getDataStructureCategoryLabel } from "@/types";
+import { getDataStructureCategoryLabel, DATA_STRUCTURE_CATEGORY_ORDER } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -148,8 +148,13 @@ export default function DataStructuresPage() {
           </Card>
         ) : (
           <div className="space-y-8">
-            {Object.entries(dataStructuresByCategory).map(
-              ([category, categoryDataStructures]) => (
+            {Object.entries(dataStructuresByCategory)
+              .sort(([a], [b]) => {
+                const orderA = DATA_STRUCTURE_CATEGORY_ORDER[a] ?? 999;
+                const orderB = DATA_STRUCTURE_CATEGORY_ORDER[b] ?? 999;
+                return orderA - orderB;
+              })
+              .map(([category, categoryDataStructures]) => (
                 <div key={category}>
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Database className="h-5 w-5" />
@@ -159,7 +164,9 @@ export default function DataStructuresPage() {
                     </Badge>
                   </h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {categoryDataStructures.map((ds) => (
+                    {categoryDataStructures
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((ds) => (
                       <Link key={ds.id} href={`/data-structures/${ds.id}`}>
                         <Card className="h-full hover:border-primary transition-colors cursor-pointer">
                           <CardHeader>

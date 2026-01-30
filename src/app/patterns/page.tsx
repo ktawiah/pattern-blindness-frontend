@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { patternApi } from "@/lib/api";
 import type { PatternResponse } from "@/types";
-import { getCategoryLabel } from "@/types";
+import { getCategoryLabel, CATEGORY_COMPLEXITY_ORDER } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -148,8 +148,13 @@ export default function PatternsPage() {
           </Card>
         ) : (
           <div className="space-y-8">
-            {Object.entries(patternsByCategory).map(
-              ([category, categoryPatterns]) => (
+            {Object.entries(patternsByCategory)
+              .sort(([a], [b]) => {
+                const orderA = CATEGORY_COMPLEXITY_ORDER[a] ?? 999;
+                const orderB = CATEGORY_COMPLEXITY_ORDER[b] ?? 999;
+                return orderA - orderB;
+              })
+              .map(([category, categoryPatterns]) => (
                 <div key={category}>
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <BookOpen className="h-5 w-5" />
@@ -159,7 +164,9 @@ export default function PatternsPage() {
                     </Badge>
                   </h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {categoryPatterns.map((pattern) => (
+                    {categoryPatterns
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((pattern) => (
                       <Link key={pattern.id} href={`/patterns/${pattern.id}`}>
                         <Card className="h-full hover:border-primary transition-colors cursor-pointer">
                           <CardHeader>

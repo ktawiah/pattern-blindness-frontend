@@ -17,31 +17,7 @@ export function getDifficultyLabel(
   return DIFFICULTY_MAP[value as DifficultyValue] || "Medium";
 }
 
-// Pattern Category enum values from backend
-export type PatternCategoryValue =
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 13
-  | 14
-  | 15
-  | 16
-  | 17
-  | 18
-  | 19
-  | 20
-  | 21
-  | 22
-  | 23;
+// Pattern Category - backend returns as string
 export type PatternCategoryLabel =
   | "Array"
   | "String"
@@ -67,37 +43,66 @@ export type PatternCategoryLabel =
   | "PrefixSum"
   | "Matrix";
 
-export const CATEGORY_MAP: Record<PatternCategoryValue, PatternCategoryLabel> =
-  {
-    1: "Array",
-    2: "String",
-    3: "LinkedList",
-    4: "Tree",
-    5: "Graph",
-    6: "DynamicProgramming",
-    7: "Greedy",
-    8: "BinarySearch",
-    9: "TwoPointers",
-    10: "SlidingWindow",
-    11: "Stack",
-    12: "Queue",
-    13: "Heap",
-    14: "Trie",
-    15: "Backtracking",
-    16: "Math",
-    17: "BitManipulation",
-    18: "UnionFind",
-    19: "MonotonicStack",
-    20: "Intervals",
-    21: "DivideAndConquer",
-    22: "PrefixSum",
-    23: "Matrix",
-  };
+// Display labels for pattern categories (add spaces for readability)
+export const CATEGORY_DISPLAY_MAP: Record<string, string> = {
+  Array: "Array",
+  String: "String",
+  LinkedList: "Linked List",
+  Tree: "Tree",
+  Graph: "Graph",
+  DynamicProgramming: "Dynamic Programming",
+  Greedy: "Greedy",
+  BinarySearch: "Binary Search",
+  TwoPointers: "Two Pointers",
+  SlidingWindow: "Sliding Window",
+  Stack: "Stack",
+  Queue: "Queue",
+  Heap: "Heap",
+  Trie: "Trie",
+  Backtracking: "Backtracking",
+  Math: "Math",
+  BitManipulation: "Bit Manipulation",
+  UnionFind: "Union Find",
+  MonotonicStack: "Monotonic Stack",
+  Intervals: "Intervals",
+  DivideAndConquer: "Divide and Conquer",
+  PrefixSum: "Prefix Sum",
+  Matrix: "Matrix",
+};
 
-export function getCategoryLabel(
-  value: PatternCategoryValue | number,
-): PatternCategoryLabel {
-  return CATEGORY_MAP[value as PatternCategoryValue] || "Array";
+// Category complexity order for sorting (lower = easier)
+export const CATEGORY_COMPLEXITY_ORDER: Record<string, number> = {
+  Array: 1,
+  String: 2,
+  TwoPointers: 3,
+  SlidingWindow: 4,
+  BinarySearch: 5,
+  Stack: 6,
+  Queue: 7,
+  LinkedList: 8,
+  PrefixSum: 9,
+  Heap: 10,
+  Tree: 11,
+  Trie: 12,
+  Greedy: 13,
+  Intervals: 14,
+  MonotonicStack: 15,
+  Matrix: 16,
+  Backtracking: 17,
+  Graph: 18,
+  UnionFind: 19,
+  DivideAndConquer: 20,
+  DynamicProgramming: 21,
+  BitManipulation: 22,
+  Math: 23,
+};
+
+export function getCategoryLabel(value: string | number): string {
+  if (typeof value === "string") {
+    return CATEGORY_DISPLAY_MAP[value] || value;
+  }
+  // Fallback for numeric values (legacy)
+  return "Unknown";
 }
 
 // Legacy type for compatibility
@@ -303,7 +308,7 @@ export interface PatternResponse {
   id: string;
   name: string;
   description: string;
-  category: number; // Backend returns enum as number
+  category: string; // Backend returns enum as string
   whatItIs: string;
   whenToUse: string;
   whyItWorks: string;
@@ -317,8 +322,7 @@ export interface PatternResponse {
   relatedPatternIds: string[];
 }
 
-// Data Structure Category enum values from backend
-export type DataStructureCategoryValue = 1 | 2 | 3 | 4 | 5 | 6;
+// Data Structure Category - backend returns as string
 export type DataStructureCategoryLabel =
   | "Linear"
   | "HashBased"
@@ -327,24 +331,31 @@ export type DataStructureCategoryLabel =
   | "Graph"
   | "Advanced";
 
-export const DATA_STRUCTURE_CATEGORY_MAP: Record<
-  DataStructureCategoryValue,
-  DataStructureCategoryLabel
-> = {
-  1: "Linear",
-  2: "HashBased",
-  3: "Tree",
-  4: "Heap",
-  5: "Graph",
-  6: "Advanced",
+// Display labels for data structure categories
+export const DATA_STRUCTURE_CATEGORY_DISPLAY_MAP: Record<string, string> = {
+  Linear: "Linear",
+  HashBased: "Hash-Based",
+  Tree: "Tree",
+  Heap: "Heap",
+  Graph: "Graph",
+  Advanced: "Advanced",
 };
 
-export function getDataStructureCategoryLabel(
-  value: DataStructureCategoryValue | number,
-): DataStructureCategoryLabel {
-  return (
-    DATA_STRUCTURE_CATEGORY_MAP[value as DataStructureCategoryValue] || "Linear"
-  );
+// Data structure category complexity order for sorting
+export const DATA_STRUCTURE_CATEGORY_ORDER: Record<string, number> = {
+  Linear: 1,
+  HashBased: 2,
+  Heap: 3,
+  Tree: 4,
+  Graph: 5,
+  Advanced: 6,
+};
+
+export function getDataStructureCategoryLabel(value: string | number): string {
+  if (typeof value === "string") {
+    return DATA_STRUCTURE_CATEGORY_DISPLAY_MAP[value] || value;
+  }
+  return "Unknown";
 }
 
 // Backend DataStructure response
@@ -358,7 +369,7 @@ export interface DataStructureResponse {
   id: string;
   name: string;
   description: string;
-  category: number;
+  category: string; // Backend returns enum as string
   whatItIs: string;
   operations: OperationInfo[];
   whenToUse: string;
