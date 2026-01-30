@@ -20,6 +20,7 @@ interface AuthContextType {
   login: (data: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => void;
+  refreshUser: () => Promise<void>;
   error: string | null;
   clearError: () => void;
 }
@@ -118,6 +119,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     router.push(ROUTES.home);
   }, [router]);
 
+  const refreshUser = useCallback(async () => {
+    if (authApi.isAuthenticated()) {
+      try {
+        const userInfo = await authApi.getUserInfo();
+        setUser(userInfo);
+      } catch {
+        authApi.logout();
+        setUser(null);
+      }
+    }
+  }, []);
+
   const value: AuthContextType = {
     user,
     isLoading,
@@ -125,6 +138,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     login,
     register,
     logout,
+    refreshUser,
     error,
     clearError,
   };
