@@ -18,10 +18,20 @@ import { Header } from "@/components/shared";
 import {
   leetcodeApi,
   reflectionApi,
+  attemptApi,
   type CachedProblemResponse,
   type ProblemAnalysisResponse,
   type ReflectionResponse,
 } from "@/lib/api";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Loader2,
   ExternalLink,
@@ -39,8 +49,19 @@ type PracticePhase =
   | "loading"
   | "reading"
   | "thinking"
+  | "coding-handoff"
+  | "return-gate"
   | "reveal"
   | "reflection";
+
+type ApproachOutcome = "Worked" | "PartiallyWorked" | "Failed";
+type FailureReason =
+  | "WrongInvariant"
+  | "EdgeCase"
+  | "TimeComplexity"
+  | "ImplementationBug"
+  | "SpaceComplexity"
+  | "Other";
 
 interface AttemptState {
   attemptId: string;
@@ -67,10 +88,23 @@ export default function LeetCodePracticePage({
   const [reflection, setReflection] = useState<ReflectionResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // User inputs
+  // User inputs - Pattern identification
   const [identifiedSignals, setIdentifiedSignals] = useState("");
   const [chosenPattern, setChosenPattern] = useState("");
   const [confidenceLevel, setConfidenceLevel] = useState(50);
+
+  // User inputs - Approach lock-in (invariant/risk)
+  const [keyInvariant, setKeyInvariant] = useState("");
+  const [primaryRisk, setPrimaryRisk] = useState("");
+
+  // User inputs - Return gate
+  const [outcome, setOutcome] = useState<ApproachOutcome | "">("");
+  const [firstFailure, setFirstFailure] = useState<FailureReason | "">("");
+  const [switchedApproach, setSwitchedApproach] = useState(false);
+  const [switchReason, setSwitchReason] = useState("");
+
+  // Coding handoff timestamp
+  const [handoffTime, setHandoffTime] = useState<Date | null>(null);
 
   // Loading states
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
@@ -105,7 +139,7 @@ export default function LeetCodePracticePage({
     setPhase("thinking");
   };
 
-  // Handle submitting cold start and getting analysis
+  // Handle submitting cold start - moves to coding handoff
   const handleSubmitColdStart = async () => {
     if (!attempt) return;
 
@@ -117,11 +151,64 @@ export default function LeetCodePracticePage({
       setError("Please specify what pattern you think applies.");
       return;
     }
+    if (!keyInvariant.trim()) {
+      setError("Please describe the key invariant for your approach.");
+      return;
+    }
+    if (!primaryRisk.trim()) {
+      setError("Please describe the primary risk of your approach.");
+      return;
+    }
+
+    setError(null);
+    setHandoffTime(new Date());
+    setPhase("coding-handoff");
+  };
+
+  // Handle returning from coding
+  const handleReturnFromCoding = () => {
+    setPhase("return-gate");
+  };
+
+  // Handle submitting return gate and getting analysis
+  const handleSubmitReturnGate = async () => {
+    if (!attempt) return;
+
+    if (!outcome) {
+      setError("Please select how your approach worked.");
+      return;
+    }
+    if ((outcome === "PartiallyWorked" || outcome === "Failed") && !firstFailure) {
+      setError("Please select what broke first.");
+      return;
+    }
+    if (switchedApproach && !switchReason.trim()) {
+      setError("Please explain why you switched approaches.");
+      return;
+    }
 
     setIsLoadingAnalysis(true);
     setError(null);
 
     try {
+      // Submit cold start data to backend
+      await attemptApi.submitColdStart(attemptId, {
+        identifiedSignals,
+        chosenPatternId: chosenPattern,
+        thinkingDurationSeconds: 0, // We could track this properly
+        keyInvariant,
+        primaryRisk,
+      });
+
+      // Complete the attempt with return gate data
+      await attemptApi.complete(attemptId, {
+        confidence: confidenceLevel,
+        outcome: outcome as "Worked" | "PartiallyWorked" | "Failed",
+        firstFailure: firstFailure ? (firstFailure as "WrongInvariant" | "EdgeCase" | "TimeComplexity" | "ImplementationBug" | "SpaceComplexity" | "Other") : undefined,
+        switchedApproach,
+        switchReason: switchedApproach ? switchReason : undefined,
+      });
+
       // Get the analysis for this problem
       const analysisResult = await leetcodeApi.analyzeProblem(
         attempt.titleSlug,
@@ -294,21 +381,29 @@ export default function LeetCodePracticePage({
 
           {/* Phase Progress */}
           <div className="mb-8">
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
               <Badge variant={phase === "reading" ? "default" : "secondary"}>
-                1. Read Problem
+                1. Read
               </Badge>
               <ChevronRight className="h-4 w-4" />
               <Badge variant={phase === "thinking" ? "default" : "secondary"}>
-                2. Identify Patterns
+                2. Commit
+              </Badge>
+              <ChevronRight className="h-4 w-4" />
+              <Badge variant={phase === "coding-handoff" ? "default" : "secondary"}>
+                3. Code
+              </Badge>
+              <ChevronRight className="h-4 w-4" />
+              <Badge variant={phase === "return-gate" ? "default" : "secondary"}>
+                4. Report
               </Badge>
               <ChevronRight className="h-4 w-4" />
               <Badge variant={phase === "reveal" ? "default" : "secondary"}>
-                3. Reveal Analysis
+                5. Reveal
               </Badge>
               <ChevronRight className="h-4 w-4" />
               <Badge variant={phase === "reflection" ? "default" : "secondary"}>
-                4. Reflection
+                6. Reflect
               </Badge>
             </div>
           </div>
@@ -401,6 +496,38 @@ export default function LeetCodePracticePage({
                     </div>
                   </div>
 
+                  <div className="border-t pt-6 space-y-4">
+                    <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
+                      <strong>Lock in your approach:</strong> Before coding, commit to what must remain true and where this could fail.
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="invariant">
+                        Key Invariant: What must remain true throughout your solution?
+                      </Label>
+                      <Textarea
+                        id="invariant"
+                        placeholder="e.g., 'Left pointer always points to a smaller element than right pointer', 'Prefix sum array maintains cumulative totals'..."
+                        value={keyInvariant}
+                        onChange={(e) => setKeyInvariant(e.target.value)}
+                        rows={2}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="risk">
+                        Primary Risk: Where could this approach fail?
+                      </Label>
+                      <Textarea
+                        id="risk"
+                        placeholder="e.g., 'Edge case with empty array', 'Time limit exceeded if nested loops needed', 'Off-by-one error at boundaries'..."
+                        value={primaryRisk}
+                        onChange={(e) => setPrimaryRisk(e.target.value)}
+                        rows={2}
+                      />
+                    </div>
+                  </div>
+
                   {error && <p className="text-sm text-destructive">{error}</p>}
                 </CardContent>
               </Card>
@@ -412,7 +539,213 @@ export default function LeetCodePracticePage({
                 <Button
                   size="lg"
                   onClick={handleSubmitColdStart}
-                  disabled={isLoadingAnalysis}
+                  disabled={!identifiedSignals.trim() || !chosenPattern.trim() || !keyInvariant.trim() || !primaryRisk.trim()}
+                >
+                  Lock In & Go Code
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Coding Handoff Phase */}
+          {phase === "coding-handoff" && attempt && (
+            <div className="space-y-6">
+              <Card className="border-primary">
+                <CardHeader className="text-center">
+                  <CardTitle className="flex items-center justify-center gap-2 text-2xl">
+                    <Target className="h-6 w-6 text-primary" />
+                    Testing Your Hypothesis
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    You&apos;ve committed to an approach. Now go prove it.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                    <div>
+                      <span className="text-sm text-muted-foreground">Your hypothesis:</span>
+                      <p className="font-medium">{chosenPattern} should work</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-muted-foreground">Because:</span>
+                      <p className="text-sm">{identifiedSignals}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-muted-foreground">Key invariant to maintain:</span>
+                      <p className="text-sm">{keyInvariant}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-muted-foreground">Watch out for:</span>
+                      <p className="text-sm">{primaryRisk}</p>
+                    </div>
+                  </div>
+
+                  <div className="text-center space-y-2">
+                    <p className="text-muted-foreground">
+                      Open LeetCode and implement your solution.
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      When you&apos;re done (success or failure), come back and report what happened.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href={`https://leetcode.com/problems/${attempt.titleSlug}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1"
+                    >
+                      <Button variant="outline" className="w-full" size="lg">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Open LeetCode
+                      </Button>
+                    </a>
+                    <Button
+                      size="lg"
+                      className="flex-1"
+                      onClick={handleReturnFromCoding}
+                    >
+                      I&apos;m Back - Report Results
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Return Gate Phase */}
+          {phase === "return-gate" && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5" />
+                    Report Your Results
+                  </CardTitle>
+                  <CardDescription>
+                    Tell us how your approach worked so we can give you targeted feedback.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Outcome */}
+                  <div className="space-y-3">
+                    <Label className="text-base font-medium">How did your approach work?</Label>
+                    <RadioGroup
+                      value={outcome}
+                      onValueChange={(value) => setOutcome(value as ApproachOutcome)}
+                      className="space-y-2"
+                    >
+                      <div className="flex items-center space-x-3 p-3 rounded-lg border hover:border-primary/50 cursor-pointer">
+                        <RadioGroupItem value="Worked" id="worked" />
+                        <Label htmlFor="worked" className="flex-1 cursor-pointer">
+                          <span className="font-medium">Worked</span>
+                          <span className="text-sm text-muted-foreground ml-2">
+                            Passed all test cases with the approach I committed to
+                          </span>
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-lg border hover:border-primary/50 cursor-pointer">
+                        <RadioGroupItem value="PartiallyWorked" id="partial" />
+                        <Label htmlFor="partial" className="flex-1 cursor-pointer">
+                          <span className="font-medium">Partially Worked</span>
+                          <span className="text-sm text-muted-foreground ml-2">
+                            The approach was right but needed adjustments
+                          </span>
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-lg border hover:border-primary/50 cursor-pointer">
+                        <RadioGroupItem value="Failed" id="failed" />
+                        <Label htmlFor="failed" className="flex-1 cursor-pointer">
+                          <span className="font-medium">Failed</span>
+                          <span className="text-sm text-muted-foreground ml-2">
+                            The approach didn&apos;t work
+                          </span>
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
+                  {/* What broke first - only show if PartiallyWorked or Failed */}
+                  {(outcome === "PartiallyWorked" || outcome === "Failed") && (
+                    <div className="space-y-3 animate-in slide-in-from-top-2">
+                      <Label className="text-base font-medium">What broke first?</Label>
+                      <Select
+                        value={firstFailure}
+                        onValueChange={(value) => setFirstFailure(value as FailureReason)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select what caused the failure..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="WrongInvariant">
+                            Wrong Invariant - My core assumption was wrong
+                          </SelectItem>
+                          <SelectItem value="EdgeCase">
+                            Edge Case - Failed on boundary conditions
+                          </SelectItem>
+                          <SelectItem value="TimeComplexity">
+                            Time Complexity - Time Limit Exceeded
+                          </SelectItem>
+                          <SelectItem value="SpaceComplexity">
+                            Space Complexity - Memory Limit Exceeded
+                          </SelectItem>
+                          <SelectItem value="ImplementationBug">
+                            Implementation Bug - Logic was right, code was wrong
+                          </SelectItem>
+                          <SelectItem value="Other">
+                            Other
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Switched approach */}
+                  <div className="space-y-3 border-t pt-4">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="switched" className="text-base font-medium">
+                        Did you switch approaches mid-solve?
+                      </Label>
+                      <Switch
+                        id="switched"
+                        checked={switchedApproach}
+                        onCheckedChange={setSwitchedApproach}
+                      />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      It&apos;s okay if you did - we want to understand your thinking process.
+                    </p>
+                  </div>
+
+                  {/* Switch reason - only show if switched */}
+                  {switchedApproach && (
+                    <div className="space-y-2 animate-in slide-in-from-top-2">
+                      <Label htmlFor="switchReason">What made you switch?</Label>
+                      <Textarea
+                        id="switchReason"
+                        placeholder="e.g., 'Realized sliding window wouldn't handle negative numbers', 'Got stuck after 15 minutes and tried a different approach'..."
+                        value={switchReason}
+                        onChange={(e) => setSwitchReason(e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                  )}
+
+                  {error && <p className="text-sm text-destructive">{error}</p>}
+                </CardContent>
+              </Card>
+
+              <div className="flex justify-between">
+                <Button variant="outline" onClick={() => setPhase("coding-handoff")}>
+                  Back
+                </Button>
+                <Button
+                  size="lg"
+                  onClick={handleSubmitReturnGate}
+                  disabled={isLoadingAnalysis || !outcome}
                 >
                   {isLoadingAnalysis ? (
                     <>
@@ -421,7 +754,7 @@ export default function LeetCodePracticePage({
                     </>
                   ) : (
                     <>
-                      Reveal Analysis
+                      See Analysis
                       <Sparkles className="ml-2 h-4 w-4" />
                     </>
                   )}
@@ -433,26 +766,58 @@ export default function LeetCodePracticePage({
           {/* Reveal Phase */}
           {phase === "reveal" && analysis && (
             <div className="space-y-6">
-              {/* Your Answer */}
-              <Card className="border-primary">
+              {/* Your Approach & Results */}
+              <Card className={outcome === "Worked" ? "border-green-500" : outcome === "Failed" ? "border-red-500" : "border-yellow-500"}>
                 <CardHeader>
-                  <CardTitle className="text-sm text-muted-foreground">
-                    Your Answer
+                  <CardTitle className="flex items-center gap-2">
+                    {outcome === "Worked" ? (
+                      <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    ) : outcome === "Failed" ? (
+                      <AlertTriangle className="h-5 w-5 text-red-500" />
+                    ) : (
+                      <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                    )}
+                    Your Approach: {outcome === "Worked" ? "Success!" : outcome === "PartiallyWorked" ? "Partial Success" : "Didn't Work"}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div>
-                    <span className="font-medium">Pattern: </span>
-                    {chosenPattern}
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-sm text-muted-foreground">Pattern: </span>
+                      <p className="font-medium">{chosenPattern}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-muted-foreground">Confidence: </span>
+                      <p className="font-medium">{confidenceLevel}%</p>
+                    </div>
                   </div>
                   <div>
-                    <span className="font-medium">Signals: </span>
-                    {identifiedSignals}
+                    <span className="text-sm text-muted-foreground">Signals identified: </span>
+                    <p className="text-sm">{identifiedSignals}</p>
                   </div>
                   <div>
-                    <span className="font-medium">Confidence: </span>
-                    {confidenceLevel}%
+                    <span className="text-sm text-muted-foreground">Key invariant: </span>
+                    <p className="text-sm">{keyInvariant}</p>
                   </div>
+                  {(outcome === "PartiallyWorked" || outcome === "Failed") && firstFailure && (
+                    <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+                      <span className="text-sm text-muted-foreground">What broke: </span>
+                      <p className="font-medium text-red-700 dark:text-red-300">
+                        {firstFailure === "WrongInvariant" && "Wrong Invariant"}
+                        {firstFailure === "EdgeCase" && "Edge Case"}
+                        {firstFailure === "TimeComplexity" && "Time Limit Exceeded"}
+                        {firstFailure === "SpaceComplexity" && "Memory Limit Exceeded"}
+                        {firstFailure === "ImplementationBug" && "Implementation Bug"}
+                        {firstFailure === "Other" && "Other Issue"}
+                      </p>
+                    </div>
+                  )}
+                  {switchedApproach && (
+                    <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg">
+                      <span className="text-sm text-muted-foreground">You switched approaches: </span>
+                      <p className="text-sm">{switchReason}</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
