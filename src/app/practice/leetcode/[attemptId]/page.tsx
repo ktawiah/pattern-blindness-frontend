@@ -18,7 +18,6 @@ import { Header } from "@/components/shared";
 import {
   leetcodeApi,
   reflectionApi,
-  attemptApi,
   type CachedProblemResponse,
   type ProblemAnalysisResponse,
   type ReflectionResponse,
@@ -191,23 +190,8 @@ export default function LeetCodePracticePage({
     setError(null);
 
     try {
-      // Submit cold start data to backend
-      await attemptApi.submitColdStart(attemptId, {
-        identifiedSignals,
-        chosenPatternId: chosenPattern,
-        thinkingDurationSeconds: 0, // We could track this properly
-        keyInvariant,
-        primaryRisk,
-      });
-
-      // Complete the attempt with return gate data
-      await attemptApi.complete(attemptId, {
-        confidence: confidenceLevel,
-        outcome: outcome as "Worked" | "PartiallyWorked" | "Failed",
-        firstFailure: firstFailure ? (firstFailure as "WrongInvariant" | "EdgeCase" | "TimeComplexity" | "ImplementationBug" | "SpaceComplexity" | "Other") : undefined,
-        switchedApproach,
-        switchReason: switchedApproach ? switchReason : undefined,
-      });
+      // For LeetCode problems, we skip cold start submission (which requires GUID pattern IDs)
+      // and go directly to analysis. The reflection step uses free-text pattern names.
 
       // Get the analysis for this problem
       const analysisResult = await leetcodeApi.analyzeProblem(
