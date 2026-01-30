@@ -159,7 +159,7 @@ export default function PatternDetailPage({ params }: PageProps) {
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="usage">When to Use</TabsTrigger>
-                <TabsTrigger value="code">Template</TabsTrigger>
+                <TabsTrigger value="algorithm">Algorithm</TabsTrigger>
                 <TabsTrigger value="mistakes">Mistakes</TabsTrigger>
               </TabsList>
 
@@ -291,23 +291,25 @@ export default function PatternDetailPage({ params }: PageProps) {
                 </Card>
               </TabsContent>
 
-              {/* Code Template Tab */}
-              <TabsContent value="code" className="space-y-6 mt-6">
+              {/* Algorithm Tab */}
+              <TabsContent value="algorithm" className="space-y-6 mt-6">
                 {pattern.pseudoCode && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <Code className="h-5 w-5 text-cyan-500" />
-                        Pattern Template
+                        Algorithm
                       </CardTitle>
                       <CardDescription>
-                        Pseudocode template showing the pattern structure
+                        Step-by-step algorithm description
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm font-mono">
-                        {pattern.pseudoCode}
-                      </pre>
+                      <div className="prose prose-sm dark:prose-invert max-w-none">
+                        <pre className="whitespace-pre-wrap font-sans text-sm text-muted-foreground bg-transparent p-0">
+                          {pattern.pseudoCode}
+                        </pre>
+                      </div>
                     </CardContent>
                   </Card>
                 )}
