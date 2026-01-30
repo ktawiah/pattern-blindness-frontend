@@ -19,7 +19,9 @@ import {
   BookOpen,
   RefreshCw,
   Database,
+  GraduationCap,
 } from "lucide-react";
+import { OpenLoopIndicator } from "@/components/features/tracking/open-loop-indicator";
 
 export function Header() {
   const { isAuthenticated, user, logout, isLoading } = useAuth();
@@ -54,11 +56,22 @@ export function Header() {
               <Database className="h-4 w-4" />
             </Button>
           </Link>
+          <Link href="/resources">
+            <Button variant="ghost" size="sm" className="hidden sm:flex">
+              <GraduationCap className="h-4 w-4 mr-2" />
+              Resources
+            </Button>
+            <Button variant="ghost" size="icon" className="sm:hidden">
+              <GraduationCap className="h-4 w-4" />
+            </Button>
+          </Link>
 
           {isLoading ? (
             <div className="h-10 w-20 bg-muted animate-pulse rounded" />
           ) : isAuthenticated ? (
             <>
+              <OpenLoopIndicator />
+
               <Link href={ROUTES.practice}>
                 <Button variant="ghost" size="sm">
                   Practice

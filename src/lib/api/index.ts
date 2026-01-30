@@ -64,6 +64,16 @@ export interface ColdStartSettingsResponse {
   interviewPrompt: string;
 }
 
+// Return gate types
+export type ApproachOutcome = "Worked" | "PartiallyWorked" | "Failed";
+export type FailureReason =
+  | "WrongInvariant"
+  | "EdgeCase"
+  | "TimeComplexity"
+  | "ImplementationBug"
+  | "SpaceComplexity"
+  | "Other";
+
 // Attempt API - matches backend AttemptEndpoints
 export const attemptApi = {
   start: (problemId: string) =>
@@ -80,12 +90,22 @@ export const attemptApi = {
       rejectedPatternId?: string;
       rejectionReason?: string;
       thinkingDurationSeconds: number;
+      // NEW: Approach lock-in fields
+      keyInvariant?: string;
+      primaryRisk?: string;
     },
   ) => api.post(`/api/attempts/${attemptId}/cold-start`, data),
 
+  // Updated with return gate fields
   complete: (
     attemptId: string,
-    data: { confidence: number; isPatternCorrect: boolean },
+    data: {
+      confidence: number;
+      outcome: ApproachOutcome;
+      firstFailure?: FailureReason;
+      switchedApproach: boolean;
+      switchReason?: string;
+    },
   ) =>
     api.post<ProblemWithSolutionResponse>(
       `/api/attempts/${attemptId}/complete`,
@@ -103,9 +123,74 @@ export const attemptApi = {
   // Get adaptive cold start settings based on user performance
   getColdStartSettings: () =>
     api.get<ColdStartSettingsResponse>("/api/attempts/cold-start-settings"),
+
+  // Give up / abandon the current attempt
+  giveUp: (attemptId: string) =>
+    api.post<AttemptResponseDto>(`/api/attempts/${attemptId}/give-up`, {}),
 };
 
-export { api } from "./client";
+// ===== USER PROFILE API (Qualification & Phase Gating) =====
+
+export interface FeatureAccessResponse {
+  phase: number;
+  problemsInPhase: number;
+  problemsToNextPhase: number;
+  showConfidenceMetrics: boolean;
+  showPatternUsageStats: boolean;
+  showBlindSpots: boolean;
+  showPatternDecay: boolean;
+  showThinkingReplay: boolean;
+  showInterviewReadiness: boolean;
+}
+
+export interface UserProfileResponse {
+  userId: string;
+  isQualified: boolean;
+  dsaProblemsCompleted: number;
+  qualifiedAt: string | null;
+  currentPhase: number;
+  completedAttempts: number;
+  wasGrandfathered: boolean;
+  interviewReadinessOptIn: boolean;
+  featureAccess: FeatureAccessResponse;
+}
+
+export interface QualificationCheckResponse {
+  isQualified: boolean;
+  needsQualification: boolean;
+  message: string | null;
+}
+
+export interface ActiveAttemptResponse {
+  attemptId: string;
+  problemTitle: string;
+  startedAt: string;
+  status: string;
+}
+
+export const profileApi = {
+  // Get current user's profile
+  getProfile: () => api.get<UserProfileResponse>("/api/profile"),
+
+  // Submit qualification answers
+  qualify: (dsaProblemsCompleted: number) =>
+    api.post<UserProfileResponse>("/api/profile/qualify", {
+      dsaProblemsCompleted,
+    }),
+
+  // Check if user needs qualification
+  checkQualification: () =>
+    api.get<QualificationCheckResponse>("/api/profile/check"),
+
+  // Get active attempt (for loop enforcement) - returns null if no active attempt
+  getActiveAttempt: () => api.get<ActiveAttemptResponse | null>("/api/profile/active-attempt"),
+
+  // Opt into interview readiness mode
+  optInInterviewReadiness: () =>
+    api.post<UserProfileResponse>("/api/profile/interview-readiness", {}),
+};
+
+export { api, ApiError } from "./client";
 export { authApi } from "./auth";
 
 // LeetCode API types

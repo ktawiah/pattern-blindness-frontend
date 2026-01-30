@@ -43,15 +43,20 @@ export async function apiClient<T>(
       const errorData = await response.json().catch(() => ({}));
       throw new ApiError(
         response.status,
-        errorData.message || `HTTP error ${response.status}`,
+        errorData.message || errorData.detail || `HTTP error ${response.status}`,
         errorData.code,
       );
+    }
+
+    // Handle 204 No Content responses - return null
+    if (response.status === 204) {
+      return null as T;
     }
 
     // Handle empty responses
     const text = await response.text();
     if (!text) {
-      return {} as T;
+      return null as T;
     }
 
     return JSON.parse(text) as T;

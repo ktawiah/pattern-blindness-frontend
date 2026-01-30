@@ -135,26 +135,6 @@ export default function PatternsPage() {
           />
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card>
-            <CardContent className="pt-4 pb-4">
-              <div className="text-2xl font-bold">{patterns.length}</div>
-              <div className="text-sm text-muted-foreground">
-                Total Patterns
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4 pb-4">
-              <div className="text-2xl font-bold">
-                {Object.keys(patternsByCategory).length}
-              </div>
-              <div className="text-sm text-muted-foreground">Categories</div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Patterns by Category */}
         {Object.keys(patternsByCategory).length === 0 ? (
           <Card>

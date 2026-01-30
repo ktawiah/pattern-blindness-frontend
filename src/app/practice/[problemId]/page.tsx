@@ -7,6 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   ColdStartTimer,
   ThinkingNotes,
@@ -42,7 +52,17 @@ type PracticePhase =
   | "patterns"
   | "wrong-reveal"
   | "solution"
+  | "return-gate"
   | "reflection";
+
+type ApproachOutcome = "Worked" | "PartiallyWorked" | "Failed";
+type FailureReason =
+  | "WrongInvariant"
+  | "EdgeCase"
+  | "TimeComplexity"
+  | "ImplementationBug"
+  | "SpaceComplexity"
+  | "Other";
 
 interface PageProps {
   params: Promise<{ problemId: string }>;
@@ -87,6 +107,16 @@ export default function PracticeSessionPage({ params }: PageProps) {
 
   const [confidenceLevel, setConfidenceLevel] = useState(3);
   const [wasCorrect, setWasCorrect] = useState<boolean | null>(null);
+
+  // Approach lock-in (invariant/risk)
+  const [keyInvariant, setKeyInvariant] = useState("");
+  const [primaryRisk, setPrimaryRisk] = useState("");
+
+  // Return gate
+  const [outcome, setOutcome] = useState<ApproachOutcome | "">("");
+  const [firstFailure, setFirstFailure] = useState<FailureReason | "">("");
+  const [switchedApproach, setSwitchedApproach] = useState(false);
+  const [switchReason, setSwitchReason] = useState("");
 
   // Fetch problem and cold start settings on mount
   useEffect(() => {
@@ -169,6 +199,10 @@ export default function PracticeSessionPage({ params }: PageProps) {
 
   const handleSubmitPatternSelection = async () => {
     if (!selectedPattern) return;
+    if (!keyInvariant.trim() || !primaryRisk.trim()) {
+      setError("Please fill in the key invariant and primary risk before continuing.");
+      return;
+    }
 
     // Submit cold start data if we have an attempt
     if (attemptId && isAuthenticated) {
@@ -186,6 +220,8 @@ export default function PracticeSessionPage({ params }: PageProps) {
           secondaryPatternId: secondaryPattern || undefined,
           primaryVsSecondaryReason: primaryVsSecondaryReason || undefined,
           thinkingDurationSeconds: thinkingDuration,
+          keyInvariant,
+          primaryRisk,
         });
       } catch (err) {
         console.error("Failed to submit cold start:", err);
@@ -204,7 +240,26 @@ export default function PracticeSessionPage({ params }: PageProps) {
     setPhase("solution");
   };
 
-  const handleComplete = async (correct: boolean) => {
+  const handleGoToReturnGate = () => {
+    setPhase("return-gate");
+  };
+
+  const handleComplete = async () => {
+    if (!outcome) {
+      setError("Please select how your approach worked.");
+      return;
+    }
+    if ((outcome === "PartiallyWorked" || outcome === "Failed") && !firstFailure) {
+      setError("Please select what broke first.");
+      return;
+    }
+    if (switchedApproach && !switchReason.trim()) {
+      setError("Please explain why you switched approaches.");
+      return;
+    }
+
+    // Determine if correct based on outcome
+    const correct = outcome === "Worked";
     setWasCorrect(correct);
 
     // Complete the attempt and get solution
@@ -212,7 +267,10 @@ export default function PracticeSessionPage({ params }: PageProps) {
       try {
         const solutionData = await attemptApi.complete(attemptId, {
           confidence: confidenceLevel,
-          isPatternCorrect: correct,
+          outcome: outcome as "Worked" | "PartiallyWorked" | "Failed",
+          firstFailure: firstFailure ? (firstFailure as "WrongInvariant" | "EdgeCase" | "TimeComplexity" | "ImplementationBug" | "SpaceComplexity" | "Other") : undefined,
+          switchedApproach,
+          switchReason: switchedApproach ? switchReason : undefined,
         });
         setSolution(solutionData);
       } catch (err) {
@@ -603,13 +661,64 @@ export default function PracticeSessionPage({ params }: PageProps) {
                     </CardContent>
                   </Card>
 
+                  {/* Approach Lock-In */}
+                  {selectedPattern && (
+                    <Card className="border-primary/50">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                            3
+                          </span>
+                          Lock In Your Approach
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-sm text-muted-foreground">
+                          Before coding, commit to what must remain true and where this could fail.
+                        </p>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="invariant">
+                            Key Invariant: What must remain true throughout your solution?
+                          </Label>
+                          <textarea
+                            id="invariant"
+                            value={keyInvariant}
+                            onChange={(e) => setKeyInvariant(e.target.value)}
+                            placeholder="e.g., 'Left pointer always points to a smaller element than right pointer', 'Prefix sum array maintains cumulative totals'..."
+                            className="w-full min-h-[60px] p-3 border rounded-lg bg-background resize-none focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="risk">
+                            Primary Risk: Where could this approach fail?
+                          </Label>
+                          <textarea
+                            id="risk"
+                            value={primaryRisk}
+                            onChange={(e) => setPrimaryRisk(e.target.value)}
+                            placeholder="e.g., 'Edge case with empty array', 'Time limit exceeded if nested loops needed', 'Off-by-one error at boundaries'..."
+                            className="w-full min-h-[60px] p-3 border rounded-lg bg-background resize-none focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+
                   <div className="flex justify-center">
                     <Button
                       size="lg"
                       onClick={handleSubmitPatternSelection}
-                      disabled={!selectedPattern}
+                      disabled={!selectedPattern || !keyInvariant.trim() || !primaryRisk.trim()}
                     >
-                      Submit Pattern Choice
+                      Lock In & Continue
                     </Button>
                   </div>
                 </>
@@ -730,24 +839,27 @@ export default function PracticeSessionPage({ params }: PageProps) {
                   <Alert className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
                     <AlertTitle>Solution Revealed</AlertTitle>
                     <AlertDescription>
-                      Compare the solution with your pattern choice. Did you
-                      identify the right pattern?
+                      Now go implement this solution on LeetCode or your preferred platform.
+                      Come back when you&apos;re done to report your results.
                     </AlertDescription>
                   </Alert>
 
                   <Card>
                     <CardHeader>
-                      <CardTitle>Your Analysis</CardTitle>
+                      <CardTitle>Your Approach</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="bg-muted p-4 rounded-lg space-y-2">
                         <p className="text-sm">
-                          <strong>Your notes:</strong> {userNotes || "None"}
-                        </p>
-                        <p className="text-sm">
                           <strong>Your pattern choice:</strong>{" "}
                           {patterns.find((p) => p.id === selectedPattern)
                             ?.name || "None"}
+                        </p>
+                        <p className="text-sm">
+                          <strong>Key invariant:</strong> {keyInvariant}
+                        </p>
+                        <p className="text-sm">
+                          <strong>Primary risk:</strong> {primaryRisk}
                         </p>
                         <p className="text-sm">
                           <strong>Confidence level:</strong> {confidenceLevel}/5
@@ -756,35 +868,143 @@ export default function PracticeSessionPage({ params }: PageProps) {
                     </CardContent>
                   </Card>
 
+                  <div className="flex justify-center">
+                    <Button size="lg" onClick={handleGoToReturnGate}>
+                      I&apos;ve Coded It → Report Results
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {/* Return Gate Phase */}
+              {phase === "return-gate" && (
+                <>
                   <Card>
                     <CardHeader>
-                      <CardTitle>Was your pattern choice correct?</CardTitle>
+                      <CardTitle>Report Your Results</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p className="text-sm text-muted-foreground">
-                        Be honest! This helps calibrate your confidence over
-                        time.
-                      </p>
-                      <div className="flex gap-4 justify-center">
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          className="border-red-500 text-red-500 hover:bg-red-50"
-                          onClick={() => handleComplete(false)}
+                    <CardContent className="space-y-6">
+                      {/* Outcome */}
+                      <div className="space-y-3">
+                        <Label className="text-base font-medium">How did your approach work?</Label>
+                        <RadioGroup
+                          value={outcome}
+                          onValueChange={(value) => setOutcome(value as ApproachOutcome)}
+                          className="space-y-2"
                         >
-                          ❌ No, I was wrong
-                        </Button>
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          className="border-green-500 text-green-500 hover:bg-green-50"
-                          onClick={() => handleComplete(true)}
-                        >
-                          ✅ Yes, I was right
-                        </Button>
+                          <div className="flex items-center space-x-3 p-3 rounded-lg border hover:border-primary/50 cursor-pointer">
+                            <RadioGroupItem value="Worked" id="worked" />
+                            <Label htmlFor="worked" className="flex-1 cursor-pointer">
+                              <span className="font-medium">Worked</span>
+                              <span className="text-sm text-muted-foreground ml-2">
+                                Passed all test cases with my approach
+                              </span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-3 p-3 rounded-lg border hover:border-primary/50 cursor-pointer">
+                            <RadioGroupItem value="PartiallyWorked" id="partial" />
+                            <Label htmlFor="partial" className="flex-1 cursor-pointer">
+                              <span className="font-medium">Partially Worked</span>
+                              <span className="text-sm text-muted-foreground ml-2">
+                                The approach was right but needed adjustments
+                              </span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-3 p-3 rounded-lg border hover:border-primary/50 cursor-pointer">
+                            <RadioGroupItem value="Failed" id="failed" />
+                            <Label htmlFor="failed" className="flex-1 cursor-pointer">
+                              <span className="font-medium">Failed</span>
+                              <span className="text-sm text-muted-foreground ml-2">
+                                The approach didn&apos;t work
+                              </span>
+                            </Label>
+                          </div>
+                        </RadioGroup>
                       </div>
+
+                      {/* What broke first */}
+                      {(outcome === "PartiallyWorked" || outcome === "Failed") && (
+                        <div className="space-y-3">
+                          <Label className="text-base font-medium">What broke first?</Label>
+                          <Select
+                            value={firstFailure}
+                            onValueChange={(value) => setFirstFailure(value as FailureReason)}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select what caused the failure..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="WrongInvariant">
+                                Wrong Invariant - My core assumption was wrong
+                              </SelectItem>
+                              <SelectItem value="EdgeCase">
+                                Edge Case - Failed on boundary conditions
+                              </SelectItem>
+                              <SelectItem value="TimeComplexity">
+                                Time Complexity - Time Limit Exceeded
+                              </SelectItem>
+                              <SelectItem value="SpaceComplexity">
+                                Space Complexity - Memory Limit Exceeded
+                              </SelectItem>
+                              <SelectItem value="ImplementationBug">
+                                Implementation Bug - Logic was right, code was wrong
+                              </SelectItem>
+                              <SelectItem value="Other">
+                                Other
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      )}
+
+                      {/* Switched approach */}
+                      <div className="space-y-3 border-t pt-4">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="switched" className="text-base font-medium">
+                            Did you switch approaches mid-solve?
+                          </Label>
+                          <Switch
+                            id="switched"
+                            checked={switchedApproach}
+                            onCheckedChange={setSwitchedApproach}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Switch reason */}
+                      {switchedApproach && (
+                        <div className="space-y-2">
+                          <Label htmlFor="switchReason">What made you switch?</Label>
+                          <textarea
+                            id="switchReason"
+                            value={switchReason}
+                            onChange={(e) => setSwitchReason(e.target.value)}
+                            placeholder="e.g., 'Realized sliding window wouldn't handle negative numbers'..."
+                            className="w-full min-h-[60px] p-3 border rounded-lg bg-background resize-none focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                          />
+                        </div>
+                      )}
+
+                      {error && (
+                        <Alert variant="destructive">
+                          <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                      )}
                     </CardContent>
                   </Card>
+
+                  <div className="flex justify-between">
+                    <Button variant="outline" onClick={() => setPhase("solution")}>
+                      Back
+                    </Button>
+                    <Button
+                      size="lg"
+                      onClick={handleComplete}
+                      disabled={!outcome}
+                    >
+                      Complete & See Reflection
+                    </Button>
+                  </div>
                 </>
               )}
 
@@ -966,9 +1186,10 @@ function ProblemCard({
 function PhaseIndicator({ currentPhase }: { currentPhase: PracticePhase }) {
   const phases: { key: PracticePhase; label: string; icon: string }[] = [
     { key: "thinking", label: "Think", icon: "🧠" },
-    { key: "patterns", label: "Select", icon: "🎯" },
+    { key: "patterns", label: "Commit", icon: "🎯" },
     { key: "wrong-reveal", label: "Why Not?", icon: "🤔" },
-    { key: "solution", label: "Solution", icon: "💡" },
+    { key: "solution", label: "Code", icon: "💻" },
+    { key: "return-gate", label: "Report", icon: "📝" },
     { key: "reflection", label: "Reflect", icon: "📊" },
   ];
 

@@ -38,7 +38,10 @@ export type PatternCategoryValue =
   | 17
   | 18
   | 19
-  | 20;
+  | 20
+  | 21
+  | 22
+  | 23;
 export type PatternCategoryLabel =
   | "Array"
   | "String"
@@ -59,7 +62,10 @@ export type PatternCategoryLabel =
   | "BitManipulation"
   | "UnionFind"
   | "MonotonicStack"
-  | "Intervals";
+  | "Intervals"
+  | "DivideAndConquer"
+  | "PrefixSum"
+  | "Matrix";
 
 export const CATEGORY_MAP: Record<PatternCategoryValue, PatternCategoryLabel> =
   {
@@ -83,6 +89,9 @@ export const CATEGORY_MAP: Record<PatternCategoryValue, PatternCategoryLabel> =
     18: "UnionFind",
     19: "MonotonicStack",
     20: "Intervals",
+    21: "DivideAndConquer",
+    22: "PrefixSum",
+    23: "Matrix",
   };
 
 export function getCategoryLabel(

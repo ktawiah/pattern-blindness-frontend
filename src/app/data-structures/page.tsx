@@ -133,26 +133,6 @@ export default function DataStructuresPage() {
           />
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card>
-            <CardContent className="pt-4 pb-4">
-              <div className="text-2xl font-bold">{dataStructures.length}</div>
-              <div className="text-sm text-muted-foreground">
-                Data Structures
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4 pb-4">
-              <div className="text-2xl font-bold">
-                {Object.keys(dataStructuresByCategory).length}
-              </div>
-              <div className="text-sm text-muted-foreground">Categories</div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Data Structures by Category */}
         {Object.keys(dataStructuresByCategory).length === 0 ? (
           <Card>
