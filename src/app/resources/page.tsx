@@ -34,6 +34,16 @@ interface Resource {
 const resources: Resource[] = [
   // Comprehensive Courses
   {
+    title: "Striver's TakeUForward",
+    description:
+      "One of the best free DSA resources. Comprehensive A-Z DSA course with video explanations, practice problems, and structured sheets covering all topics from basics to advanced.",
+    url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2",
+    type: "course",
+    tags: ["Comprehensive", "Free", "A-Z Course", "Video"],
+    difficulty: "beginner",
+    free: true,
+  },
+  {
     title: "NeetCode Roadmap",
     description:
       "Structured learning path with 150 problems organized by pattern. Includes video explanations for every problem and a clear progression from easy to hard.",
@@ -261,7 +271,7 @@ const resources: Resource[] = [
     title: "Tushar Roy - Coding Made Simple",
     description:
       "Dynamic programming and graph algorithm specialist. Detailed explanations with hand-drawn visualizations.",
-    url: "https://www.youtube.com/@tusaborern",
+    url: "https://www.youtube.com/@tusharroy2525",
     type: "video",
     tags: ["YouTube", "DP", "Graphs"],
     difficulty: "intermediate",
