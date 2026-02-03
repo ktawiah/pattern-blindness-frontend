@@ -45,25 +45,25 @@ export default function QualifyPage() {
     }
 
     // Check if already qualified
-    checkQualificationStatus();
-  }, [user, authLoading, router]);
-
-  const checkQualificationStatus = async () => {
-    try {
-      const response = await profileApi.checkQualification();
-      if (response.isQualified) {
-        router.push("/practice");
-      } else if (!response.needsQualification) {
-        // Already submitted but didn't qualify
-        setStep("rejected");
-      } else {
+    const checkQualificationStatus = async () => {
+      try {
+        const response = await profileApi.checkQualification();
+        if (response.isQualified) {
+          router.push("/practice");
+        } else if (!response.needsQualification) {
+          // Already submitted but didn't qualify
+          setStep("rejected");
+        } else {
+          setStep("question");
+        }
+      } catch {
+        // Profile doesn't exist yet, show question
         setStep("question");
       }
-    } catch {
-      // Profile doesn't exist yet, show question
-      setStep("question");
-    }
-  };
+    };
+
+    checkQualificationStatus();
+  }, [user, authLoading, router]);
 
   const handleOptionSelect = (value: string) => {
     setSelectedOption(value);

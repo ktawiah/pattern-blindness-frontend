@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 
-// Animated counter hook with stable start function
+// Animated counter hook with stable start function and memoized return
 function useAnimatedCounter(end: number, duration: number = 2000) {
   const [count, setCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
@@ -53,7 +53,7 @@ function useAnimatedCounter(end: number, duration: number = 2000) {
     return () => cancelAnimationFrame(animationId);
   }, [end, duration, hasStarted]);
 
-  return { count, start };
+  return useMemo(() => ({ count, start }), [count, start]);
 }
 
 // Typing animation component
@@ -125,7 +125,7 @@ export default function Home() {
     if (statsSection) observer.observe(statsSection);
 
     return () => observer.disconnect();
-  }, [problemsCounter.start, patternsCounter.start, successCounter.start]);
+  }, [problemsCounter, patternsCounter, successCounter]);
 
   // Show loading while checking auth
   if (isLoading) {

@@ -178,5 +178,194 @@
     "tags": ["Cheatsheet", "Complexity", "Reference"],
     "difficulty": "beginner",
     "free": true
+  },
+  {
+    "title": "Back To Back SWE",
+    "description": "High-quality whiteboard explanations of algorithms and data structures. Known for clear, step-by-step breakdowns of complex problems.",
+    "url": "https://www.youtube.com/@BackToBackSWE",
+    "type": "video",
+    "tags": ["YouTube", "Whiteboard", "Interview"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Tushar Roy - Coding Made Simple",
+    "description": "Dynamic programming and graph algorithm specialist. Detailed explanations with hand-drawn visualizations.",
+    "url": "https://www.youtube.com/@tusharroy2525",
+    "type": "video",
+    "tags": ["YouTube", "DP", "Graphs"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Errichto - Competitive Programming",
+    "description": "World-class competitive programmer sharing problem-solving techniques. Great for learning advanced algorithms and contest strategies.",
+    "url": "https://www.youtube.com/@Errichto",
+    "type": "video",
+    "tags": ["YouTube", "Competitive", "Advanced"],
+    "difficulty": "advanced",
+    "free": true
+  },
+  {
+    "title": "LeetCode Patterns",
+    "description": "Curated list of LeetCode questions grouped by pattern with links and solutions. Great companion for pattern-based learning.",
+    "url": "https://github.com/seanprashad/leetcode-patterns",
+    "type": "repository",
+    "tags": ["Patterns", "LeetCode", "Curated List"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Awesome Competitive Programming",
+    "description": "Comprehensive list of competitive programming resources, tutorials, and problem sets for improving algorithmic skills.",
+    "url": "https://github.com/lnishan/awesome-competitive-programming",
+    "type": "repository",
+    "tags": ["Awesome List", "Resources", "Competitive"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Python Patterns",
+    "description": "Collection of design patterns and idioms in Python. Great for understanding how patterns apply to real-world software.",
+    "url": "https://github.com/faif/python-patterns",
+    "type": "repository",
+    "tags": ["Python", "Design Patterns", "Idioms"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Pathfinding Visualizer",
+    "description": "Interactive visualization of pathfinding algorithms like Dijkstra, A*, BFS, and DFS. See how graph traversal algorithms work.",
+    "url": "https://clementmihailescu.github.io/Pathfinding-Visualizer/",
+    "type": "practice",
+    "tags": ["Pathfinding", "Graphs", "Visual"],
+    "difficulty": "beginner",
+    "free": true
+  },
+  {
+    "title": "Sorting Visualizer",
+    "description": "Watch sorting algorithms in action. Compare bubble sort, merge sort, quick sort, and more with real-time visualizations.",
+    "url": "https://www.sortvisualizer.com/",
+    "type": "practice",
+    "tags": ["Sorting", "Visual", "Compare"],
+    "difficulty": "beginner",
+    "free": true
+  },
+  {
+    "title": "Regex101",
+    "description": "Test and debug regular expressions with real-time explanations. Essential tool for string manipulation problems.",
+    "url": "https://regex101.com/",
+    "type": "practice",
+    "tags": ["Regex", "Strings", "Tool"],
+    "difficulty": "beginner",
+    "free": true
+  },
+  {
+    "title": "LeetCode Discussion - Problem Patterns",
+    "description": "Community-curated discussion on common problem patterns and their solutions. Learn from experienced problem solvers.",
+    "url": "https://leetcode.com/discuss/general-discussion/458695/Dynamic-Programming-Patterns",
+    "type": "article",
+    "tags": ["DP Patterns", "Community", "Discussion"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Sliding Window Pattern Guide",
+    "description": "In-depth guide to the sliding window technique with multiple examples and variations. Master this essential pattern.",
+    "url": "https://leetcode.com/discuss/study-guide/1773891/Sliding-Window-Technique-and-its-Types",
+    "type": "article",
+    "tags": ["Sliding Window", "Pattern", "Guide"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Binary Search Template",
+    "description": "Comprehensive guide to binary search variations and when to use each. Includes templates for common scenarios.",
+    "url": "https://leetcode.com/discuss/study-guide/786126/Python-Powerful-Ultimate-Binary-Search-Template",
+    "type": "article",
+    "tags": ["Binary Search", "Template", "Comprehensive"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Graph Algorithms Study Guide",
+    "description": "Complete guide to graph traversal, shortest paths, and connectivity problems. Essential for graph-based interviews.",
+    "url": "https://leetcode.com/discuss/study-guide/1326900/Graph-algorithms-study-guide",
+    "type": "article",
+    "tags": ["Graphs", "Study Guide", "Comprehensive"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Recursion & Backtracking Guide",
+    "description": "Master recursive thinking with this comprehensive guide covering backtracking patterns and techniques.",
+    "url": "https://leetcode.com/discuss/study-guide/1405817/Backtracking-algorithm-General-Approach",
+    "type": "article",
+    "tags": ["Backtracking", "Recursion", "Pattern"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Open Data Structures",
+    "description": "Free textbook covering array-based lists, linked lists, skip lists, hash tables, trees, heaps, and graphs with implementations.",
+    "url": "https://opendatastructures.org/",
+    "type": "book",
+    "tags": ["Free Book", "Academic", "Implementations"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Algorithms by Jeff Erickson",
+    "description": "Free algorithms textbook from UIUC professor. Covers recursion, dynamic programming, graph algorithms with rigorous proofs.",
+    "url": "https://jeffe.cs.illinois.edu/teaching/algorithms/",
+    "type": "book",
+    "tags": ["Free Book", "Academic", "Comprehensive"],
+    "difficulty": "advanced",
+    "free": true
+  },
+  {
+    "title": "Stanford CS161 - Algorithm Design",
+    "description": "Stanford's algorithm design course materials with lecture notes, problem sets, and video lectures freely available.",
+    "url": "https://web.stanford.edu/class/cs161/",
+    "type": "course",
+    "tags": ["Stanford", "Academic", "Lecture Notes"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "AtCoder",
+    "description": "Japanese competitive programming platform with high-quality problems. Regular contests with well-designed problems.",
+    "url": "https://atcoder.jp/",
+    "type": "practice",
+    "tags": ["Competitive", "Quality Problems", "Contests"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "CSES Problem Set",
+    "description": "Curated set of 300 competitive programming problems organized by topic. Progressive difficulty within each section.",
+    "url": "https://cses.fi/problemset/",
+    "type": "practice",
+    "tags": ["Curated", "Progressive", "High Quality"],
+    "difficulty": "intermediate",
+    "free": true
+  },
+  {
+    "title": "Project Euler",
+    "description": "Mathematical/computational problems that require algorithmic solutions. Great for learning number theory and mathematical algorithms.",
+    "url": "https://projecteuler.net/",
+    "type": "practice",
+    "tags": ["Math", "Algorithms", "Challenging"],
+    "difficulty": "advanced",
+    "free": true
+  },
+  {
+    "title": "Exercism",
+    "description": "Free coding practice with mentorship. Learn data structures in 70+ languages with community code reviews.",
+    "url": "https://exercism.org/",
+    "type": "practice",
+    "tags": ["Mentorship", "Multi-language", "Community"],
+    "difficulty": "beginner",
+    "free": true
   }
 ]

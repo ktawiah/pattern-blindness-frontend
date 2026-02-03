@@ -18,8 +18,6 @@ import { Header } from "@/components/shared";
 import {
   leetcodeApi,
   reflectionApi,
-  attemptApi,
-  type CachedProblemResponse,
   type ProblemAnalysisResponse,
   type ReflectionResponse,
 } from "@/lib/api";
@@ -103,8 +101,9 @@ export default function LeetCodePracticePage({
   const [switchedApproach, setSwitchedApproach] = useState(false);
   const [switchReason, setSwitchReason] = useState("");
 
-  // Coding handoff timestamp
-  const [handoffTime, setHandoffTime] = useState<Date | null>(null);
+  // Coding handoff timestamp (captured for future analytics)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_handoffTime, setHandoffTime] = useState<Date | null>(null);
 
   // Loading states
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
@@ -267,7 +266,7 @@ export default function LeetCodePracticePage({
     }
   };
 
-  // Parse JSON arrays from analysis
+  // Parse JSON arrays from analysis - handles both camelCase and PascalCase property names
   const parseKeySignals = (
     jsonStr: string,
   ): Array<{
@@ -276,7 +275,14 @@ export default function LeetCodePracticePage({
     indicatesPattern: string;
   }> => {
     try {
-      return JSON.parse(jsonStr);
+      const parsed = JSON.parse(jsonStr);
+      if (!Array.isArray(parsed)) return [];
+      // Handle both camelCase (new) and PascalCase (old) property names
+      return parsed.map((item: Record<string, string>) => ({
+        signal: item.signal || item.Signal || "",
+        explanation: item.explanation || item.Explanation || "",
+        indicatesPattern: item.indicatesPattern || item.IndicatesPattern || "",
+      }));
     } catch {
       return [];
     }
@@ -286,7 +292,14 @@ export default function LeetCodePracticePage({
     jsonStr: string,
   ): Array<{ mistake: string; whyItFails: string; betterApproach: string }> => {
     try {
-      return JSON.parse(jsonStr);
+      const parsed = JSON.parse(jsonStr);
+      if (!Array.isArray(parsed)) return [];
+      // Handle both camelCase (new) and PascalCase (old) property names
+      return parsed.map((item: Record<string, string>) => ({
+        mistake: item.mistake || item.Mistake || "",
+        whyItFails: item.whyItFails || item.WhyItFails || "",
+        betterApproach: item.betterApproach || item.BetterApproach || "",
+      }));
     } catch {
       return [];
     }
@@ -1050,8 +1063,26 @@ export default function LeetCodePracticePage({
                 </CardContent>
               </Card>
 
-              <div className="flex justify-center pt-4">
-                <Button size="lg" onClick={() => router.push("/practice")}>
+              <div className="flex justify-center gap-4 pt-4">
+                <Button 
+                  size="lg" 
+                  onClick={() => {
+                    // Navigate with automatic refresh to update dashboard
+                    sessionStorage.setItem('refreshDashboard', 'true');
+                    router.push("/dashboard");
+                  }}
+                  variant="default"
+                >
+                  View Progress on Dashboard
+                </Button>
+                <Button 
+                  size="lg" 
+                  onClick={() => {
+                    sessionStorage.setItem('refreshDashboard', 'true');
+                    router.push("/practice");
+                  }}
+                  variant="outline"
+                >
                   Practice Another Problem
                 </Button>
               </div>

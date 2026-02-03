@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth";
@@ -46,20 +46,17 @@ const GitHubIcon = () => (
   </svg>
 );
 
-export default function LoginPage() {
+function LoginContent() {
   const { login, error, clearError, isLoading } = useAuth();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [localError, setLocalError] = useState<string | null>(null);
 
-  // Check for OAuth error in URL
-  useEffect(() => {
-    const oauthError = searchParams.get("error");
-    if (oauthError) {
-      setLocalError(decodeURIComponent(oauthError));
-    }
-  }, [searchParams]);
+  // Get OAuth error from URL params (computed on render, not in effect)
+  const oauthError = searchParams.get("error");
+  const [localError, setLocalError] = useState<string | null>(
+    oauthError ? decodeURIComponent(oauthError) : null
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -197,5 +194,29 @@ export default function LoginPage() {
         </form>
       </Card>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle>Loading...</CardTitle>
+          <CardDescription>Please wait...</CardDescription>
+        </CardHeader>
+        <CardContent className="flex justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <LoginContent />
+    </Suspense>
   );
 }

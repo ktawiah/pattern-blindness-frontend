@@ -97,6 +97,91 @@ export const CATEGORY_COMPLEXITY_ORDER: Record<string, number> = {
   Math: 23,
 };
 
+// Pattern difficulty levels
+export type PatternDifficulty = "Beginner" | "Intermediate" | "Advanced";
+
+// Map pattern categories to difficulty levels
+export const CATEGORY_DIFFICULTY_MAP: Record<string, PatternDifficulty> = {
+  // Beginner - foundational patterns, easy to understand
+  Array: "Beginner",
+  String: "Beginner",
+  TwoPointers: "Beginner",
+  SlidingWindow: "Beginner",
+  LinkedList: "Beginner",
+  Stack: "Beginner",
+  Queue: "Beginner",
+
+  // Intermediate - require more problem-solving skills
+  BinarySearch: "Intermediate",
+  PrefixSum: "Intermediate",
+  Heap: "Intermediate",
+  Greedy: "Intermediate",
+  Intervals: "Intermediate",
+  Matrix: "Intermediate",
+  Math: "Intermediate",
+
+  // Advanced - complex algorithms and data structures
+  Tree: "Advanced",
+  Trie: "Advanced",
+  Graph: "Advanced",
+  Backtracking: "Advanced",
+  UnionFind: "Advanced",
+  DivideAndConquer: "Advanced",
+  DynamicProgramming: "Advanced",
+  MonotonicStack: "Advanced",
+  BitManipulation: "Advanced",
+};
+
+// Pattern algorithm type (Linear vs Non-Linear data structures)
+export type AlgorithmType = "Linear" | "Non-Linear";
+
+// Map pattern categories to algorithm types
+export const CATEGORY_ALGORITHM_TYPE_MAP: Record<string, AlgorithmType> = {
+  // Linear - sequential/array-based structures
+  Array: "Linear",
+  String: "Linear",
+  TwoPointers: "Linear",
+  SlidingWindow: "Linear",
+  BinarySearch: "Linear",
+  Stack: "Linear",
+  Queue: "Linear",
+  LinkedList: "Linear",
+  PrefixSum: "Linear",
+  Intervals: "Linear",
+  Matrix: "Linear",
+  MonotonicStack: "Linear",
+
+  // Non-Linear - hierarchical/graph-based structures
+  Tree: "Non-Linear",
+  Trie: "Non-Linear",
+  Graph: "Non-Linear",
+  Heap: "Non-Linear",
+  Backtracking: "Non-Linear",
+  UnionFind: "Non-Linear",
+  DivideAndConquer: "Non-Linear",
+  DynamicProgramming: "Non-Linear",
+  Greedy: "Non-Linear",
+  BitManipulation: "Non-Linear",
+  Math: "Non-Linear",
+};
+
+// Difficulty order for sorting
+export const DIFFICULTY_ORDER: Record<PatternDifficulty, number> = {
+  Beginner: 1,
+  Intermediate: 2,
+  Advanced: 3,
+};
+
+// Get difficulty for a pattern category
+export function getCategoryDifficulty(category: string): PatternDifficulty {
+  return CATEGORY_DIFFICULTY_MAP[category] || "Intermediate";
+}
+
+// Get algorithm type for a pattern category
+export function getCategoryAlgorithmType(category: string): AlgorithmType {
+  return CATEGORY_ALGORITHM_TYPE_MAP[category] || "Linear";
+}
+
 export function getCategoryLabel(value: string | number): string {
   if (typeof value === "string") {
     return CATEGORY_DISPLAY_MAP[value] || value;

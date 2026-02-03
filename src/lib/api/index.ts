@@ -333,3 +333,64 @@ export const reflectionApi = {
   get: (attemptId: string) =>
     api.get<ReflectionResponse>(`/api/attempts/${attemptId}/reflection`),
 };
+
+// ===== PATTERN TRACKING API (Blind Spot Detection) =====
+
+export interface DecayingPatternInfo {
+  patternId: string;
+  patternName: string;
+  lastUsedAt: string;
+  daysSinceLastUse: number;
+  totalTimesUsed: number;
+  successRate: number;
+}
+
+export interface DefaultPatternInfo {
+  patternId: string;
+  patternName: string;
+  timesChosen: number;
+  consecutiveChoices: number;
+  percentageOfTotal: number;
+  successRate: number;
+}
+
+export interface AvoidedPatternInfo {
+  patternId: string;
+  patternName: string;
+  timesCorrectAnswer: number;
+  timesUserChoseIt: number;
+}
+
+export interface PatternUsageStatsResponse {
+  decayingPatterns: DecayingPatternInfo[];
+  defaultPatterns: DefaultPatternInfo[];
+  avoidedPatterns: AvoidedPatternInfo[];
+  totalAttempts: number;
+  uniquePatternsPracticed: number;
+  totalPatterns: number;
+}
+
+export interface PatternNudgeResponse {
+  patternId: string;
+  patternName: string;
+  consecutiveChoices: number;
+  message: string;
+}
+
+export const patternTrackingApi = {
+  // Get complete pattern usage statistics
+  getStats: () =>
+    api.get<PatternUsageStatsResponse>("/api/patterns/tracking/stats"),
+
+  // Get patterns that haven't been practiced recently
+  getDecayingPatterns: (days: number = 30) =>
+    api.get<DecayingPatternInfo[]>(`/api/patterns/tracking/decaying?days=${days}`),
+
+  // Get patterns the user frequently defaults to
+  getDefaultPatterns: (minOccurrences: number = 3) =>
+    api.get<DefaultPatternInfo[]>(`/api/patterns/tracking/defaults?minOccurrences=${minOccurrences}`),
+
+  // Check if user should be nudged about over-relying on a pattern
+  checkNudge: (patternId: string) =>
+    api.get<PatternNudgeResponse | null>(`/api/patterns/tracking/nudge/${patternId}`),
+};

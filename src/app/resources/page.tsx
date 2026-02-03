@@ -180,7 +180,7 @@ export default function ResourcesPage() {
                 <span className="font-semibold text-foreground">2.</span>
                 <span>
                   <strong className="text-foreground">Learn patterns:</strong> Focus on the
-                  NeetCode Roadmap or "14 Patterns" article to recognize common
+                  NeetCode Roadmap or &quot;14 Patterns&quot; article to recognize common
                   problem-solving approaches.
                 </span>
               </li>
@@ -195,7 +195,7 @@ export default function ResourcesPage() {
                 <span className="font-semibold text-foreground">4.</span>
                 <span>
                   <strong className="text-foreground">Review and reflect:</strong> After solving
-                  a problem, read others' solutions. Understanding multiple
+                  a problem, read others&apos; solutions. Understanding multiple
                   approaches deepens your knowledge.
                 </span>
               </li>

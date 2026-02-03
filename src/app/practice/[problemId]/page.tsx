@@ -33,10 +33,8 @@ import {
 } from "@/lib/api";
 import {
   COLD_START_DURATION_SECONDS,
-  COLD_START_DURATIONS,
   INTERVIEW_PROMPTS,
   DIFFICULTY_COLORS,
-  type PerformanceTier,
 } from "@/lib/constants";
 import type {
   ProblemResponse,

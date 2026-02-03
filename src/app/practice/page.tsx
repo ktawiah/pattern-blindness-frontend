@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Header } from "@/components/shared";
+import { refreshOpenLoopIndicator } from "@/components/features/tracking/open-loop-indicator";
 import { leetcodeApi, profileApi, attemptApi, type LeetCodeProblem, type ActiveAttemptResponse, ApiError } from "@/lib/api";
 import {
   Search,
@@ -51,6 +52,8 @@ export default function PracticePage() {
       await attemptApi.giveUp(activeAttempt.attemptId);
       setActiveAttempt(null);
       setError(null);
+      // Refresh the open loop indicator in the header
+      refreshOpenLoopIndicator();
     } catch (err) {
       console.error("Failed to abandon attempt:", err);
       setError("Failed to abandon attempt. Please try again.");
@@ -96,25 +99,24 @@ export default function PracticePage() {
       });
   }, [isAuthenticated]);
 
+  // Initial load for LeetCode problems (runs once on mount)
+  useEffect(() => {
+    setIsLoadingLeetcode(true);
+    leetcodeApi
+      .getProblems(50, 0)
+      .then(setLeetcodeProblems)
+      .catch(console.error)
+      .finally(() => setIsLoadingLeetcode(false));
+  }, []);
+
   // Search LeetCode problems when search query changes
   useEffect(() => {
-    async function searchLeetcode() {
-      if (!debouncedSearchQuery.trim()) {
-        // Load default problems if no search
-        if (leetcodeProblems.length === 0) {
-          setIsLoadingLeetcode(true);
-          try {
-            const data = await leetcodeApi.getProblems(50, 0);
-            setLeetcodeProblems(data);
-          } catch (err) {
-            console.error("Failed to fetch LeetCode problems:", err);
-          } finally {
-            setIsLoadingLeetcode(false);
-          }
-        }
-        return;
-      }
+    // Skip search if query is empty - initial load handles default state
+    if (!debouncedSearchQuery.trim()) {
+      return;
+    }
 
+    async function searchLeetcode() {
       setIsSearching(true);
       try {
         const data = await leetcodeApi.search(debouncedSearchQuery, 30);
@@ -128,18 +130,6 @@ export default function PracticePage() {
 
     searchLeetcode();
   }, [debouncedSearchQuery]);
-
-  // Initial load for LeetCode problems
-  useEffect(() => {
-    if (leetcodeProblems.length === 0 && !searchQuery) {
-      setIsLoadingLeetcode(true);
-      leetcodeApi
-        .getProblems(50, 0)
-        .then(setLeetcodeProblems)
-        .catch(console.error)
-        .finally(() => setIsLoadingLeetcode(false));
-    }
-  }, []);
 
   // Start a practice attempt on a LeetCode problem
   const handleStartPractice = useCallback(
