@@ -100,4 +100,5 @@ export const STORAGE_KEYS = {
   refreshToken: "pattern-blindness-refresh-token",
   theme: "pattern-blindness-theme",
   currentSession: "pattern-blindness-current-session",
+  experienceWarningDismissed: "pattern-blindness-experience-warning-dismissed",
 } as const;

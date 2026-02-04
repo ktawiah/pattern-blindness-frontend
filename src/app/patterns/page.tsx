@@ -35,10 +35,8 @@ import {
   Flame,
 } from "lucide-react";
 
-// View mode for patterns display
 type ViewMode = "difficulty" | "type" | "category";
 
-// Empty state component
 function EmptyState() {
   return (
     <Card>
@@ -118,14 +116,12 @@ function PatternCard({ pattern, showDifficulty = false }: PatternCardProps) {
   );
 }
 
-// Difficulty badge colors
 const DIFFICULTY_BADGE_COLORS: Record<PatternDifficulty, string> = {
   Beginner: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
   Intermediate: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
   Advanced: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
 };
 
-// Difficulty icons
 const DIFFICULTY_ICONS: Record<PatternDifficulty, React.ReactNode> = {
   Beginner: <GraduationCap className="h-5 w-5 text-green-600" />,
   Intermediate: <Zap className="h-5 w-5 text-yellow-600" />,

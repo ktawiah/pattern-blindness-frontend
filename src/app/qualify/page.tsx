@@ -17,15 +17,15 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2, Brain, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
-type QualificationStep = "loading" | "question" | "explanation" | "rejected" | "complete";
+type QualificationStep = "loading" | "question" | "explanation" | "complete";
 
 const DSA_OPTIONS = [
-  { value: "10", label: "Less than 10", qualifies: false },
-  { value: "30", label: "10 - 30", qualifies: false },
-  { value: "50", label: "30 - 50", qualifies: false },
-  { value: "100", label: "50 - 100", qualifies: true },
-  { value: "200", label: "100 - 200", qualifies: true },
-  { value: "300", label: "200+", qualifies: true },
+  { value: "10", label: "Less than 10", description: "Just getting started" },
+  { value: "30", label: "10 - 30", description: "Building foundation" },
+  { value: "50", label: "30 - 50", description: "Familiar with basics" },
+  { value: "100", label: "50 - 100", description: "Solid foundation" },
+  { value: "200", label: "100 - 200", description: "Experienced" },
+  { value: "300", label: "200+", description: "Very experienced" },
 ];
 
 export default function QualifyPage() {
@@ -44,16 +44,15 @@ export default function QualifyPage() {
       return;
     }
 
-    // Check if already qualified
-    const checkQualificationStatus = async () => {
+    // Check if profile exists
+    const checkProfileStatus = async () => {
       try {
         const response = await profileApi.checkQualification();
-        if (response.isQualified) {
+        if (!response.needsQualification) {
+          // Profile already exists, redirect to practice
           router.push("/practice");
-        } else if (!response.needsQualification) {
-          // Already submitted but didn't qualify
-          setStep("rejected");
         } else {
+          // New user, show optional experience question
           setStep("question");
         }
       } catch {
@@ -62,23 +61,21 @@ export default function QualifyPage() {
       }
     };
 
-    checkQualificationStatus();
+    checkProfileStatus();
   }, [user, authLoading, router]);
 
   const handleOptionSelect = (value: string) => {
     setSelectedOption(value);
-    const option = DSA_OPTIONS.find((o) => o.value === value);
-    if (option && !option.qualifies) {
-      setStep("rejected");
-    }
   };
 
   const handleContinue = () => {
     if (!selectedOption) return;
-    const option = DSA_OPTIONS.find((o) => o.value === selectedOption);
-    if (option?.qualifies) {
-      setStep("explanation");
-    }
+    setStep("explanation");
+  };
+
+  const handleSkip = () => {
+    // Skip directly to practice
+    router.push("/practice");
   };
 
   const handleSubmit = async () => {
@@ -118,15 +115,23 @@ export default function QualifyPage() {
               <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
                 <Brain className="h-6 w-6 text-primary" />
               </div>
-              <CardTitle className="text-2xl">Before We Begin</CardTitle>
+              <CardTitle className="text-2xl">Welcome!</CardTitle>
               <CardDescription>
-                Help us understand your experience level
+                Help us understand your experience level (optional)
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              <Alert className="border-blue-500/20 bg-blue-50 dark:bg-blue-950/20">
+                <Brain className="h-4 w-4 text-blue-600" />
+                <AlertDescription className="text-sm text-blue-700 dark:text-blue-300">
+                  This tool works best if you're familiar with basic algorithmic patterns.
+                  All experience levels are welcome to try!
+                </AlertDescription>
+              </Alert>
+
               <div className="space-y-4">
                 <Label className="text-base font-medium">
-                  How many DSA problems have you solved?
+                  How many DSA problems have you solved? (optional)
                 </Label>
                 <RadioGroup
                   value={selectedOption}
@@ -136,90 +141,41 @@ export default function QualifyPage() {
                   {DSA_OPTIONS.map((option) => (
                     <div
                       key={option.value}
-                      className={`flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                      className={`flex items-center justify-between space-x-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                         selectedOption === option.value
                           ? "border-primary bg-primary/5"
                           : "border-border hover:border-primary/50"
                       }`}
                     >
-                      <RadioGroupItem value={option.value} id={option.value} />
-                      <Label
-                        htmlFor={option.value}
-                        className="flex-1 cursor-pointer"
-                      >
-                        {option.label}
-                      </Label>
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem value={option.value} id={option.value} />
+                        <Label
+                          htmlFor={option.value}
+                          className="cursor-pointer"
+                        >
+                          {option.label}
+                        </Label>
+                      </div>
+                      <span className="text-xs text-muted-foreground">{option.description}</span>
                     </div>
                   ))}
                 </RadioGroup>
-              </div>
-
-              <Button
-                className="w-full"
-                onClick={handleContinue}
-                disabled={!selectedOption || !DSA_OPTIONS.find((o) => o.value === selectedOption)?.qualifies}
-              >
-                Continue
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        {step === "rejected" && (
-          <Card>
-            <CardHeader className="text-center">
-              <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-yellow-500/10 flex items-center justify-center">
-                <AlertTriangle className="h-6 w-6 text-yellow-500" />
-              </div>
-              <CardTitle className="text-2xl">Build Your Foundation First</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <Alert>
-                <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>This Tool Requires Experience</AlertTitle>
-                <AlertDescription>
-                  Pattern Blindness is designed for engineers who have already solved
-                  at least 50 DSA problems. This is intentional.
-                </AlertDescription>
-              </Alert>
-
-              <div className="space-y-4 text-sm text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Why the requirement?</strong>
-                </p>
-                <p>
-                  This is not a coding practice site. You will code elsewhere.
-                  This platform trains how you <em>choose</em> solutions - a skill that
-                  only matters after you have a foundation of patterns to choose from.
-                </p>
-                <p>
-                  Without enough experience, the exercises here will feel abstract
-                  and unhelpful. We want you to succeed, and that means being honest
-                  about readiness.
-                </p>
-                <p>
-                  <strong className="text-foreground">What to do instead:</strong>
-                </p>
-                <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>Practice on LeetCode, HackerRank, or similar platforms</li>
-                  <li>Focus on understanding core patterns (Two Pointers, Sliding Window, etc.)</li>
-                  <li>Come back when you&apos;ve solved 50+ problems</li>
-                </ul>
               </div>
 
               <div className="flex gap-3">
                 <Button
                   variant="outline"
                   className="flex-1"
-                  onClick={() => setStep("question")}
+                  onClick={handleSkip}
                 >
-                  Go Back
+                  Skip
                 </Button>
                 <Button
                   className="flex-1"
-                  onClick={() => window.open("https://leetcode.com/problemset/", "_blank")}
+                  onClick={handleContinue}
+                  disabled={!selectedOption}
                 >
-                  Go to LeetCode
+                  Continue
                 </Button>
               </div>
             </CardContent>

@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Header } from "@/components/shared";
 import { refreshOpenLoopIndicator } from "@/components/features/tracking/open-loop-indicator";
 import { leetcodeApi, profileApi, attemptApi, type LeetCodeProblem, type ActiveAttemptResponse, ApiError } from "@/lib/api";
+import { STORAGE_KEYS } from "@/lib/constants";
 import {
   Search,
   ExternalLink,
@@ -39,7 +40,7 @@ export default function PracticePage() {
   const [startingAttempt, setStartingAttempt] = useState<string | null>(null);
   const [activeAttempt, setActiveAttempt] = useState<ActiveAttemptResponse | null>(null);
   const [isAbandoning, setIsAbandoning] = useState(false);
-  const [isCheckingQualification, setIsCheckingQualification] = useState(true);
+  const [showExperienceWarning, setShowExperienceWarning] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -52,6 +53,12 @@ export default function PracticePage() {
       await attemptApi.giveUp(activeAttempt.attemptId);
       setActiveAttempt(null);
       setError(null);
+      
+      // Signal all dependent pages to refresh their state
+      sessionStorage.setItem('refreshOpenLoop', 'true');
+      sessionStorage.setItem('refreshDashboard', 'true');
+      sessionStorage.setItem('refreshHistory', 'true');
+      
       // Refresh the open loop indicator in the header
       refreshOpenLoopIndicator();
     } catch (err) {
@@ -62,27 +69,33 @@ export default function PracticePage() {
     }
   }, [activeAttempt]);
 
-  // Check qualification on mount
+  // Check if user should see the experience level suggestion
   useEffect(() => {
-    if (!isAuthenticated) {
-      setIsCheckingQualification(false);
-      return;
-    }
+    if (!isAuthenticated) return;
 
+    // Check if warning was already dismissed
+    const dismissed = localStorage.getItem(STORAGE_KEYS.experienceWarningDismissed);
+    if (dismissed === "true") return;
+
+    // Check if they've filled out their profile
     profileApi.checkQualification()
       .then((result) => {
-        if (!result.isQualified) {
-          router.push("/qualify");
+        // Show warning if they haven't filled out their experience yet
+        if (result.needsQualification) {
+          setShowExperienceWarning(true);
         }
       })
       .catch(() => {
-        // If check fails, redirect to qualify (first-time user)
-        router.push("/qualify");
-      })
-      .finally(() => {
-        setIsCheckingQualification(false);
+        // If check fails, they might be a new user
+        setShowExperienceWarning(true);
       });
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated]);
+
+  // Handle dismissing the experience warning
+  const handleDismissWarning = useCallback(() => {
+    setShowExperienceWarning(false);
+    localStorage.setItem(STORAGE_KEYS.experienceWarningDismissed, "true");
+  }, []);
 
   // Check for active attempt on mount
   useEffect(() => {
@@ -197,6 +210,30 @@ export default function PracticePage() {
             </p>
           </div>
 
+          {/* Experience Level Suggestion Banner */}
+          {showExperienceWarning && (
+            <Alert className="mb-6 border-blue-500 bg-blue-50 dark:bg-blue-950/20">
+              <Sparkles className="h-4 w-4 text-blue-600" />
+              <AlertTitle className="text-blue-800 dark:text-blue-200">Pattern Recognition Works Best with Experience</AlertTitle>
+              <AlertDescription className="text-blue-700 dark:text-blue-300">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span>
+                    This tool trains pattern recognition for those familiar with basic DSA patterns.
+                    If you're new to algorithms, consider practicing fundamentals first.
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleDismissWarning}
+                    className="text-blue-800 dark:text-blue-200 hover:text-blue-900 hover:bg-blue-100 dark:hover:bg-blue-900/30 h-auto py-1 px-2 whitespace-nowrap"
+                  >
+                    Got it
+                  </Button>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
           {/* Active Attempt Banner */}
           {activeAttempt && (
             <Alert className="mb-6 border-amber-500 bg-amber-50 dark:bg-amber-950/20">
@@ -266,7 +303,7 @@ export default function PracticePage() {
           )}
 
           {/* Problems List */}
-          {isCheckingQualification || isLoadingLeetcode ? (
+          {isLoadingLeetcode ? (
             <div className="space-y-4">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Card key={i} className="animate-pulse">

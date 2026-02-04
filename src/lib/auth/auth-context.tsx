@@ -66,7 +66,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         await authApi.login(data);
         const userInfo = await authApi.getUserInfo();
         setUser(userInfo);
-        router.push(ROUTES.practice);
+        // Use replace to avoid back button going to login page
+        router.replace(ROUTES.practice);
       } catch (err) {
         if (err instanceof AuthError) {
           setError(err.message);
@@ -92,7 +93,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         await authApi.login(data);
         const userInfo = await authApi.getUserInfo();
         setUser(userInfo);
-        router.push(ROUTES.practice);
+        // Use replace to avoid back button going to register page
+        router.replace(ROUTES.practice);
       } catch (err) {
         if (err instanceof AuthError) {
           if (err.errors) {

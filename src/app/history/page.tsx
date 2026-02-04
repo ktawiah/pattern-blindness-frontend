@@ -113,30 +113,50 @@ export default function HistoryPage() {
     }
   }, [user, authLoading, router]);
 
-  useEffect(() => {
-    async function fetchAttempts() {
-      if (!user) return;
+  const fetchAttempts = async () => {
+    if (!user) return;
 
-      try {
-        const data = await attemptApi.getAll();
-        // Sort by most recent first
-        const sorted = data.sort(
-          (a, b) =>
-            new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
-        );
-        setAttempts(sorted);
-        setFilteredAttempts(sorted);
-      } catch (err) {
-        console.error("Failed to fetch attempts:", err);
-        setError("Failed to load practice history");
-      } finally {
-        setIsLoading(false);
-      }
+    try {
+      const data = await attemptApi.getAll();
+      // Sort by most recent first
+      const sorted = data.sort(
+        (a, b) =>
+          new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime(),
+      );
+      setAttempts(sorted);
+      setFilteredAttempts(sorted);
+    } catch (err) {
+      console.error("Failed to fetch attempts:", err);
+      setError("Failed to load practice history");
+    } finally {
+      setIsLoading(false);
     }
+  };
 
+  useEffect(() => {
     if (user) {
       fetchAttempts();
     }
+  }, [user]);
+
+  // Refresh history when signaled from other pages (e.g., after abandoning an attempt)
+  useEffect(() => {
+    const handleRefresh = () => {
+      if (sessionStorage.getItem('refreshHistory') === 'true') {
+        sessionStorage.removeItem('refreshHistory');
+        fetchAttempts();
+      }
+    };
+
+    // Check on mount
+    handleRefresh();
+
+    // Also listen for focus event
+    window.addEventListener('focus', handleRefresh);
+    
+    return () => {
+      window.removeEventListener('focus', handleRefresh);
+    };
   }, [user]);
 
   useEffect(() => {
@@ -373,14 +393,22 @@ export default function HistoryPage() {
                         {attempt.status !== "Solved" &&
                         attempt.status !== "GaveUp" &&
                         attempt.status !== "TimedOut" ? (
-                          <Button asChild size="sm">
-                            <Link href={`/practice/${attempt.problemId}`}>
-                              Continue
-                            </Link>
-                          </Button>
+                          // In-progress attempt - can continue only for legacy problems
+                          attempt.problemId && attempt.problemId !== "00000000-0000-0000-0000-000000000000" ? (
+                            <Button asChild size="sm">
+                              <Link href={`/practice/${attempt.problemId}`}>
+                                Continue
+                              </Link>
+                            </Button>
+                          ) : (
+                            <Button disabled size="sm">
+                              In Progress
+                            </Button>
+                          )
                         ) : (
+                          // Completed/abandoned attempt - show try again (go back to practice page)
                           <Button variant="outline" size="sm" asChild>
-                            <Link href={`/practice/${attempt.problemId}`}>
+                            <Link href="/practice">
                               Try Again
                             </Link>
                           </Button>

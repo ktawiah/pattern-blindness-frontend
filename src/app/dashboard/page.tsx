@@ -173,31 +173,64 @@ export default function DashboardPage() {
     }
   }, [user, authLoading, router]);
 
-  useEffect(() => {
-    async function fetchData() {
-      if (!user) return;
+  const fetchData = async () => {
+    if (!user) return;
 
-      setIsLoading(true);
-      setError(null);
+    setIsLoading(true);
+    setError(null);
 
-      try {
-        const [dashboardData, attemptsData] = await Promise.all([
-          attemptApi.getConfidenceDashboard(),
-          attemptApi.getAll(),
-        ]);
-        setDashboard(dashboardData);
-        setAttempts(attemptsData);
-      } catch (err) {
-        console.error("Failed to fetch dashboard data:", err);
-        setError("Failed to load dashboard data");
-      } finally {
-        setIsLoading(false);
+    try {
+      // Fetch data individually to handle partial failures gracefully
+      const [dashboardResult, attemptsResult] = await Promise.allSettled([
+        attemptApi.getConfidenceDashboard(),
+        attemptApi.getAll(),
+      ]);
+
+      // Use data if available, otherwise use empty defaults
+      if (dashboardResult.status === "fulfilled") {
+        setDashboard(dashboardResult.value);
       }
-    }
+      if (attemptsResult.status === "fulfilled") {
+        setAttempts(attemptsResult.value);
+      }
 
+      // Only show error if both requests failed (likely a server issue)
+      if (dashboardResult.status === "rejected" && attemptsResult.status === "rejected") {
+        console.error("Failed to fetch dashboard data:", dashboardResult.reason, attemptsResult.reason);
+        // Don't show error - just show empty state for new users
+      }
+    } catch (err) {
+      console.error("Failed to fetch dashboard data:", err);
+      // Don't show error - gracefully degrade to empty state
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (user) {
       fetchData();
     }
+  }, [user]);
+
+  // Refresh dashboard when signaled from other pages (e.g., after abandoning an attempt)
+  useEffect(() => {
+    const handleRefresh = () => {
+      if (sessionStorage.getItem('refreshDashboard') === 'true') {
+        sessionStorage.removeItem('refreshDashboard');
+        fetchData();
+      }
+    };
+
+    // Check on mount
+    handleRefresh();
+
+    // Also listen for custom events that might be dispatched
+    window.addEventListener('focus', handleRefresh);
+    
+    return () => {
+      window.removeEventListener('focus', handleRefresh);
+    };
   }, [user]);
 
   const stats = dashboard
