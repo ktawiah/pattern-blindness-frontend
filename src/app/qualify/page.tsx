@@ -124,7 +124,7 @@ export default function QualifyPage() {
               <Alert className="border-blue-500/20 bg-blue-50 dark:bg-blue-950/20">
                 <Brain className="h-4 w-4 text-blue-600" />
                 <AlertDescription className="text-sm text-blue-700 dark:text-blue-300">
-                  This tool works best if you're familiar with basic algorithmic patterns.
+                  This tool works best if you&apos;re familiar with basic algorithmic patterns.
                   All experience levels are welcome to try!
                 </AlertDescription>
               </Alert>

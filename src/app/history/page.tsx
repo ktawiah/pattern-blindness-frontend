@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
@@ -113,7 +113,7 @@ export default function HistoryPage() {
     }
   }, [user, authLoading, router]);
 
-  const fetchAttempts = async () => {
+  const fetchAttempts = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -131,13 +131,13 @@ export default function HistoryPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     if (user) {
       fetchAttempts();
     }
-  }, [user]);
+  }, [user, fetchAttempts]);
 
   // Refresh history when signaled from other pages (e.g., after abandoning an attempt)
   useEffect(() => {
@@ -157,7 +157,7 @@ export default function HistoryPage() {
     return () => {
       window.removeEventListener('focus', handleRefresh);
     };
-  }, [user]);
+  }, [user, fetchAttempts]);
 
   useEffect(() => {
     if (statusFilter === "all") {

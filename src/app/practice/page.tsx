@@ -219,7 +219,7 @@ export default function PracticePage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <span>
                     This tool trains pattern recognition for those familiar with basic DSA patterns.
-                    If you're new to algorithms, consider practicing fundamentals first.
+                    If you&apos;re new to algorithms, consider practicing fundamentals first.
                   </span>
                   <Button
                     variant="ghost"

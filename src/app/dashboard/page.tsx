@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth/auth-context";
@@ -172,8 +172,7 @@ export default function DashboardPage() {
       router.push("/login?redirect=/dashboard");
     }
   }, [user, authLoading, router]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!user) return;
 
     setIsLoading(true);
@@ -205,13 +204,13 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     if (user) {
       fetchData();
     }
-  }, [user]);
+  }, [user, fetchData]);
 
   // Refresh dashboard when signaled from other pages (e.g., after abandoning an attempt)
   useEffect(() => {
@@ -231,7 +230,7 @@ export default function DashboardPage() {
     return () => {
       window.removeEventListener('focus', handleRefresh);
     };
-  }, [user]);
+  }, [user, fetchData]);
 
   const stats = dashboard
     ? {

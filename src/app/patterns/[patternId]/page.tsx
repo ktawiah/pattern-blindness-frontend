@@ -3,9 +3,9 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { patternApi, problemApi } from "@/lib/api";
-import type { PatternResponse, ProblemBriefResponse } from "@/types";
-import { getCategoryLabel, getDifficultyLabel } from "@/types";
+import { patternApi } from "@/lib/api";
+import type { PatternResponse } from "@/types";
+import { getCategoryLabel } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,9 +21,7 @@ import {
   ArrowLeft,
   Lightbulb,
   AlertTriangle,
-  BookOpen,
   Target,
-  ChevronRight,
   Clock,
   HardDrive,
   Code,
@@ -41,23 +39,14 @@ export default function PatternDetailPage({ params }: PageProps) {
   const { patternId } = use(params);
   const router = useRouter();
   const [pattern, setPattern] = useState<PatternResponse | null>(null);
-  const [relatedProblems, setRelatedProblems] = useState<
-    ProblemBriefResponse[]
-  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [patternData, problemsData] = await Promise.all([
-          patternApi.getById(patternId),
-          problemApi.getAll(),
-        ]);
+        const patternData = await patternApi.getById(patternId);
         setPattern(patternData);
-        // Note: In a real app, we'd have an endpoint to get problems by pattern
-        // For now, we show all problems as related
-        setRelatedProblems(problemsData.slice(0, 6));
       } catch (err) {
         console.error("Failed to fetch pattern:", err);
         setError("Failed to load pattern details");
@@ -405,50 +394,7 @@ export default function PatternDetailPage({ params }: PageProps) {
             )}
 
             {/* Related Problems */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-base">
-                  <BookOpen className="h-4 w-4" />
-                  Practice Problems
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {relatedProblems.length > 0 ? (
-                  <div className="space-y-2">
-                    {relatedProblems.map((problem) => (
-                      <Link
-                        key={problem.id}
-                        href={`/practice/${problem.id}`}
-                        className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium text-sm truncate">
-                            {problem.title}
-                          </div>
-                          <Badge
-                            variant="outline"
-                            className={`text-xs ${
-                              problem.difficulty === 1
-                                ? "text-green-600 border-green-600"
-                                : problem.difficulty === 2
-                                  ? "text-yellow-600 border-yellow-600"
-                                  : "text-red-600 border-red-600"
-                            }`}
-                          >
-                            {getDifficultyLabel(problem.difficulty)}
-                          </Badge>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    No problems available yet.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+
           </div>
         </div>
       </main>
