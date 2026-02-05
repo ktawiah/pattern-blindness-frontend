@@ -1,6 +1,6 @@
 # Pattern Blindness Frontend
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/PatternBlindness/ci.yml?branch=main)](https://github.com/yourusername/PatternBlindness/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/ktawiah/pattern-blindness-frontend/ci.yml?branch=main)](https://github.com/ktawiah/PatternBlindness/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-blue)](https://react.dev)
