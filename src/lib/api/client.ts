@@ -29,6 +29,7 @@ export async function apiClient<T>(
 
     const response = await fetch(url, {
       ...fetchOptions,
+      credentials: "include",
       signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
