@@ -14,10 +14,7 @@ import dataStructuresData from "@/data/data-structures.json";
 // Pattern API - loads from local JSON instead of backend
 export const patternApi = {
   getAll: async () => {
-    return Promise.resolve({
-      data: patternsData as PatternResponse[],
-      status: 200,
-    });
+    return Promise.resolve(patternsData as PatternResponse[]);
   },
 
   getById: async (id: string) => {
@@ -25,28 +22,19 @@ export const patternApi = {
     if (!pattern) {
       throw new Error(`Pattern with id ${id} not found`);
     }
-    return Promise.resolve({
-      data: pattern,
-      status: 200,
-    });
+    return Promise.resolve(pattern);
   },
 
   getByCategory: async (category: string) => {
     const patterns = patternsData.filter((p: any) => p.category === category) as PatternResponse[];
-    return Promise.resolve({
-      data: patterns,
-      status: 200,
-    });
+    return Promise.resolve(patterns);
   },
 };
 
 // Data Structure API - loads from local JSON instead of backend
 export const dataStructureApi = {
   getAll: async () => {
-    return Promise.resolve({
-      data: dataStructuresData as DataStructureResponse[],
-      status: 200,
-    });
+    return Promise.resolve(dataStructuresData as DataStructureResponse[]);
   },
 
   getById: async (id: string) => {
@@ -54,18 +42,12 @@ export const dataStructureApi = {
     if (!ds) {
       throw new Error(`Data structure with id ${id} not found`);
     }
-    return Promise.resolve({
-      data: ds,
-      status: 200,
-    });
+    return Promise.resolve(ds);
   },
 
   getByCategory: async (category: number) => {
     // Note: Category filtering might need adjustment based on your actual category structure
-    return Promise.resolve({
-      data: dataStructuresData as DataStructureResponse[],
-      status: 200,
-    });
+    return Promise.resolve(dataStructuresData as DataStructureResponse[]);
   },
 
   search: async (query: string) => {
@@ -74,10 +56,7 @@ export const dataStructureApi = {
       d.name.toLowerCase().includes(lowerQuery) ||
       d.description.toLowerCase().includes(lowerQuery)
     ) as DataStructureResponse[];
-    return Promise.resolve({
-      data: results,
-      status: 200,
-    });
+    return Promise.resolve(results);
   },
 };
 
