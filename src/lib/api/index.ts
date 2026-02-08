@@ -8,35 +8,77 @@ import type {
   AttemptResponseDto,
   ConfidenceDashboardDto,
 } from "@/types";
+import patternsData from "@/data/patterns.json";
+import dataStructuresData from "@/data/data-structures.json";
 
-// Pattern API - matches backend PatternEndpoints
+// Pattern API - loads from local JSON instead of backend
 export const patternApi = {
-  getAll: () => api.get<PatternResponse[]>("/api/patterns"),
+  getAll: async () => {
+    return Promise.resolve({
+      data: patternsData as PatternResponse[],
+      status: 200,
+    });
+  },
 
-  getById: (id: string) => api.get<PatternResponse>(`/api/patterns/${id}`),
+  getById: async (id: string) => {
+    const pattern = patternsData.find((p: any) => p.id === id) as PatternResponse | undefined;
+    if (!pattern) {
+      throw new Error(`Pattern with id ${id} not found`);
+    }
+    return Promise.resolve({
+      data: pattern,
+      status: 200,
+    });
+  },
 
-  getByCategory: (category: string) =>
-    api.get<PatternResponse[]>(
-      `/api/patterns/category/${encodeURIComponent(category)}`,
-    ),
+  getByCategory: async (category: string) => {
+    const patterns = patternsData.filter((p: any) => p.category === category) as PatternResponse[];
+    return Promise.resolve({
+      data: patterns,
+      status: 200,
+    });
+  },
 };
 
-// Data Structure API - matches backend DataStructureEndpoints
+// Data Structure API - loads from local JSON instead of backend
 export const dataStructureApi = {
-  getAll: () => api.get<DataStructureResponse[]>("/api/data-structures"),
+  getAll: async () => {
+    return Promise.resolve({
+      data: dataStructuresData as DataStructureResponse[],
+      status: 200,
+    });
+  },
 
-  getById: (id: string) =>
-    api.get<DataStructureResponse>(`/api/data-structures/${id}`),
+  getById: async (id: string) => {
+    const ds = dataStructuresData.find((d: any) => d.id === id) as DataStructureResponse | undefined;
+    if (!ds) {
+      throw new Error(`Data structure with id ${id} not found`);
+    }
+    return Promise.resolve({
+      data: ds,
+      status: 200,
+    });
+  },
 
-  getByCategory: (category: number) =>
-    api.get<DataStructureResponse[]>(
-      `/api/data-structures/category/${category}`,
-    ),
+  getByCategory: async (category: number) => {
+    // Note: Category filtering might need adjustment based on your actual category structure
+    return Promise.resolve({
+      data: dataStructuresData as DataStructureResponse[],
+      status: 200,
+    });
+  },
 
-  search: (query: string) =>
-    api.get<DataStructureResponse[]>(
-      `/api/data-structures/search?query=${encodeURIComponent(query)}`,
-    ),
+  search: async (query: string) => {
+    const lowerQuery = query.toLowerCase();
+    const results = dataStructuresData.filter((d: any) =>
+      d.name.toLowerCase().includes(lowerQuery) ||
+      d.description.toLowerCase().includes(lowerQuery)
+    ) as DataStructureResponse[];
+    return Promise.resolve({
+      data: results,
+      status: 200,
+    });
+  },
 };
 
 // Problem API - matches backend ProblemEndpoints

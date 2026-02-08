@@ -1,0 +1,702 @@
+[
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440001",
+    "name": "Array",
+    "description": "Contiguous block of memory storing elements of the same type",
+    "category": "Linear",
+    "whatItIs": "An array stores elements in contiguous memory locations",
+    "operations": [
+      {
+        "name": "Access by index",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Insert at position",
+        "timeComplexity": "O(n)"
+      },
+      {
+        "name": "Delete at position",
+        "timeComplexity": "O(n)"
+      }
+    ],
+    "whenToUse": "Need fast random access by index, Data size is known",
+    "tradeoffs": "Pros: O(1) access, Cache friendly. Cons: Fixed size, Expensive insertion/deletion",
+    "commonUseCases": [
+      "Storing collections",
+      "Matrices",
+      "Hash table backing"
+    ],
+    "implementation": "Contiguous memory, index-based access...",
+    "resources": [
+      {
+        "title": "Arrays 101",
+        "url": "https://leetcode.com/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440002",
+    "name": "Linked List",
+    "description": "Linear collection where each element contains data and reference to next node",
+    "category": "Linear",
+    "whatItIs": "Elements stored with pointers to next node, non-contiguous memory",
+    "operations": [
+      {
+        "name": "Access by index",
+        "timeComplexity": "O(n)"
+      },
+      {
+        "name": "Insert at head",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Insert after node",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Frequent insertions/deletions, No need for random access",
+    "tradeoffs": "Pros: O(1) insertion/deletion with reference, Dynamic size. Cons: O(n) access, Extra memory",
+    "commonUseCases": [
+      "LRU Cache",
+      "Undo functionality",
+      "Music playlist"
+    ],
+    "implementation": "Node with data and next pointer...",
+    "resources": [
+      {
+        "title": "Linked List",
+        "url": "https://leetcode.com/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440003",
+    "name": "Stack",
+    "description": "LIFO (Last-In-First-Out) collection",
+    "category": "Linear",
+    "whatItIs": "Elements added and removed from the same end (top)",
+    "operations": [
+      {
+        "name": "Push",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Pop",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Peek",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "LIFO ordering, Parentheses validation, DFS traversal",
+    "tradeoffs": "Pros: O(1) ops, Perfect for LIFO. Cons: No random access, Limited interface",
+    "commonUseCases": [
+      "Valid parentheses",
+      "Undo/Redo",
+      "Function call stack"
+    ],
+    "implementation": "Array or linked list with top pointer...",
+    "resources": [
+      {
+        "title": "Stack",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440004",
+    "name": "Queue",
+    "description": "FIFO (First-In-First-Out) collection",
+    "category": "Linear",
+    "whatItIs": "Elements added at back, removed from front",
+    "operations": [
+      {
+        "name": "Enqueue",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Dequeue",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Peek",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "FIFO ordering, BFS traversal, Task scheduling",
+    "tradeoffs": "Pros: O(1) ops, FIFO natural. Cons: No random access",
+    "commonUseCases": [
+      "BFS traversal",
+      "Level-order tree traversal",
+      "Task scheduling"
+    ],
+    "implementation": "Circular array or linked list...",
+    "resources": [
+      {
+        "title": "Queue",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440005",
+    "name": "Hash Table",
+    "description": "Key-value store with average O(1) lookup",
+    "category": "HashBased",
+    "whatItIs": "Maps keys to values using hash function for indexing",
+    "operations": [
+      {
+        "name": "Insert",
+        "timeComplexity": "O(1)*"
+      },
+      {
+        "name": "Delete",
+        "timeComplexity": "O(1)*"
+      },
+      {
+        "name": "Lookup",
+        "timeComplexity": "O(1)*"
+      }
+    ],
+    "whenToUse": "Fast key-based lookup, Counting frequencies, Caching",
+    "tradeoffs": "Pros: O(1) average, Flexible keys. Cons: No ordering, Worst O(n)",
+    "commonUseCases": [
+      "Two Sum",
+      "Frequency counting",
+      "Caching"
+    ],
+    "implementation": "Hash function with collision handling...",
+    "resources": [
+      {
+        "title": "Hash Table",
+        "url": "https://leetcode.com/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440006",
+    "name": "Hash Set",
+    "description": "Collection of unique elements with O(1) membership testing",
+    "category": "HashBased",
+    "whatItIs": "Set maintaining unique elements using hashing",
+    "operations": [
+      {
+        "name": "Add",
+        "timeComplexity": "O(1)*"
+      },
+      {
+        "name": "Remove",
+        "timeComplexity": "O(1)*"
+      },
+      {
+        "name": "Contains",
+        "timeComplexity": "O(1)*"
+      }
+    ],
+    "whenToUse": "Unique elements, Fast membership testing, Detecting duplicates",
+    "tradeoffs": "Pros: O(1) membership, Automatic dedup. Cons: No ordering",
+    "commonUseCases": [
+      "Contains Duplicate",
+      "Longest consecutive sequence",
+      "Visited tracking"
+    ],
+    "implementation": "Hash table without values...",
+    "resources": [
+      {
+        "title": "Set",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440007",
+    "name": "Binary Search Tree",
+    "description": "Tree where left < parent < right",
+    "category": "Tree",
+    "whatItIs": "BST maintains sorted property enabling efficient search",
+    "operations": [
+      {
+        "name": "Search",
+        "timeComplexity": "O(h)*"
+      },
+      {
+        "name": "Insert",
+        "timeComplexity": "O(h)*"
+      },
+      {
+        "name": "Delete",
+        "timeComplexity": "O(h)*"
+      }
+    ],
+    "whenToUse": "Ordered data with search/insert, Finding predecessor/successor",
+    "tradeoffs": "Pros: Ordered, O(log n) when balanced. Cons: Can degenerate to O(n)",
+    "commonUseCases": [
+      "Validate BST",
+      "Kth smallest element",
+      "LCA in BST"
+    ],
+    "implementation": "Nodes with left/right children, Recursive operations...",
+    "resources": [
+      {
+        "title": "BST",
+        "url": "https://leetcode.com/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440008",
+    "name": "Heap",
+    "description": "Complete binary tree maintaining min or max at root",
+    "category": "Heap",
+    "whatItIs": "Heap maintains parent <= children (min) or >= children (max)",
+    "operations": [
+      {
+        "name": "Insert",
+        "timeComplexity": "O(log n)"
+      },
+      {
+        "name": "Extract min/max",
+        "timeComplexity": "O(log n)"
+      },
+      {
+        "name": "Peek",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Quick access to min/max, Priority queue, K largest/smallest",
+    "tradeoffs": "Pros: O(1) access to extreme, O(log n) ops. Cons: Only one extreme, Not sorted",
+    "commonUseCases": [
+      "Kth largest element",
+      "Merge k sorted lists",
+      "Find median"
+    ],
+    "implementation": "Array with parent/child relationships via index...",
+    "resources": [
+      {
+        "title": "Heaps",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440009",
+    "name": "Trie",
+    "description": "Tree for efficient string storage and prefix-based retrieval",
+    "category": "Tree",
+    "whatItIs": "Trie stores strings with paths representing prefixes",
+    "operations": [
+      {
+        "name": "Insert word",
+        "timeComplexity": "O(m)"
+      },
+      {
+        "name": "Search word",
+        "timeComplexity": "O(m)"
+      },
+      {
+        "name": "Search prefix",
+        "timeComplexity": "O(m)"
+      }
+    ],
+    "whenToUse": "Prefix search, Autocomplete, Spell checking, Word search",
+    "tradeoffs": "Pros: O(m) independent of dictionary, Prefix matching. Cons: Memory intensive, Complex",
+    "commonUseCases": [
+      "Autocomplete",
+      "Word Search II",
+      "Replace words"
+    ],
+    "implementation": "Tree nodes with children map/array, end-of-word flag...",
+    "resources": [
+      {
+        "title": "Trie",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440010",
+    "name": "Graph",
+    "description": "Collection of vertices connected by edges",
+    "category": "Graph",
+    "whatItIs": "Graph with vertices/edges, adjacency list representation",
+    "operations": [
+      {
+        "name": "Add vertex",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Add edge",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Get neighbors",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Sparse graphs, DFS/BFS, Network problems",
+    "tradeoffs": "Pros: O(V+E) space, Fast neighbor iteration. Cons: O(degree) edge lookup",
+    "commonUseCases": [
+      "Social networks",
+      "Course prerequisites",
+      "Web crawling"
+    ],
+    "implementation": "Adjacency list map or array...",
+    "resources": [
+      {
+        "title": "Graph",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440011",
+    "name": "Deque",
+    "description": "Double-ended queue with O(1) at both ends",
+    "category": "Linear",
+    "whatItIs": "Deque supports efficient operations at both front and back",
+    "operations": [
+      {
+        "name": "Append/Pop left/right",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Access ends",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Sliding window, BFS (more efficient), Both stack and queue ops",
+    "tradeoffs": "Pros: O(1) both ends, Flexible. Cons: O(n) random access",
+    "commonUseCases": [
+      "Sliding window maximum",
+      "BFS",
+      "Palindrome checker"
+    ],
+    "implementation": "Doubly-linked list or circular buffer...",
+    "resources": [
+      {
+        "title": "Deque",
+        "url": "https://docs.python.org/3/",
+        "type": "documentation"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440012",
+    "name": "Union-Find",
+    "description": "Track disjoint sets with near O(1) union/find",
+    "category": "Advanced",
+    "whatItIs": "Union-Find maintains non-overlapping sets efficiently",
+    "operations": [
+      {
+        "name": "Find",
+        "timeComplexity": "O(α(n))"
+      },
+      {
+        "name": "Union",
+        "timeComplexity": "O(α(n))"
+      }
+    ],
+    "whenToUse": "Connected components, Kruskal's MST, Cycle detection",
+    "tradeoffs": "Pros: Nearly O(1), Efficient connectivity. Cons: Can't split sets easily",
+    "commonUseCases": [
+      "Connected components",
+      "Redundant connection",
+      "Making a large island"
+    ],
+    "implementation": "Parent pointers with path compression and union by rank...",
+    "resources": [
+      {
+        "title": "Union Find",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440013",
+    "name": "Segment Tree",
+    "description": "Tree for efficient range queries and updates",
+    "category": "Advanced",
+    "whatItIs": "Segment Tree enables O(log n) range queries on arrays",
+    "operations": [
+      {
+        "name": "Build",
+        "timeComplexity": "O(n)"
+      },
+      {
+        "name": "Range query",
+        "timeComplexity": "O(log n)"
+      },
+      {
+        "name": "Point update",
+        "timeComplexity": "O(log n)"
+      }
+    ],
+    "whenToUse": "Range sum queries, Multiple updates, Competitive programming",
+    "tradeoffs": "Pros: O(log n) range ops, Flexible. Cons: O(n) space, Complex implementation",
+    "commonUseCases": [
+      "Range Sum Query",
+      "Range Minimum Query",
+      "Falling Squares"
+    ],
+    "implementation": "Binary tree in array form...",
+    "resources": [
+      {
+        "title": "Segment Tree",
+        "url": "https://cp-algorithms.com/",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440014",
+    "name": "Fenwick Tree",
+    "description": "Space-efficient structure for prefix sums with O(log n) updates",
+    "category": "Advanced",
+    "whatItIs": "Fenwick Tree (BIT) uses bit manipulation for efficient prefix sums",
+    "operations": [
+      {
+        "name": "Point update",
+        "timeComplexity": "O(log n)"
+      },
+      {
+        "name": "Prefix sum",
+        "timeComplexity": "O(log n)"
+      }
+    ],
+    "whenToUse": "Prefix sums with updates, Counting inversions, Range sums",
+    "tradeoffs": "Pros: O(n) space (vs 4n for Segment Tree), Simple. Cons: Less flexible",
+    "commonUseCases": [
+      "Range Sum Query Mutable",
+      "Count inversions",
+      "2D range sums"
+    ],
+    "implementation": "Array with bit manipulation for parent/child...",
+    "resources": [
+      {
+        "title": "Fenwick Tree",
+        "url": "https://cp-algorithms.com/",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440015",
+    "name": "AVL Tree",
+    "description": "Self-balancing BST with guaranteed O(log n) operations",
+    "category": "Tree",
+    "whatItIs": "AVL Tree maintains strict balance (height diff <= 1)",
+    "operations": [
+      {
+        "name": "Search",
+        "timeComplexity": "O(log n)"
+      },
+      {
+        "name": "Insert",
+        "timeComplexity": "O(log n)"
+      },
+      {
+        "name": "Delete",
+        "timeComplexity": "O(log n)"
+      }
+    ],
+    "whenToUse": "Guaranteed O(log n) operations, Frequent searches, Ordered data",
+    "tradeoffs": "Pros: Strictly balanced, Faster lookups. Cons: More rotations on insert/delete",
+    "commonUseCases": [
+      "Database indexing",
+      "Sorted in-memory data"
+    ],
+    "implementation": "BST with rotation rebalancing...",
+    "resources": [
+      {
+        "title": "AVL Tree",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440016",
+    "name": "LRU Cache",
+    "description": "Cache with Least Recently Used eviction policy",
+    "category": "Advanced",
+    "whatItIs": "LRU Cache evicts least recently used item when full",
+    "operations": [
+      {
+        "name": "Get",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Put",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Caching with size limits, Memoization, Web caching",
+    "tradeoffs": "Pros: O(1) ops, Automatic eviction, Good hit rates. Cons: Extra memory for list",
+    "commonUseCases": [
+      "LRU Cache problem",
+      "Browser cache",
+      "Database buffer pool"
+    ],
+    "implementation": "Hash map + doubly linked list...",
+    "resources": [
+      {
+        "title": "LRU Cache",
+        "url": "https://leetcode.com/",
+        "type": "problem"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440017",
+    "name": "Skip List",
+    "description": "Probabilistic data structure with O(log n) search",
+    "category": "Advanced",
+    "whatItIs": "Skip List uses multiple layers of linked lists for fast traversal",
+    "operations": [
+      {
+        "name": "Search",
+        "timeComplexity": "O(log n)*"
+      },
+      {
+        "name": "Insert",
+        "timeComplexity": "O(log n)*"
+      },
+      {
+        "name": "Delete",
+        "timeComplexity": "O(log n)*"
+      }
+    ],
+    "whenToUse": "Ordered data alternative to balanced trees, Concurrent access",
+    "tradeoffs": "Pros: Simple to implement, Lock-free variants. Cons: Probabilistic, More space",
+    "commonUseCases": [
+      "Redis sorted sets",
+      "LevelDB/RocksDB"
+    ],
+    "implementation": "Multiple linked list layers with random heights...",
+    "resources": [
+      {
+        "title": "Skip List",
+        "url": "https://en.wikipedia.org/",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440018",
+    "name": "Monotonic Queue",
+    "description": "Queue maintaining elements in sorted order",
+    "category": "Linear",
+    "whatItIs": "Deque maintaining decreasing/increasing order",
+    "operations": [
+      {
+        "name": "Push",
+        "timeComplexity": "O(1)*"
+      },
+      {
+        "name": "Pop front",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Get min/max",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Sliding window min/max, Maintaining sorted window",
+    "tradeoffs": "Pros: O(1) amortized, Perfect for sliding window. Cons: Specific use case",
+    "commonUseCases": [
+      "Sliding Window Maximum",
+      "Jump Game VI"
+    ],
+    "implementation": "Deque with constraint maintenance...",
+    "resources": [
+      {
+        "title": "Sliding Window Maximum",
+        "url": "https://leetcode.com/",
+        "type": "problem"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440019",
+    "name": "Circular Buffer",
+    "description": "Fixed-size buffer that wraps around",
+    "category": "Linear",
+    "whatItIs": "Ring buffer with fixed capacity, overwrites oldest when full",
+    "operations": [
+      {
+        "name": "Enqueue",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Dequeue",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "IsFull/Empty",
+        "timeComplexity": "O(1)"
+      }
+    ],
+    "whenToUse": "Fixed memory budget, Streaming data, Producer-consumer",
+    "tradeoffs": "Pros: Fixed memory, O(1) ops, Cache friendly. Cons: Fixed capacity, Loses data",
+    "commonUseCases": [
+      "Design Circular Queue",
+      "Audio buffers",
+      "Log rotation"
+    ],
+    "implementation": "Array with head/tail pointers and modulo arithmetic...",
+    "resources": [
+      {
+        "title": "Circular Queue",
+        "url": "https://leetcode.com/",
+        "type": "problem"
+      }
+    ]
+  },
+  {
+    "id": "660e8400-e29b-41d4-a716-446655440020",
+    "name": "Graph (Adjacency Matrix)",
+    "description": "Graph represented as 2D matrix",
+    "category": "Graph",
+    "whatItIs": "Matrix[i][j] indicates edge between vertices i and j",
+    "operations": [
+      {
+        "name": "Check edge",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Add edge",
+        "timeComplexity": "O(1)"
+      },
+      {
+        "name": "Get neighbors",
+        "timeComplexity": "O(V)"
+      }
+    ],
+    "whenToUse": "Dense graphs, Frequent edge checks, All-pairs problems",
+    "tradeoffs": "Pros: O(1) edge lookup, Simple. Cons: O(V²) space always, Wasteful for sparse",
+    "commonUseCases": [
+      "Floyd-Warshall",
+      "Dense graph algorithms"
+    ],
+    "implementation": "2D array with edge weights...",
+    "resources": [
+      {
+        "title": "Graph Representations",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      }
+    ]
+  }
+]

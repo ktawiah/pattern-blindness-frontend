@@ -1,0 +1,560 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Two Pointers",
+    "description": "Use two pointers to traverse a data structure, typically from opposite ends or at different speeds.",
+    "category": "TwoPointers",
+    "whatItIs": "Two Pointers is a technique where you use two references (pointers) to traverse a data structure.",
+    "whenToUse": "Use Two Pointers when: The input is sorted or has some ordering property, You need to find pairs that satisfy a condition",
+    "whyItWorks": "Sorted data allows making decisions based on comparisons, Moving pointers based on conditions eliminates unnecessary comparisons",
+    "commonUseCases": [
+      "Two Sum in sorted array",
+      "Container with most water",
+      "Palindrome check",
+      "Remove duplicates",
+      "Merge sorted arrays"
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "pseudoCode": "Two pointer initialization and traversal...",
+    "triggerSignals": [
+      "Sorted array/string",
+      "Find pair with sum/difference",
+      "Palindrome",
+      "In-place modification"
+    ],
+    "commonMistakes": [
+      "Off-by-one errors",
+      "Not handling duplicates",
+      "Wrong pointer movement direction"
+    ],
+    "resources": [
+      {
+        "title": "Two Pointers - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "name": "Sliding Window",
+    "description": "Maintain a window of elements that slides through the data structure to find optimal subarrays/substrings.",
+    "category": "SlidingWindow",
+    "whatItIs": "Sliding Window maintains a contiguous subset (window) of elements and slides it through the input.",
+    "whenToUse": "Use Sliding Window when: Looking for subarrays/substrings satisfying a condition, Need to find min/max length subarray",
+    "whyItWorks": "Incrementally updating window state is O(1) vs recomputing from scratch",
+    "commonUseCases": [
+      "Longest substring without repeats",
+      "Minimum window substring",
+      "Maximum sum subarray of size k"
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(k)",
+    "pseudoCode": "Window traversal with expansion/contraction...",
+    "triggerSignals": [
+      "Contiguous subarray/substring",
+      "Maximum/minimum length",
+      "Fixed window size k"
+    ],
+    "commonMistakes": [
+      "Forgetting to shrink window",
+      "Off-by-one in window size calculation"
+    ],
+    "resources": [
+      {
+        "title": "Sliding Window - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "name": "Binary Search",
+    "description": "Repeatedly divide the search space in half to find target or optimal value in logarithmic time.",
+    "category": "BinarySearch",
+    "whatItIs": "Binary Search divides a sorted space in half with each comparison.",
+    "whenToUse": "Use Binary Search when: Input is sorted or has monotonic property, Need to find exact value, boundary, or optimal answer",
+    "whyItWorks": "Each comparison eliminates half the remaining search space",
+    "commonUseCases": [
+      "Search in sorted array",
+      "Find first/last position",
+      "Kth element",
+      "Capacity to ship packages"
+    ],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "pseudoCode": "Binary search with mid calculation and side selection...",
+    "triggerSignals": [
+      "Sorted array",
+      "Find minimum/maximum that satisfies condition"
+    ],
+    "commonMistakes": [
+      "Integer overflow in mid calculation",
+      "Wrong boundary update"
+    ],
+    "resources": [
+      {
+        "title": "Binary Search - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "name": "Depth-First Search (DFS)",
+    "description": "Explore as far as possible along each branch before backtracking, used for trees, graphs, and recursive exploration.",
+    "category": "Graph",
+    "whatItIs": "DFS explores a graph or tree by going as deep as possible before backtracking.",
+    "whenToUse": "Use DFS when: Need to explore all paths, Finding connected components, Path finding where path matters",
+    "whyItWorks": "The stack (implicit or explicit) naturally handles the backtracking",
+    "commonUseCases": [
+      "Number of islands",
+      "Path sum in tree",
+      "Clone graph",
+      "Course schedule"
+    ],
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(h)",
+    "pseudoCode": "Recursive DFS with visited tracking...",
+    "triggerSignals": [
+      "Explore all paths",
+      "Connected components",
+      "Tree traversal",
+      "Detect cycle"
+    ],
+    "commonMistakes": [
+      "Not marking visited",
+      "Not handling cycles in graphs"
+    ],
+    "resources": [
+      {
+        "title": "Graph DFS - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440005",
+    "name": "Breadth-First Search (BFS)",
+    "description": "Explore all neighbors at present depth before moving to nodes at next depth level, ideal for shortest paths.",
+    "category": "Graph",
+    "whatItIs": "BFS explores a graph level by level using a queue.",
+    "whenToUse": "Use BFS when: Finding shortest path in unweighted graph, Level-order traversal, Finding minimum steps",
+    "whyItWorks": "The queue ensures FIFO processing, Level-by-level exploration guarantees shortest path",
+    "commonUseCases": [
+      "Shortest path in maze",
+      "Level order traversal",
+      "Rotting oranges",
+      "Word ladder"
+    ],
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(V)",
+    "pseudoCode": "Queue-based level-order traversal...",
+    "triggerSignals": [
+      "Shortest path unweighted",
+      "Minimum steps/moves",
+      "Level-order traversal"
+    ],
+    "commonMistakes": [
+      "Using DFS for shortest path",
+      "Not tracking visited before enqueueing"
+    ],
+    "resources": [
+      {
+        "title": "Graph BFS - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440006",
+    "name": "Dynamic Programming",
+    "description": "Break down problems into overlapping subproblems and store solutions to avoid redundant computation.",
+    "category": "DynamicProgramming",
+    "whatItIs": "DP solves problems by breaking them into smaller overlapping subproblems and storing results.",
+    "whenToUse": "Use DP when: Problem has optimal substructure, Overlapping subproblems, Count ways or find min/max",
+    "whyItWorks": "Storing solutions eliminates redundant computation",
+    "commonUseCases": [
+      "Fibonacci",
+      "Climbing stairs",
+      "House robber",
+      "Knapsack",
+      "Coin change"
+    ],
+    "timeComplexity": "Varies",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "State definition, base cases, recurrence relation...",
+    "triggerSignals": [
+      "Count number of ways",
+      "Minimum/maximum value",
+      "Make choices at each step"
+    ],
+    "commonMistakes": [
+      "Wrong base case",
+      "Incorrect recurrence relation"
+    ],
+    "resources": [
+      {
+        "title": "DP - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440007",
+    "name": "Backtracking",
+    "description": "Build solutions incrementally, abandoning paths that fail to satisfy constraints.",
+    "category": "Backtracking",
+    "whatItIs": "Backtracking explores all possible solutions by making choices, recursing, and undoing choices.",
+    "whenToUse": "Use Backtracking when: Need to generate all solutions, Making sequences of decisions, Finding solutions with constraints",
+    "whyItWorks": "Systematic exploration ensures completeness, Early pruning avoids exploring invalid paths",
+    "commonUseCases": [
+      "N-Queens",
+      "Sudoku solver",
+      "Permutations",
+      "Combination sum",
+      "Word search"
+    ],
+    "timeComplexity": "O(n!)",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "Recursive choice, recurse, undo pattern...",
+    "triggerSignals": [
+      "Generate all permutations/combinations",
+      "Find all solutions",
+      "Constraint satisfaction"
+    ],
+    "commonMistakes": [
+      "Forgetting to backtrack",
+      "Not copying path when saving"
+    ],
+    "resources": [
+      {
+        "title": "Backtracking - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440008",
+    "name": "Heap / Priority Queue",
+    "description": "Efficiently maintain and access the minimum or maximum element in a dynamic collection.",
+    "category": "Heap",
+    "whatItIs": "A Heap is a complete binary tree where parents are smaller/larger than children.",
+    "whenToUse": "Use Heap when: Need repeated access to min/max, Finding k largest/smallest, Merge k sorted lists",
+    "whyItWorks": "Heap property ensures min/max is always at root, Tree structure gives O(log n) operations",
+    "commonUseCases": [
+      "Kth largest element",
+      "Merge k sorted lists",
+      "Find median",
+      "Task scheduler",
+      "Top k frequent"
+    ],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "Insert with bubble-up, Extract with bubble-down...",
+    "triggerSignals": [
+      "Kth largest/smallest",
+      "Merge k sorted",
+      "Continuously find min/max"
+    ],
+    "commonMistakes": [
+      "Using wrong heap type",
+      "Forgetting to negate for max-heap"
+    ],
+    "resources": [
+      {
+        "title": "Heaps - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440009",
+    "name": "Greedy",
+    "description": "Make locally optimal choices at each step, hoping to find a global optimum.",
+    "category": "Greedy",
+    "whatItIs": "Greedy algorithms make the best choice at each step without considering future consequences.",
+    "whenToUse": "Use Greedy when: Problem has greedy choice property, Local optimal leads to global optimal",
+    "whyItWorks": "For certain problems, locally optimal choice is part of globally optimal solution",
+    "commonUseCases": [
+      "Activity selection",
+      "Jump game",
+      "Gas station",
+      "Non-overlapping intervals"
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "pseudoCode": "Identify greedy choice, sort, make greedy selections...",
+    "triggerSignals": [
+      "Maximize/minimize with constraints",
+      "Interval problems",
+      "Sorting might help"
+    ],
+    "commonMistakes": [
+      "Applying greedy when DP needed",
+      "Wrong sorting criteria"
+    ],
+    "resources": [
+      {
+        "title": "Greedy Algorithms",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440010",
+    "name": "Monotonic Stack",
+    "description": "Maintain a stack with elements in sorted order to efficiently solve next greater/smaller element problems.",
+    "category": "MonotonicStack",
+    "whatItIs": "A Monotonic Stack maintains elements in increasing or decreasing order.",
+    "whenToUse": "Use when: Finding next/previous greater/smaller element, Stock span problems, Largest rectangle",
+    "whyItWorks": "Each element pushed/popped once, O(1) amortized per element",
+    "commonUseCases": [
+      "Next greater element",
+      "Daily temperatures",
+      "Largest rectangle",
+      "Trapping rain water"
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "Maintain monotonic property while processing elements...",
+    "triggerSignals": [
+      "Next/greater smaller element",
+      "Span problems",
+      "Subarray min/max sums"
+    ],
+    "commonMistakes": [
+      "Wrong monotonic direction",
+      "Storing values instead of indices"
+    ],
+    "resources": [
+      {
+        "title": "Monotonic Stack - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440011",
+    "name": "Union-Find (Disjoint Set)",
+    "description": "Track connected components with near O(1) union and find operations.",
+    "category": "UnionFind",
+    "whatItIs": "Union-Find maintains disjoint sets with efficient union and find operations.",
+    "whenToUse": "Use when: Tracking connected components, Determining set membership, Kruskal's MST, Cycle detection",
+    "whyItWorks": "Path compression and union by rank achieve O(α(n)) amortized time",
+    "commonUseCases": [
+      "Number of connected components",
+      "Redundant connection",
+      "Accounts merge",
+      "Making a large island"
+    ],
+    "timeComplexity": "O(α(n))",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "Find with path compression, union by rank...",
+    "triggerSignals": [
+      "Connected components",
+      "Group membership",
+      "Merge groups",
+      "Cycle detection undirected"
+    ],
+    "commonMistakes": [
+      "Forgetting path compression",
+      "Not using union by rank"
+    ],
+    "resources": [
+      {
+        "title": "Union Find - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440012",
+    "name": "Trie (Prefix Tree)",
+    "description": "Tree structure for efficient storage and retrieval of strings with prefix-based operations.",
+    "category": "Trie",
+    "whatItIs": "A Trie is a tree where paths from root form prefixes of stored strings.",
+    "whenToUse": "Use when: Prefix-based search, Autocomplete, Word search in grid, Spell checking",
+    "whyItWorks": "Common prefixes stored once, search time O(m) independent of dictionary size",
+    "commonUseCases": [
+      "Implement Trie",
+      "Word search II",
+      "Search suggestions",
+      "Design add and search",
+      "Palindrome pairs"
+    ],
+    "timeComplexity": "O(m)",
+    "spaceComplexity": "O(total characters)",
+    "pseudoCode": "Insert with node creation, search with traversal...",
+    "triggerSignals": [
+      "Prefix search",
+      "Autocomplete",
+      "Word dictionary",
+      "Multiple string search"
+    ],
+    "commonMistakes": [
+      "Forgetting is_end flag",
+      "Not handling empty strings"
+    ],
+    "resources": [
+      {
+        "title": "Trie - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440013",
+    "name": "Intervals",
+    "description": "Techniques for handling overlapping intervals: merging, finding gaps, and scheduling.",
+    "category": "Intervals",
+    "whatItIs": "Interval problems involve ranges with common operations like merging and finding overlaps.",
+    "whenToUse": "Use when: Dealing with time ranges, Meeting room scheduling, Merging ranges, Finding overlaps",
+    "whyItWorks": "Sorting allows linear processing of overlaps",
+    "commonUseCases": [
+      "Merge intervals",
+      "Insert interval",
+      "Meeting rooms",
+      "Non-overlapping intervals"
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "Sort by start, merge overlapping intervals...",
+    "triggerSignals": [
+      "Time ranges",
+      "Overlapping intervals",
+      "Merge ranges",
+      "Meeting scheduling"
+    ],
+    "commonMistakes": [
+      "Wrong sort key",
+      "Not merging all overlaps"
+    ],
+    "resources": [
+      {
+        "title": "Intervals - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440014",
+    "name": "Divide and Conquer",
+    "description": "Break problem into smaller subproblems, solve recursively, and combine results.",
+    "category": "DivideAndConquer",
+    "whatItIs": "Divide and Conquer breaks problems into independent subproblems and combines solutions.",
+    "whenToUse": "Use when: Problem breaks into independent subproblems, Solutions combine efficiently",
+    "whyItWorks": "Smaller problems are easier, recursion handles division, combining is often O(n)",
+    "commonUseCases": [
+      "Merge Sort",
+      "Quick Sort",
+      "Binary Search",
+      "Maximum subarray",
+      "Closest pair of points"
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "pseudoCode": "Base case, divide, conquer recursively, combine...",
+    "triggerSignals": [
+      "Problem can be halved",
+      "Subproblems are independent",
+      "Sorting algorithms"
+    ],
+    "commonMistakes": [
+      "Wrong base case",
+      "Inefficient combine step"
+    ],
+    "resources": [
+      {
+        "title": "Divide and Conquer - Khan Academy",
+        "url": "https://www.khanacademy.org/",
+        "type": "article"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440015",
+    "name": "Topological Sort",
+    "description": "Linear ordering of vertices in a DAG where every directed edge u→v has u before v.",
+    "category": "Graph",
+    "whatItIs": "Topological Sort produces linear ordering of vertices in a Directed Acyclic Graph.",
+    "whenToUse": "Use when: Processing dependencies, Build systems, Course prerequisites, Task scheduling",
+    "whyItWorks": "In a DAG, there's always a vertex with no incoming edges",
+    "commonUseCases": [
+      "Course Schedule",
+      "Alien Dictionary",
+      "Build order",
+      "Task scheduling",
+      "Package dependencies"
+    ],
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(V)",
+    "pseudoCode": "Kahn's algorithm with indegree or DFS approach...",
+    "triggerSignals": [
+      "Dependencies/prerequisites",
+      "Build order",
+      "Course schedule",
+      "Cycle detection"
+    ],
+    "commonMistakes": [
+      "Forgetting to check for cycles",
+      "Wrong indegree calculation"
+    ],
+    "resources": [
+      {
+        "title": "Topological Sort - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440016",
+    "name": "Bit Manipulation",
+    "description": "Use bitwise operations to solve problems efficiently with constant space.",
+    "category": "BitManipulation",
+    "whatItIs": "Bit manipulation uses bitwise operators to solve problems at the bit level.",
+    "whenToUse": "Use when: Finding single/unique numbers, Power of 2 checks, Counting bits, Generating subsets",
+    "whyItWorks": "XOR properties: x^x=0, x^0=x, operations are O(1)",
+    "commonUseCases": [
+      "Single Number",
+      "Number of 1 Bits",
+      "Power of Two",
+      "Counting Bits",
+      "Subsets"
+    ],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "pseudoCode": "AND, OR, XOR operations, bit shifting...",
+    "triggerSignals": [
+      "Find unique/single number",
+      "Power of 2",
+      "Binary representation",
+      "O(1) space"
+    ],
+    "commonMistakes": [
+      "Sign bit issues",
+      "Wrong shift direction"
+    ],
+    "resources": [
+      {
+        "title": "Bit Manipulation - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ]
+  }
+]
