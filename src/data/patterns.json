@@ -4,29 +4,44 @@
     "name": "Two Pointers",
     "description": "Use two pointers to traverse a data structure, typically from opposite ends or at different speeds.",
     "category": "TwoPointers",
-    "whatItIs": "Two Pointers is a technique where you use two references (pointers) to traverse a data structure.",
-    "whenToUse": "Use Two Pointers when: The input is sorted or has some ordering property, You need to find pairs that satisfy a condition",
-    "whyItWorks": "Sorted data allows making decisions based on comparisons, Moving pointers based on conditions eliminates unnecessary comparisons",
+    "whatItIs": "Two Pointers is a powerful algorithmic technique that uses two references (pointers) to traverse a data structure, typically an array or string, in a coordinated manner. The pointers can move in various patterns: towards each other from opposite ends, in the same direction at different speeds (fast and slow), or in tandem while maintaining a fixed distance. This technique is particularly effective because it reduces the need for nested loops, transforming O(n²) brute force solutions into O(n) linear time solutions. The key insight is that by maintaining two positions and making intelligent decisions about which pointer to move based on the current state, you can efficiently explore the solution space without examining every possible pair or subset.",
+    "whenToUse": "Use Two Pointers when: (1) The input is sorted or has an inherent ordering that allows you to make decisions based on comparisons - this is crucial as it enables you to eliminate large portions of the search space. (2) You need to find pairs, triplets, or subarrays that satisfy a specific condition (sum, product, distance). (3) The problem involves in-place array manipulation where extra space is limited. (4) You're checking for palindromes or symmetric properties. (5) You need to merge, partition, or rearrange elements based on a condition. (6) The problem asks to remove or modify elements while iterating. (7) You're dealing with linked lists and need to detect cycles or find middle elements. The technique is especially powerful when the problem hints at finding relationships between elements at different positions.",
+    "whyItWorks": "Two Pointers works because it exploits the ordered nature of data to make intelligent elimination decisions. When data is sorted, comparing elements at two positions gives you information about what direction to search next. For example, if the sum of two elements is too large, you know moving the right pointer left will only produce smaller or equal sums. This monotonic property means each pointer movement eliminates possibilities, ensuring you don't miss any valid solutions while avoiding redundant checks. The technique also works for the fast-slow pointer variant because the mathematical relationship between their speeds creates predictable collision points in cyclic structures.",
     "commonUseCases": [
-      "Two Sum in sorted array",
-      "Container with most water",
-      "Palindrome check",
-      "Remove duplicates",
-      "Merge sorted arrays"
+      "Two Sum in sorted array - Find pair that sums to target",
+      "Container with most water - Maximize area between vertical lines",
+      "Palindrome check - Verify string reads same forwards and backwards",
+      "Remove duplicates from sorted array - In-place deduplication",
+      "Merge sorted arrays - Combine two sorted sequences",
+      "Trapping rain water - Calculate water volume between heights",
+      "3Sum problem - Find all unique triplets that sum to zero",
+      "Linked list cycle detection - Floyd's cycle detection algorithm",
+      "Remove nth node from end - One-pass linked list manipulation",
+      "Sort colors (Dutch National Flag) - Three-way partitioning"
     ],
     "timeComplexity": "O(n)",
     "spaceComplexity": "O(1)",
-    "pseudoCode": "Two pointer initialization and traversal...",
+    "pseudoCode": "OPPOSITE ENDS APPROACH:\nfunction twoSum(arr, target):\n    left = 0\n    right = arr.length - 1\n    \n    while left < right:\n        currentSum = arr[left] + arr[right]\n        \n        if currentSum == target:\n            return [left, right]\n        else if currentSum < target:\n            left++  // Need larger sum\n        else:\n            right--  // Need smaller sum\n    \n    return null\n\nFAST-SLOW POINTER APPROACH:\nfunction hasCycle(head):\n    if head == null: return false\n    \n    slow = head\n    fast = head\n    \n    while fast != null and fast.next != null:\n        slow = slow.next       // Move 1 step\n        fast = fast.next.next  // Move 2 steps\n        \n        if slow == fast:\n            return true  // Cycle detected\n    \n    return false\n\nSAME DIRECTION SLIDING:\nfunction removeDuplicates(arr):\n    if arr.length == 0: return 0\n    \n    writePos = 1  // Position to write next unique\n    \n    for readPos in 1 to arr.length:\n        if arr[readPos] != arr[readPos-1]:\n            arr[writePos] = arr[readPos]\n            writePos++\n    \n    return writePos",
     "triggerSignals": [
-      "Sorted array/string",
-      "Find pair with sum/difference",
-      "Palindrome",
-      "In-place modification"
+      "Problem mentions 'sorted array' or 'sorted list'",
+      "Asked to find pair/triplet with specific sum or condition",
+      "Question asks for palindrome verification",
+      "Need in-place modification with O(1) extra space",
+      "Problem involves partitioning or rearranging",
+      "Linked list problem asking for cycle detection",
+      "Find middle element or kth element from end",
+      "Merge two sorted sequences",
+      "Problem has 'two elements' or 'pairs' in description",
+      "Asked to remove duplicates in-place"
     ],
     "commonMistakes": [
-      "Off-by-one errors",
-      "Not handling duplicates",
-      "Wrong pointer movement direction"
+      "Off-by-one errors: Forgetting that the condition is 'left < right' not 'left <= right' when pointers shouldn't meet. Using '<=' can cause checking the same element twice in pair-finding problems.",
+      "Not handling duplicates: In problems like 3Sum, failing to skip duplicate values leads to duplicate triplets in the result. Always check if current element equals previous before processing.",
+      "Wrong pointer movement: Moving both pointers simultaneously when you should move only one based on the comparison. The movement decision must be deterministic based on the current state.",
+      "Incorrect initialization: Starting pointers at wrong positions (e.g., both at 0 when they should be at opposite ends). Fast pointer should start at head.next, not head, in some cycle detection variants.",
+      "Missing edge cases: Not handling arrays with fewer than 2 elements, null pointers in linked lists, or empty strings. Always validate input size.",
+      "Forgetting to sort: Two pointers on sorted data won't work if you forget to sort first. The O(n log n) sorting cost is still better than O(n²) brute force.",
+      "Breaking ties incorrectly: When sum equals target with duplicates, need specific logic to handle which pointer to move to avoid infinite loops."
     ],
     "resources": [
       {
@@ -41,25 +56,46 @@
     "name": "Sliding Window",
     "description": "Maintain a window of elements that slides through the data structure to find optimal subarrays/substrings.",
     "category": "SlidingWindow",
-    "whatItIs": "Sliding Window maintains a contiguous subset (window) of elements and slides it through the input.",
-    "whenToUse": "Use Sliding Window when: Looking for subarrays/substrings satisfying a condition, Need to find min/max length subarray",
-    "whyItWorks": "Incrementally updating window state is O(1) vs recomputing from scratch",
+    "whatItIs": "Sliding Window is an optimization technique that maintains a contiguous subset of elements (the 'window') and efficiently slides it through an array or string to solve problems involving subarrays or substrings. The technique comes in two main flavors: Fixed-size windows (where the window size is constant, like 'maximum sum of k consecutive elements') and Variable-size windows (where the window expands and contracts based on conditions, like 'longest substring without repeating characters'). The power of this technique lies in its ability to avoid recomputing the same information repeatedly - instead of recalculating everything for each new window position from scratch (which would be O(n×k) or O(n²)), we incrementally update by adding the new element entering the window and removing the old element leaving it (achieving O(n)). This makes it ideal for problems that ask about contiguous sequences meeting certain criteria.",
+    "whenToUse": "Use Sliding Window when: (1) The problem explicitly asks about contiguous subarrays or substrings - keywords like 'consecutive', 'contiguous', or 'substring' are strong indicators. (2) You need to find maximum/minimum length, maximum/minimum sum, or count of subarrays meeting a condition. (3) The problem involves finding the optimal window (longest, shortest, or with specific properties) within a sequence. (4) You're asked to maintain or track something over a range that moves through the data. (5) There's a fixed window size k and you need statistics (max, min, avg) for each window. (6) The problem requires checking every possible subarray - sliding window can optimize this from O(n²) to O(n). (7) You need to track character frequencies, sums, or counts within a moving range. The technique is particularly effective when the window's validity can be determined efficiently as elements enter and leave.",
+    "whyItWorks": "Sliding Window works by exploiting the overlap between consecutive subarrays. When you move the window one position to the right, most of the elements (k-1 out of k in fixed windows) remain the same. Instead of reprocessing all these elements, you only need to: (1) Remove the contribution of the element leaving the window, (2) Add the contribution of the element entering the window, and (3) Update your tracking variables accordingly. This incremental update is O(1) for most operations (sum, count, frequency map operations), making the overall algorithm O(n). For variable windows, the expansion and contraction logic ensures that each element is processed at most twice (once when entering, once when leaving), maintaining linear time complexity. The technique essentially trades space (storing window state) for time (avoiding recomputation).",
     "commonUseCases": [
-      "Longest substring without repeats",
-      "Minimum window substring",
-      "Maximum sum subarray of size k"
+      "Longest substring without repeating characters - Variable window with hashmap",
+      "Minimum window substring - Variable window finding smallest containing target",
+      "Maximum sum subarray of size k - Fixed window with running sum",
+      "Longest substring with at most k distinct characters - Variable window tracking frequency",
+      "Permutation in string - Fixed window matching character counts",
+      "Find all anagrams - Fixed window with frequency comparison",
+      "Longest repeating character replacement - Variable window with k replacements allowed",
+      "Maximum of all subarrays of size k - Fixed window with deque optimization",
+      "Minimum size subarray sum - Variable window to find shortest with sum >= target",
+      "Fruits into baskets - Variable window with 2 distinct types allowed"
     ],
     "timeComplexity": "O(n)",
-    "spaceComplexity": "O(k)",
-    "pseudoCode": "Window traversal with expansion/contraction...",
+    "spaceComplexity": "O(k) for tracking window contents, O(1) for simple sum/count",
+    "pseudoCode": "FIXED WINDOW APPROACH:\nfunction maxSumSubarray(arr, k):\n    if arr.length < k: return null\n    \n    // Calculate first window\n    windowSum = 0\n    for i in 0 to k:\n        windowSum += arr[i]\n    \n    maxSum = windowSum\n    \n    // Slide window\n    for i in k to arr.length:\n        windowSum = windowSum - arr[i-k] + arr[i]\n        maxSum = max(maxSum, windowSum)\n    \n    return maxSum\n\nVARIABLE WINDOW (EXPANSION/CONTRACTION):\nfunction lengthOfLongestSubstring(s):\n    charSet = new Set()\n    left = 0\n    maxLength = 0\n    \n    for right in 0 to s.length:\n        // Contract window while duplicate exists\n        while s[right] in charSet:\n            charSet.remove(s[left])\n            left++\n        \n        // Expand window\n        charSet.add(s[right])\n        maxLength = max(maxLength, right - left + 1)\n    \n    return maxLength\n\nMINIMUM WINDOW TEMPLATE:\nfunction minWindow(s, t):\n    need = frequencyMap(t)\n    have = new Map()\n    matched = 0\n    left = 0\n    minLen = infinity\n    result = \"\"\n    \n    for right in 0 to s.length:\n        char = s[right]\n        have[char]++\n        \n        if have[char] == need[char]:\n            matched++\n        \n        // Shrink window while valid\n        while matched == need.size:\n            // Update result if smaller\n            if right - left + 1 < minLen:\n                minLen = right - left + 1\n                result = s[left:right+1]\n            \n            // Remove left char\n            leftChar = s[left]\n            have[leftChar]--\n            if have[leftChar] < need[leftChar]:\n                matched--\n            left++\n    \n    return result",
     "triggerSignals": [
-      "Contiguous subarray/substring",
-      "Maximum/minimum length",
-      "Fixed window size k"
+      "Problem mentions 'subarray', 'substring', or 'consecutive elements'",
+      "Asked to find maximum/minimum length meeting condition",
+      "Question includes 'contiguous sequence' or 'window of size k'",
+      "Need to find optimal range (longest/shortest) with property",
+      "Problem asks for sum/average/max/min over all windows of size k",
+      "Looking for patterns or character frequencies in substrings",
+      "Questions like 'at most k distinct' or 'at least k occurrences'",
+      "Find smallest/largest subarray with sum meeting threshold",
+      "Asked to find anagrams or permutations within a string",
+      "Problem involves 'moving through' or 'scanning' a sequence"
     ],
     "commonMistakes": [
-      "Forgetting to shrink window",
-      "Off-by-one in window size calculation"
+      "Forgetting to initialize first window: Must compute the initial window state before sliding. In fixed-size windows, calculate sum/state for first k elements explicitly before the main loop.",
+      "Off-by-one in window size: Window size is (right - left + 1), not (right - left). Common error is calculating length incorrectly, especially after contracting the window.",
+      "Not updating all tracking variables: When removing elements from the left, must update all state (sum, frequency map, count, etc.). Forgetting even one variable breaks correctness.",
+      "Expanding window too eagerly: In variable windows, must check validity after each right expansion and contract immediately if invalid. Don't expand multiple steps before checking.",
+      "Incorrect shrinking condition: The while loop condition for contracting must be precise. Using if instead of while causes incomplete shrinking, missing optimal solutions.",
+      "Not handling edge cases: Empty arrays, window size larger than array, all elements invalid, single element arrays all need special handling.",
+      "Complexity creep: Operations inside the sliding window loop must be O(1) or O(log k). If you're doing O(k) work per iteration, you've lost the optimization and it becomes O(n×k).",
+      "Frequency map mistakes: Forgetting to decrement counts when removing from window, or not checking zero counts before removing from map (can cause memory leaks).",
+      "Comparison errors: Using > instead of >= or < instead of <= in validity checks can cause off-by-one errors in the result."
     ],
     "resources": [
       {
@@ -74,25 +110,38 @@
     "name": "Binary Search",
     "description": "Repeatedly divide the search space in half to find target or optimal value in logarithmic time.",
     "category": "BinarySearch",
-    "whatItIs": "Binary Search divides a sorted space in half with each comparison.",
-    "whenToUse": "Use Binary Search when: Input is sorted or has monotonic property, Need to find exact value, boundary, or optimal answer",
-    "whyItWorks": "Each comparison eliminates half the remaining search space",
+    "whatItIs": "Binary Search is a highly efficient search algorithm that works on sorted arrays by repeatedly dividing the search interval in half. The core idea is to compare the target value with the middle element: if they match, you've found it; if the target is smaller, search the left half; if larger, search the right half. This halving process continues until the target is found or the search space is exhausted. Beyond just finding exact values, Binary Search can be extended to find boundaries (first/last occurrence), search in rotated arrays, find peaks, and even solve optimization problems by searching the solution space. The algorithm's power comes from its ability to eliminate half the remaining possibilities with each comparison, achieving O(log n) time complexity. This makes it dramatically faster than linear search for large datasets - searching 1 billion elements takes only about 30 comparisons!",
+    "whenToUse": "Use Binary Search when: (1) The input array or list is sorted (or can be sorted efficiently). This is the primary requirement - without ordering, binary search cannot make elimination decisions. (2) You need to find an exact value, the first/last occurrence, or insertion position. (3) The problem involves finding a minimum/maximum value that satisfies a condition (binary search on answer). (4) You're searching in a rotated sorted array or mountain array where partial order exists. (5) The search space is vast and linear search would be too slow (O(n) → O(log n) improvement). (6) You need to find a threshold or boundary where a property changes from false to true (monotonic function). (7) Asked to minimize/maximize something subject to constraints (capacity to ship packages, minimum in rotated array, kth smallest element in matrix). (8) The problem mentions 'sorted', 'ordered', or gives you sorted input. (9) You need efficient search in infinite or very large arrays. (10) The problem is an optimization problem that can be formulated as 'can we achieve X?' where X can be binary searched.",
+    "whyItWorks": "Binary Search works because of the monotonic property of sorted data. When you compare with the middle element, the comparison gives you definitive information about which half could possibly contain your target. Since the array is sorted, if target is less than middle, it CANNOT be in the right half; if greater, it CANNOT be in the left half. This guarantee allows safely discarding half the search space with each iteration. The logarithmic time comes from dividing problem size by 2 repeatedly: n → n/2 → n/4 → n/8 ... until reaching 1. The number of divisions needed is log₂(n). Even for binary search on answer problems, the principle is the same - you're searching a monotonic solution space where feasibility is preserved in one direction.",
     "commonUseCases": [
-      "Search in sorted array",
+      "Find element in sorted array",
       "Find first/last position",
       "Kth element",
-      "Capacity to ship packages"
+      "Capacity to ship packages",
+      "Search in rotated sorted array",
+      "Find peak element",
+      "Square root of integer",
+      "Koko eating bananas",
+      "Search 2D matrix",
+      "Median of two sorted arrays"
     ],
     "timeComplexity": "O(log n)",
     "spaceComplexity": "O(1)",
-    "pseudoCode": "Binary search with mid calculation and side selection...",
+    "pseudoCode": "function binarySearch(arr, target):\n    left = 0, right = arr.length - 1\n    while left <= right:\n        mid = left + (right - left) / 2\n        if arr[mid] == target: return mid\n        else if arr[mid] < target: left = mid + 1\n        else: right = mid - 1\n    return -1\n\nBinary Search on Answer:\nfunction minCapacity(weights, days):\n    left = max(weights)\n    right = sum(weights)\n    while left < right:\n        mid = left + (right - left) / 2\n        if canShipInDays(weights, mid, days):\n            right = mid\n        else:\n            left = mid + 1\n    return left",
     "triggerSignals": [
       "Sorted array",
-      "Find minimum/maximum that satisfies condition"
+      "Find minimum/maximum that satisfies condition",
+      "O(log n) time requirement",
+      "Rotated sorted array",
+      "Find first/last occurrence",
+      "Optimization with monotonic property"
     ],
     "commonMistakes": [
-      "Integer overflow in mid calculation",
-      "Wrong boundary update"
+      "Integer overflow in mid calculation: Use left + (right - left) / 2 instead of (left + right) / 2",
+      "Wrong boundary update",
+      "Off-by-one with <= vs <",
+      "Infinite loops from incorrect mid update",
+      "Wrong search space initialization for binary search on answers"
     ],
     "resources": [
       {
@@ -107,27 +156,38 @@
     "name": "Depth-First Search (DFS)",
     "description": "Explore as far as possible along each branch before backtracking, used for trees, graphs, and recursive exploration.",
     "category": "Graph",
-    "whatItIs": "DFS explores a graph or tree by going as deep as possible before backtracking.",
-    "whenToUse": "Use DFS when: Need to explore all paths, Finding connected components, Path finding where path matters",
-    "whyItWorks": "The stack (implicit or explicit) naturally handles the backtracking",
+    "whatItIs": "Depth-First Search (DFS) is a fundamental graph/tree traversal algorithm that explores as deeply as possible along each branch before backtracking. It uses a stack data structure (either explicitly or implicitly through recursion) to remember vertices to visit later. Starting from a source vertex, DFS visits a neighbor, then a neighbor of that neighbor, and so on, going deeper until it reaches a dead end (no unvisited neighbors), at which point it backtracks to the most recent vertex with unvisited neighbors. This strategy is called 'depth-first' because it prioritizes deepening the search before widening it. DFS can be implemented recursively (using the call stack) or iteratively (using an explicit stack). The recursive version is often more intuitive and cleaner, while the iterative version gives more control over memory usage and can avoid stack overflow on very deep graphs.",
+    "whenToUse": "Use DFS when: (1) You need to explore ALL paths or possibilities (backtracking problems, finding all solutions). (2) Checking connectivity between nodes or finding connected components. (3) Detecting cycles in directed or undirected graphs. (4) Topological sorting (with modifications). (5) Path-finding where you need the actual path, not just shortest distance. (6) Tree traversals (inorder, preorder, postorder). (7) Solving maze/puzzle problems where you try all possibilities. (8) Detecting strongly connected components (Tarjan's algorithm). (9) The solution is likely to be far from root (problems where BFS would take too long). (10) Memory is constrained (DFS uses O(h) space vs BFS's O(w) where h=height, w=width).",
+    "whyItWorks": "DFS works because the stack structure (explicit or call stack) provides natural backtracking. When you hit a dead end, the stack remembers where you came from, allowing you to return and try alternative paths. This makes DFS perfect for problems requiring exhaustive search. The visited set prevents infinite loops in cyclic graphs by marking explored vertices. DFS's depth-first nature means it finds complete paths before exploring alternatives, making it ideal for problems where you need to analyze full paths or detect patterns that require seeing the entire branch.",
     "commonUseCases": [
-      "Number of islands",
-      "Path sum in tree",
-      "Clone graph",
-      "Course schedule"
+      "Number of islands - Flood fill with DFS",
+      "Path sum in tree - Check if path exists with target sum",
+      "Clone graph - Deep copy with visited map",
+      "Course schedule - Cycle detection",
+      "Word search in grid - DFS with backtracking",
+      "All paths from source to target",
+      "Validate BST - Inorder DFS check",
+      "Surrounded regions - DFS from borders",
+      "Keys and rooms - DFS reachability"
     ],
-    "timeComplexity": "O(V + E)",
-    "spaceComplexity": "O(h)",
-    "pseudoCode": "Recursive DFS with visited tracking...",
+    "timeComplexity": "O(V + E) where V=vertices, E=edges",
+    "spaceComplexity": "O(h) for recursion stack where h=height/depth",
+    "pseudoCode": "RECURSIVE DFS (GRAPH):\nfunction dfs(node, visited, graph):\n    visited.add(node)\n    process(node)\n    \n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(neighbor, visited, graph)\n\nDFS WITH PATH TRACKING:\nfunction dfsPath(node, target, path, visited):\n    if node == target:\n        return true\n    \n    visited.add(node)\n    path.append(node)\n    \n    for neighbor in neighbors(node):\n        if neighbor not in visited:\n            if dfsPath(neighbor, target, path, visited):\n                return true\n    \n    path.pop()  // Backtrack\n    return false\n\nITERATIVE DFS:\nfunction dfsIterative(start, graph):\n    stack = [start]\n    visited = set([start])\n    \n    while stack:\n        node = stack.pop()\n        process(node)\n        \n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                stack.append(neighbor)",
     "triggerSignals": [
-      "Explore all paths",
-      "Connected components",
-      "Tree traversal",
-      "Detect cycle"
+      "Explore all paths or solutions",
+      "Find connected components",
+      "Detect cycles in graph",
+      "Tree traversal (inorder/preorder/postorder)",
+      "Backtracking problems",
+      "Path finding where path matters",
+      "Flood fill or region problems"
     ],
     "commonMistakes": [
-      "Not marking visited",
-      "Not handling cycles in graphs"
+      "Not marking visited before recursive call: Mark as visited immediately when adding to stack/calling recursively, not after. This prevents duplicate processing.",
+      "Not handling cycles: In graphs (vs trees), you MUST track visited nodes or you'll have infinite recursion/loops.",
+      "Forgetting to backtrack: In problems requiring path tracking or state restoration, must undo changes when backtracking (remove from path, reset state).",
+      "Modifying visited set incorrectly: In some problems, need to remove from visited after exploring (when you need multiple paths to same node).",
+      "Stack overflow: Very deep recursion can cause stack overflow. Use iterative DFS or increase stack size for deep graphs."
     ],
     "resources": [
       {
@@ -142,26 +202,38 @@
     "name": "Breadth-First Search (BFS)",
     "description": "Explore all neighbors at present depth before moving to nodes at next depth level, ideal for shortest paths.",
     "category": "Graph",
-    "whatItIs": "BFS explores a graph level by level using a queue.",
-    "whenToUse": "Use BFS when: Finding shortest path in unweighted graph, Level-order traversal, Finding minimum steps",
-    "whyItWorks": "The queue ensures FIFO processing, Level-by-level exploration guarantees shortest path",
+    "whatItIs": "Breadth-First Search (BFS) is a graph traversal algorithm that explores vertices level by level, visiting all neighbors at the current depth before moving deeper. It uses a queue (FIFO - First In, First Out) to manage which vertices to visit next. Starting from a source vertex, BFS visits all its direct neighbors first (level 1), then all unvisited neighbors of those neighbors (level 2), and so on. This layer-by-layer expansion is like ripples spreading from a stone dropped in water. BFS guarantees finding the shortest path in unweighted graphs because it explores paths in increasing order of length - when you first reach a node, you've found the shortest path to it. This property makes BFS the go-to algorithm for shortest path problems in unweighted graphs and for finding minimum steps/moves/levels in various problems.",
+    "whenToUse": "Use BFS when: (1) Finding shortest path in unweighted graphs (THE primary use case - BFS guarantees shortest path). (2) Level-order traversal of trees (process nodes level by level). (3) Finding minimum number of steps, moves, or operations. (4) Finding nodes within k distance/steps from source. (5) Testing bipartiteness of a graph (2-coloring). (6) Finding all nodes in a connected component. (7) Solving puzzle/maze problems asking for minimum moves. (8) Broadcasting/spreading problems (rotting oranges, spreading info). (9) Building level-based structures or ensuring layer-wise processing. (10) When solution is likely close to root (opposite of DFS use case). Note: BFS is NOT suitable for weighted graphs - use Dijkstra instead.",
+    "whyItWorks": "BFS works because the queue's FIFO property ensures vertices are visited in order of their distance from the source. When you dequeue a vertex at distance d, you enqueue its unvisited neighbors at distance d+1. This systematic layer-by-layer expansion means when you first discover a vertex, you've found the shortest path to it (in unweighted graphs). No shorter path exists because any other path would require going through at least as many levels. The visited set prevents revisiting nodes and ensures each node is processed once, giving O(V+E) time complexity.",
     "commonUseCases": [
-      "Shortest path in maze",
-      "Level order traversal",
-      "Rotting oranges",
-      "Word ladder"
+      "Shortest path in maze/grid",
+      "Binary tree level order traversal",
+      "Rotting oranges - multi-source BFS",
+      "Word ladder - minimum transformations",
+      "Minimum knight moves on chessboard",
+      "Open the lock - minimum turns",
+      "01 Matrix - distance to nearest 0",
+      "Walls and gates - multi-source distance",
+      "Snakes and ladders - minimum moves"
     ],
-    "timeComplexity": "O(V + E)",
-    "spaceComplexity": "O(V)",
-    "pseudoCode": "Queue-based level-order traversal...",
+    "timeComplexity": "O(V + E) where V=vertices, E=edges",
+    "spaceComplexity": "O(V) for queue and visited set",
+    "pseudoCode": "STANDARD BFS:\nfunction bfs(start, graph):\n    queue = [start]\n    visited = set([start])\n    \n    while queue:\n        node = queue.popleft()\n        process(node)\n        \n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)\n\nBFS WITH DISTANCE/LEVEL:\nfunction bfsDistance(start):\n    queue = [(start, 0)]  // (node, distance)\n    visited = set([start])\n    \n    while queue:\n        node, dist = queue.popleft()\n        \n        if isTarget(node):\n            return dist\n        \n        for neighbor in neighbors(node):\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append((neighbor, dist + 1))\n    \n    return -1\n\nMULTI-SOURCE BFS:\nfunction multiSourceBFS(sources):\n    queue = sources  // Start with all sources\n    visited = set(sources)\n    level = 0\n    \n    while queue:\n        size = len(queue)\n        for _ in range(size):\n            node = queue.popleft()\n            process(node, level)\n            \n            for neighbor in neighbors(node):\n                if neighbor not in visited:\n                    visited.add(neighbor)\n                    queue.append(neighbor)\n        level += 1",
     "triggerSignals": [
-      "Shortest path unweighted",
-      "Minimum steps/moves",
-      "Level-order traversal"
+      "Find 'shortest path' in unweighted graph",
+      "'Minimum steps', 'minimum moves', 'fewest operations'",
+      "'Level-order traversal' for trees",
+      "'Nearest', 'closest', or 'minimum distance' in grid/graph",
+      "Problems with 'spreading' or 'propagation'",
+      "'All nodes at distance k' from source",
+      "Grid problems asking for shortest path"
     ],
     "commonMistakes": [
-      "Using DFS for shortest path",
-      "Not tracking visited before enqueueing"
+      "Using DFS for shortest path: DFS doesn't guarantee shortest path. The first path found by DFS may not be shortest. Always use BFS for unweighted shortest path.",
+      "Not marking visited before enqueue: Must add to visited WHEN ENQUEUEING, not when dequeuing. Otherwise, nodes get added to queue multiple times, causing O(V²) complexity.",
+      "Forgetting level tracking: When you need level/distance, either use tuple (node, dist) or process queue in chunks (all nodes at current level before next).",
+      "Wrong queue implementation: Using deque.pop() instead of popleft(), or list.pop(0) which is O(n). Use collections.deque for O(1) operations.",
+      "Not handling multi-source correctly: For problems starting from multiple sources (like rotting oranges), add ALL sources to queue initially with same level."
     ],
     "resources": [
       {
@@ -176,27 +248,49 @@
     "name": "Dynamic Programming",
     "description": "Break down problems into overlapping subproblems and store solutions to avoid redundant computation.",
     "category": "DynamicProgramming",
-    "whatItIs": "DP solves problems by breaking them into smaller overlapping subproblems and storing results.",
-    "whenToUse": "Use DP when: Problem has optimal substructure, Overlapping subproblems, Count ways or find min/max",
-    "whyItWorks": "Storing solutions eliminates redundant computation",
+    "whatItIs": "Dynamic Programming (DP) is a powerful optimization technique that solves complex problems by breaking them down into simpler overlapping subproblems, solving each subproblem once, and storing their solutions to avoid redundant computation (memoization). DP is applicable when a problem has two key properties: (1) Optimal Substructure - the optimal solution can be constructed from optimal solutions of subproblems, and (2) Overlapping Subproblems - the same subproblems are solved multiple times in a naive recursive approach. DP can be implemented using top-down (recursion + memoization) or bottom-up (iterative tabulation) approaches. Top-down starts with the original problem and recursively breaks it down, caching results. Bottom-up builds solutions iteratively from base cases. DP transforms exponential time algorithms into polynomial time by eliminating redundant calculations, making previously intractable problems solvable.",
+    "whenToUse": "Use DP when: (1) Problem asks to count number of ways to do something (count all possibilities). (2) Find minimum or maximum value/cost (optimization). (3) Making sequential decisions where each decision depends on previous decisions. (4) Problem can be broken into overlapping subproblems. (5) Naive recursion leads to repeated calculations (fibonacci is classic example). (6) Problem involves finding optimal path/sequence/subset. (7) Keywords like 'maximize profit', 'minimize cost', 'longest/shortest', 'count ways'. (8) Problems involving choices at each step (take/skip, buy/sell). (9) String matching or subsequence problems. (10) Game theory problems with optimal play. The key is identifying the state (what parameters define a subproblem) and the recurrence relation (how subproblems relate).",
+    "whyItWorks": "DP works by exploiting the overlap between subproblems. In naive recursion, the same subproblem might be solved thousands or millions of times. By storing (memoizing) the result the first time we solve it, all subsequent encounters return the cached value in O(1) time. This transforms the time complexity dramatically - for example, naive recursive Fibonacci is O(2^n), but with memoization it becomes O(n). The space-time tradeoff (using extra memory to store results) yields exponential speedup. DP essentially organizes computation to ensure each unique subproblem is solved exactly once.",
     "commonUseCases": [
-      "Fibonacci",
-      "Climbing stairs",
-      "House robber",
-      "Knapsack",
-      "Coin change"
+      "Fibonacci sequence - Classic overlapping subproblems",
+      "Climbing stairs - Count ways with memoization",
+      "House robber - Max sum with constraints",
+      "Coin change - Minimum coins or count ways",
+      "Knapsack problem - 0/1 and unbounded variants",
+      "Longest Common Subsequence (LCS)",
+      "Edit distance - Minimum edits to transform strings",
+      "Longest Increasing Subsequence (LIS)",
+      "Matrix chain multiplication",
+      "Rod cutting problem",
+      "Partition equal subset sum",
+      "Word break problem",
+      "Decode ways"
     ],
-    "timeComplexity": "Varies",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "State definition, base cases, recurrence relation...",
+    "timeComplexity": "Varies - often O(n*m) for 2D DP, O(n^2) for many problems",
+    "spaceComplexity": "O(n) to O(n*m) depending on dimensions, can often optimize to O(1) or O(n)",
+    "pseudoCode": "TOP-DOWN (RECURSION + MEMOIZATION):\nfunction fibonacci(n, memo = {}):\n    if n in memo:\n        return memo[n]\n    if n <= 1:\n        return n\n    \n    memo[n] = fibonacci(n-1, memo) + fibonacci(n-2, memo)\n    return memo[n]\n\nBOTTOM-UP (TABULATION):\nfunction coinChange(coins, amount):\n    dp = array of size (amount+1) filled with infinity\n    dp[0] = 0  // Base case\n    \n    for i in 1 to amount:\n        for coin in coins:\n            if coin <= i:\n                dp[i] = min(dp[i], dp[i-coin] + 1)\n    \n    return dp[amount] if dp[amount] != infinity else -1\n\n2D DP (KNAPSACK):\nfunction knapsack(weights, values, capacity):\n    n = len(weights)\n    dp = 2D array[n+1][capacity+1]\n    \n    for i in 0 to n:\n        for w in 0 to capacity:\n            if i == 0 or w == 0:\n                dp[i][w] = 0\n            elif weights[i-1] <= w:\n                dp[i][w] = max(\n                    values[i-1] + dp[i-1][w-weights[i-1]],\n                    dp[i-1][w]\n                )\n            else:\n                dp[i][w] = dp[i-1][w]\n    \n    return dp[n][capacity]\n\nSTANDARD DP STEPS:\n1. Define state (what parameters define subproblem)\n2. Identify base cases (smallest subproblems)\n3. Write recurrence relation (how to combine subproblems)\n4. Determine computation order (topological order of dependencies)\n5. Optimize space if possible (often can reduce dimensions)",
     "triggerSignals": [
-      "Count number of ways",
-      "Minimum/maximum value",
-      "Make choices at each step"
+      "'Count number of ways' to do something",
+      "'Minimum/maximum cost/value/length'",
+      "'Longest/shortest sequence/substring'",
+      "Making choices at each step (take/skip pattern)",
+      "Problem has recursive structure with overlap",
+      "'Optimize', 'maximize profit', 'minimize cost'",
+      "String manipulation (subsequence, matching, transform)",
+      "Partition or subset sum problems",
+      "Path counting in grid/matrix",
+      "Game theory with optimal strategy"
     ],
     "commonMistakes": [
-      "Wrong base case",
-      "Incorrect recurrence relation"
+      "Wrong base case: Base cases are the foundation - if these are wrong, entire DP solution fails. Carefully identify simplest cases (empty string, 0 items, etc.).",
+      "Incorrect recurrence relation: The heart of DP. Must correctly express how to build solution from subproblems. Draw examples and verify manually.",
+      "Wrong state definition: State must capture all information needed to solve subproblem. Missing parameters leads to wrong results.",
+      "Array index out of bounds: Off-by-one errors in DP table dimensions or access are extremely common. Be careful with 0-indexing vs 1-indexing.",
+      "Not handling edge cases: Empty inputs, size 1 inputs, negative numbers, zero values all need special consideration.",
+      "Forgetting to optimize space: Many 2D DP problems can be solved with O(n) space instead of O(n^2) by using rolling array or two rows.",
+      "Using wrong loop order: In bottom-up DP, must compute subproblems before problems that depend on them. Wrong order gives incorrect results.",
+      "Memoization but modifying cached values: Once memoized, result shouldn't change. Modifying cached results causes bugs.",
+      "Not considering all transitions: In recurrence, must consider all possible choices/transitions from current state."
     ],
     "resources": [
       {
