@@ -18,7 +18,8 @@ export const patternApi = {
   },
 
   getById: async (id: string) => {
-    const pattern = patternsData.find((p: any) => p.id === id) as PatternResponse | undefined;
+    const all = patternsData as PatternResponse[];
+    const pattern = all.find((p) => p.id === id);
     if (!pattern) {
       throw new Error(`Pattern with id ${id} not found`);
     }
@@ -26,8 +27,8 @@ export const patternApi = {
   },
 
   getByCategory: async (category: string) => {
-    const patterns = patternsData.filter((p: any) => p.category === category) as PatternResponse[];
-    return Promise.resolve(patterns);
+    const all = patternsData as PatternResponse[];
+    return Promise.resolve(all.filter((p) => p.category === category));
   },
 };
 
@@ -38,24 +39,26 @@ export const dataStructureApi = {
   },
 
   getById: async (id: string) => {
-    const ds = dataStructuresData.find((d: any) => d.id === id) as DataStructureResponse | undefined;
+    const all = dataStructuresData as DataStructureResponse[];
+    const ds = all.find((d) => d.id === id);
     if (!ds) {
       throw new Error(`Data structure with id ${id} not found`);
     }
     return Promise.resolve(ds);
   },
 
-  getByCategory: async (category: number) => {
+  getByCategory: async (_category: number) => {
     // Note: Category filtering might need adjustment based on your actual category structure
     return Promise.resolve(dataStructuresData as DataStructureResponse[]);
   },
 
   search: async (query: string) => {
     const lowerQuery = query.toLowerCase();
-    const results = dataStructuresData.filter((d: any) =>
+    const all = dataStructuresData as DataStructureResponse[];
+    const results = all.filter((d) =>
       d.name.toLowerCase().includes(lowerQuery) ||
       d.description.toLowerCase().includes(lowerQuery)
-    ) as DataStructureResponse[];
+    );
     return Promise.resolve(results);
   },
 };
