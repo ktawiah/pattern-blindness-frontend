@@ -4,35 +4,92 @@
     "name": "Array",
     "description": "Contiguous block of memory storing elements of the same type",
     "category": "Linear",
-    "whatItIs": "An array stores elements in contiguous memory locations",
+    "whatItIs": "An array is a fundamental data structure that stores elements in a contiguous block of memory, where each element is of the same type and can be accessed in O(1) time using its index. Arrays are zero-indexed in most languages (first element at index 0). The contiguous memory layout provides excellent cache locality - when you access arr[i], nearby elements arr[i+1], arr[i+2] are likely already in CPU cache, making sequential access extremely fast. Arrays have fixed size in many languages (static arrays), though some languages provide dynamic arrays (Python lists, Java ArrayList, C++ vector) that automatically resize. The key advantage is constant-time random access - you can jump directly to any element via index calculation: address = base_address + (index * element_size). However, resizing requires creating new array and copying all elements O(n). Insertion/deletion in middle requires shifting elements O(n). Arrays are the building block for many other data structures (stacks, queues, heaps, hash tables) and are essential for algorithm problems involving sequences, matrices, and collections",
     "operations": [
       {
         "name": "Access by index",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Address calculation: base + (index * size). No iteration needed."
+      },
+      {
+        "name": "Search (unsorted)",
+        "timeComplexity": "O(n)",
+        "description": "Must check each element until found or end reached."
+      },
+      {
+        "name": "Search (sorted)",
+        "timeComplexity": "O(log n)",
+        "description": "Can use binary search to halve search space each step."
+      },
+      {
+        "name": "Insert at end",
+        "timeComplexity": "O(1) amortized",
+        "description": "Usually constant, occasionally O(n) resize and copy."
       },
       {
         "name": "Insert at position",
-        "timeComplexity": "O(n)"
+        "timeComplexity": "O(n)",
+        "description": "All elements from index to end must shift right."
       },
       {
         "name": "Delete at position",
-        "timeComplexity": "O(n)"
+        "timeComplexity": "O(n)",
+        "description": "All elements after deleted index must shift left."
       }
     ],
-    "whenToUse": "Need fast random access by index, Data size is known",
-    "tradeoffs": "Pros: O(1) access, Cache friendly. Cons: Fixed size, Expensive insertion/deletion",
+    "whenToUse": "Use arrays when:\n1. Need fast O(1) random access by index\n2. Size is known or can be estimated\n3. Elements need to be stored sequentially in memory\n4. Frequent access/update by index, rare insertions/deletions\n5. Implementing other data structures\n6. Matrix representations\n7. Memory overhead must be minimal\n8. Need to sort or binary search frequently\n9. Building blocks for DP tables, prefix sums, sliding windows",
+    "tradeoffs": "Advantages:\n  1. O(1) random access\n  2. Cache-friendly contiguous memory, 5-10x faster sequential access vs pointer-based\n  3. Minimal memory overhead\n  4. Simple and universal\n\nDisadvantages:\n  1. Fixed size or resize overhead\n  2. Expensive O(n) insertion/deletion\n  3. Memory waste in dynamic arrays\n  4. Contiguous allocation may fail for large arrays",
     "commonUseCases": [
-      "Storing collections",
-      "Matrices",
-      "Hash table backing"
+      "Two Sum - Hash table with array",
+      "Best Time to Buy and Sell Stock",
+      "Contains Duplicate",
+      "Product of Array Except Self",
+      "Maximum Subarray - Kadane's algorithm",
+      "Rotate Array",
+      "Move Zeroes",
+      "3Sum",
+      "Container With Most Water",
+      "Matrix operations",
+      "DP tables",
+      "Prefix sums"
     ],
-    "implementation": "Contiguous memory, index-based access...",
+    "implementation": "// Static array\nint arr[10];\narr[0] = 42;\n\n// Dynamic array\nArrayList<Integer> list = new ArrayList<>();\nlist.add(5);  // O(1) amortized\nint val = list.get(0);  // O(1)\nlist.set(0, 10);  // O(1)\nlist.remove(0);  // O(n)\n\n// Python list\narr = [1, 2, 3]\narr.append(4)  # O(1)\nval = arr[0]  # O(1)\narr.insert(1, 5)  # O(n)\n\n// Reverse in-place\nfor i in 0 to n/2:\n    swap(arr[i], arr[n-1-i])\n\n// Prefix sum\nprefix[0] = arr[0]\nfor i in 1 to n:\n    prefix[i] = prefix[i-1] + arr[i]",
+    "commonMistakes": [
+      "Off-by-one errors: Arrays are 0-indexed. arr[n] is out of bounds! Use i < n, not i <= n.",
+      "Not checking bounds: Accessing arr[i] without verifying 0 <= i < n causes crashes.",
+      "Modifying while iterating: Can't safely modify array in foreach loop. Use index-based loop.",
+      "Forgetting pass by reference: Arrays passed to functions can be modified. Changes persist.",
+      "Integer overflow in mid: mid = (left + right) / 2 overflows. Use mid = left + (right - left) / 2.",
+      "Not considering memory: Array of10^6 integers = 4MB. Array of 10^9 = 4GB.",
+      "Assuming capacity: list.size() gives element count, not allocated capacity."
+    ],
     "resources": [
       {
         "title": "Arrays 101",
         "url": "https://leetcode.com/",
         "type": "course"
+      },
+      {
+        "title": "Array Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Array Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Array Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440002",
+      "660e8400-e29b-41d4-a716-446655440003",
+      "660e8400-e29b-41d4-a716-446655440004",
+      "660e8400-e29b-41d4-a716-446655440005"
     ]
   },
   {
@@ -40,35 +97,83 @@
     "name": "Linked List",
     "description": "Linear collection where each element contains data and reference to next node",
     "category": "Linear",
-    "whatItIs": "Elements stored with pointers to next node, non-contiguous memory",
+    "whatItIs": "A Linked List stores elements in nodes scattered in memory, where each node contains data and pointer to next node. Unlike arrays with contiguous memory, nodes can be anywhere in heap, connected by pointers. Variations: Singly Linked (next pointer), Doubly Linked (next + prev for bidirectional traversal), Circular (last points to first). Key advantage: O(1) insertion/deletion when you have node reference - just update pointers, no shifting. Trade O(1) random access for dynamic size - accessing index i requires traversing i nodes. Extra 8-16 bytes per node for pointers and poor cache locality make linked lists slower than arrays for sequential access",
     "operations": [
       {
         "name": "Access by index",
-        "timeComplexity": "O(n)"
+        "timeComplexity": "O(n)",
+        "description": "Must traverse from head"
+      },
+      {
+        "name": "Search",
+        "timeComplexity": "O(n)",
+        "description": "Linear scan"
       },
       {
         "name": "Insert at head",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "newNode.next = head; head = newNode"
       },
       {
         "name": "Insert after node",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "newNode.next = node.next; node.next = newNode"
+      },
+      {
+        "name": "Delete node",
+        "timeComplexity": "O(n)",
+        "description": "Need prev: prev.next = node.next"
       }
     ],
-    "whenToUse": "Frequent insertions/deletions, No need for random access",
-    "tradeoffs": "Pros: O(1) insertion/deletion with reference, Dynamic size. Cons: O(n) access, Extra memory",
+    "whenToUse": "Use when:\n1. Frequent insertions/deletions especially at head\n2. Size unknown and changes frequently\n3. No random access needed\n4. Implementing stacks, queues, adjacency lists\n5. LRU cache (doubly linked + hash map)\n6. Undo functionality\n7. Memory fragmentation concern",
+    "tradeoffs": "Advantages:\n  1. O(1) insertion/deletion with node reference\n  2. Dynamic size\n  3. No resize overhead\n  4. Works in fragmented memory\n\nDisadvantages:\n  1. O(n) access by index\n  2. Extra 8-16 bytes overhead per node\n  3. Poor cache locality (5-10x slower sequential vs arrays)\n  4. No binary search",
     "commonUseCases": [
+      "Reverse Linked List",
+      "Linked List Cycle - Floyd's algorithm",
+      "Merge Two Sorted Lists",
+      "Remove Nth From End",
       "LRU Cache",
-      "Undo functionality",
-      "Music playlist"
+      "Add Two Numbers",
+      "Palindrome Linked List",
+      "Intersection of Two Lists",
+      "Copy List with Random Pointer",
+      "Flatten Multilevel List"
     ],
-    "implementation": "Node with data and next pointer...",
+    "implementation": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nclass LinkedList:\n    def __init__(self):\n        self.head = None\n    \n    def insertHead(self, data):\n        newNode = Node(data)\n        newNode.next = self.head\n        self.head = newNode\n    \n    def delete(self, value):\n        if self.head.data == value:\n            self.head = self.head.next\n            return\n        current = self.head\n        while current.next:\n            if current.next.data == value:\n                current.next = current.next.next\n                return\n            current = current.next\n    \n    def reverse(self):\n        prev = None\n        current = self.head\n        while current:\n            next = current.next\n            current.next = prev\n            prev = current\n            current = next\n        self.head = prev",
+    "commonMistakes": [
+      "Losing head reference during traversal - use temp pointer",
+      "Null pointer dereferencing - always check node != null",
+      "Wrong pointer order in deletion - update prev.next before losing reference",
+      "Not handling edge cases: empty list, single node, deleting head",
+      "Circular list infinite loops - use Floyd's cycle detection",
+      "Wrong reverse order - save next first: next=cur.next; cur.next=prev; prev=cur; cur=next"
+    ],
     "resources": [
       {
         "title": "Linked List",
         "url": "https://leetcode.com/",
         "type": "course"
+      },
+      {
+        "title": "Linked List Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Linked List Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Linked List Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440001",
+      "660e8400-e29b-41d4-a716-446655440003",
+      "660e8400-e29b-41d4-a716-446655440004"
     ]
   },
   {
@@ -76,35 +181,78 @@
     "name": "Stack",
     "description": "LIFO (Last-In-First-Out) collection",
     "category": "Linear",
-    "whatItIs": "Elements added and removed from the same end (top)",
+    "whatItIs": "A Stack follows Last-In-First-Out (LIFO) - most recently added element is first removed, like stacked plates. Supports Push (add to top), Pop (remove from top), Peek (view top) - all O(1) . Implemented with arrays (better cache locality) or linked lists. Fundamental in CS: function calls use call stack; expression evaluation uses operator stack; DFS uses stack (explicit or recursive). Many problems involving matching, backtracking, or 'most recent' relationships are solved with stacks. Restricted interface (only access top) prevents bugs and clarifies code",
     "operations": [
       {
         "name": "Push",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Add to top: arr[++top] = x"
       },
       {
         "name": "Pop",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Remove from top: return arr[top--]"
       },
       {
         "name": "Peek",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "View top: arr[top]"
+      },
+      {
+        "name": "isEmpty",
+        "timeComplexity": "O(1)",
+        "description": "Check top == -1"
       }
     ],
-    "whenToUse": "LIFO ordering, Parentheses validation, DFS traversal",
-    "tradeoffs": "Pros: O(1) ops, Perfect for LIFO. Cons: No random access, Limited interface",
+    "whenToUse": "Use when:\n1. Need LIFO - most recent first\n2. Matching problems: parentheses, brackets, tags\n3. Undo/redo\n4. DFS traversal\n5. Expression evaluation\n6. Backtracking (maze, N-queens)\n7. Function call management\n8. Monotonic stack problems",
+    "tradeoffs": "Advantages:\n  1. All ops O(1)\n  2. Simple and intuitive\n  3. Perfect for LIFO\n  4. Memory efficient\n\nDisadvantages:\n  1. No random access to middle\n  2. Limited interface - only top\n  3. Fixed size risk (array)\n  4. Potential stack overflow from deep recursion",
     "commonUseCases": [
-      "Valid parentheses",
-      "Undo/Redo",
-      "Function call stack"
+      "Valid Parentheses",
+      "Min Stack",
+      "Evaluate Reverse Polish Notation",
+      "Daily Temperatures",
+      "Largest Rectangle in Histogram",
+      "Decode String",
+      "Basic Calculator",
+      "Asteroid Collision",
+      "Next Greater Element",
+      "DFS traversal"
     ],
-    "implementation": "Array or linked list with top pointer...",
+    "implementation": "# Python list as stack\nstack = []\nstack.append(5)  # push\nval = stack.pop()  # pop\ntop = stack[-1]  # peek\n\nclass Stack:\n    def __init__(self):\n        self.items = []\n    \n    def push(self, x):\n        self.items.append(x)\n    \n    def pop(self):\n        if not self.isEmpty():\n            return self.items.pop()\n    \n    def peek(self):\n        if not self.isEmpty():\n            return self.items[-1]\n    \n    def isEmpty(self):\n        return len(self.items) == 0",
+    "commonMistakes": [
+      "Pop/peek on empty stack - always check isEmpty() first",
+      "Forgetting to pop after processing top element",
+      "Array stack without bounds check causes overflow",
+      "Python stack.pop() on empty raises IndexError",
+      "Stack overflow from deep recursion - use explicit stack for deep graphs",
+      "Not handling null returns in some implementations"
+    ],
     "resources": [
       {
         "title": "Stack",
         "url": "https://leetcode.com/",
         "type": "practice"
+      },
+      {
+        "title": "Stack Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Stack Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Stack Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440001",
+      "660e8400-e29b-41d4-a716-446655440004",
+      "660e8400-e29b-41d4-a716-446655440011"
     ]
   },
   {
@@ -112,35 +260,78 @@
     "name": "Queue",
     "description": "FIFO (First-In-First-Out) collection",
     "category": "Linear",
-    "whatItIs": "Elements added at back, removed from front",
+    "whatItIs": "A Queue follows First-In-First-Out (FIFO) - first element added is first removed, like a line of people. Supports Enqueue (add to back), Dequeue (remove from front), Peek (view front) - all O(1) . Implementations: Circular array (space-efficient, front/rear pointers wrap), Linked list (dynamic size, pointer overhead), Two stacks (can simulate queue). Essential for BFS (level-order), task scheduling (FIFO), producer-consumer, caching (FIFO eviction). Variations: priority queue (remove by priority), deque (add/remove both ends), blocking queue (thread-safe)",
     "operations": [
       {
         "name": "Enqueue",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Add to rear: arr[rear]= x; rear=(rear+1)%cap"
       },
       {
         "name": "Dequeue",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Remove from front: val=arr[front]; front=(front+1)%cap"
       },
       {
         "name": "Peek",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "View front: arr[front]"
+      },
+      {
+        "name": "isEmpty",
+        "timeComplexity": "O(1)",
+        "description": "Check size == 0"
       }
     ],
-    "whenToUse": "FIFO ordering, BFS traversal, Task scheduling",
-    "tradeoffs": "Pros: O(1) ops, FIFO natural. Cons: No random access",
+    "whenToUse": "Use when:\n1. Need FIFO - first in first out\n2. BFS traversal (shortest path)\n3. Level-order tree traversal\n4. Task scheduling - process in order\n5. Producer-consumer\n6. Buffering\n7. FIFO caching\n8. Sliding window (use deque)\n9. Message queues\n10. Simulations",
+    "tradeoffs": "Advantages:\n  1. All ops O(1)\n  2. FIFO natural fit\n  3. Simple\n  4. Fair ordering\n\nDisadvantages:\n  1. No random access to middle\n  2. Limited interface\n  3. Fixed size (array)\n  4. Wasted space (non-circular)\n  5. Poor cache locality (linked)",
     "commonUseCases": [
-      "BFS traversal",
-      "Level-order tree traversal",
-      "Task scheduling"
+      "Binary Tree Level Order",
+      "Rotting Oranges",
+      "Number of Islands - BFS",
+      "Open the Lock",
+      "Sliding Window Maximum",
+      "Design Circular Queue",
+      "Perfect Squares",
+      "Shortest Path in Binary Matrix",
+      "Snake Game",
+      "Moving Average"
     ],
-    "implementation": "Circular array or linked list...",
+    "implementation": "from collections import deque\n\n# Python deque\nqueue = deque()\nqueue.append(5)  # enqueue\nval = queue.popleft()  # dequeue O(1)\nfront = queue[0]  # peek\n\nclass CircularQueue:\n    def __init__(self, k):\n        self.arr = [0] * k\n        self.front = 0\n        self.rear = -1\n        self.size = 0\n        self.capacity = k\n    \n    def enqueue(self, x):\n        if self.size == self.capacity:\n            return False\n        self.rear = (self.rear + 1) % self.capacity\n        self.arr[self.rear] = x\n        self.size += 1\n        return True",
+    "commonMistakes": [
+      "Dequeue on empty - always check isEmpty() first",
+      "Not using circular array - linear wastes space at left. Must use modulo: (rear+1)%capacity",
+      "Confusing full vs empty - front==rear can mean both. Track size separately",
+      "Forgetting to update tail when dequeuing last element",
+      "Using Python list.pop(0) which is O(n) - use collections.deque.popleft() for O(1)",
+      "BFS without visited set - enqueueing same node multiple times"
+    ],
     "resources": [
       {
         "title": "Queue",
         "url": "https://leetcode.com/",
         "type": "practice"
+      },
+      {
+        "title": "Queue Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Queue Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Queue Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440003",
+      "660e8400-e29b-41d4-a716-446655440011",
+      "660e8400-e29b-41d4-a716-446655440008"
     ]
   },
   {
@@ -148,35 +339,70 @@
     "name": "Hash Table",
     "description": "Key-value store with average O(1) lookup",
     "category": "HashBased",
-    "whatItIs": "Maps keys to values using hash function for indexing",
+    "whatItIs": "A Hash Table (Hash Map, Dictionary) maps keys to values using hash function to compute array index: hash(key) % array_size. Collision handling: Chaining (linked list at bucket) or Open Addressing (probe for empty slot). Load factor = n/capacity determines performance - rehash when exceeds threshold (typically 0.75). Provides average O(1) insert/delete/lookup, essential for fast lookups, counting frequencies, caching, deduplication. Trade-offs: no ordering (can't iterate sorted), worst-case O(n) with many collisions, space overhead",
     "operations": [
       {
         "name": "Insert",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) avg, O(n) worst",
+        "description": "Hash key, find bucket, add entry. Rehash if load high"
       },
       {
         "name": "Delete",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) avg, O(n) worst",
+        "description": "Hash key, find bucket, remove entry"
       },
       {
         "name": "Lookup",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) avg, O(n) worst",
+        "description": "Hash key, check bucket, return value or null"
+      },
+      {
+        "name": "Contains",
+        "timeComplexity": "O(1) avg",
+        "description": "Check if key exists"
       }
     ],
-    "whenToUse": "Fast key-based lookup, Counting frequencies, Caching",
-    "tradeoffs": "Pros: O(1) average, Flexible keys. Cons: No ordering, Worst O(n)",
+    "whenToUse": "Use when:\n1. Fast O(1) key-based lookup/insert/delete\n2. Counting frequencies\n3. Detecting duplicates\n4. Caching results\n5. Implementing sets\n6. Grouping related items\n7. Mapping relationships\n8. Don't need sorted order",
+    "tradeoffs": "Advantages:\n  1. O(1) average operations\n  2. Flexible key types\n  3. Natural key-value associations\n\nDisadvantages:\n  1. No ordering of keys\n  2. Worst-case O(n) with poor hash function\n  3. Space overhead (load factor < 1)\n  4. Cannot efficiently find min/max",
     "commonUseCases": [
-      "Two Sum",
-      "Frequency counting",
-      "Caching"
+      "Two Sum - store complement",
+      "Group Anagrams",
+      "Longest Consecutive Sequence",
+      "Subarray Sum Equals K",
+      "Top K Frequent Elements",
+      "LRU Cache - hash + doubly linked list",
+      "Valid Anagram",
+      "First Unique Character",
+      "Isomorphic Strings"
     ],
-    "implementation": "Hash function with collision handling...",
+    "implementation": "# Python dictionary\nmap = {}\nmap['key'] = 'value'  # O(1) insert\nval = map.get('key')  # O(1) lookup\nif 'key' in map:  # O(1) contains\n    del map['key']  # O(1) delete\n\n# Frequency pattern\nfreq = {}\nfor item in array:\n    freq[item] = freq.get(item, 0) + 1\n\n# Java HashMap\nHashMap<String, Integer> map = new HashMap<>();\nmap.put(\"key\", 42);\nint val = map.get(\"key\");\nboolean exists = map.containsKey(\"key\");",
+    "commonMistakes": [
+      "Using mutable objects as keys - keys must be immutable (strings, numbers, tuples)",
+      "Not handling key not found - use .get(key, default) or check if key in map",
+      "Assuming iteration order - hash tables don't maintain insertion order (except Python 3.7+)",
+      "Poor hash function - leads to collisions and O(n) performance",
+      "Modifying keys after insertion - changes hash, can't find entry"
+    ],
     "resources": [
       {
         "title": "Hash Table",
         "url": "https://leetcode.com/",
         "type": "course"
+      },
+      {
+        "title": "Hash Table Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Hash Table Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440006",
+      "660e8400-e29b-41d4-a716-446655440001"
     ]
   },
   {
@@ -184,35 +410,69 @@
     "name": "Hash Set",
     "description": "Collection of unique elements with O(1) membership testing",
     "category": "HashBased",
-    "whatItIs": "Set maintaining unique elements using hashing",
+    "whatItIs": "A Hash Set stores unique elements using hashing - essentially a hash table without values, only keys. Uses hash function to map elements to array indices for O(1) operations. Automatically handles duplicates - adding existing element does nothing. Load factor and rehashing similar to hash tables. Perfect for: fast membership testing, detecting duplicates, maintaining unique collections. Trade-offs: no ordering, no index access, space overhead from load factor",
     "operations": [
       {
         "name": "Add",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) avg",
+        "description": "Hash element, add to bucket if not exists"
       },
       {
         "name": "Remove",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) avg",
+        "description": "Hash element, remove from bucket"
       },
       {
         "name": "Contains",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) avg",
+        "description": "Hash element, check bucket"
+      },
+      {
+        "name": "Size",
+        "timeComplexity": "O(1)",
+        "description": "Return count of elements"
       }
     ],
-    "whenToUse": "Unique elements, Fast membership testing, Detecting duplicates",
-    "tradeoffs": "Pros: O(1) membership, Automatic dedup. Cons: No ordering",
+    "whenToUse": "Use when:\n1. Fast O(1) membership testing needed\n2. Detecting duplicates\n3. Maintaining unique elements\n4. Visited tracking in graph/tree traversal\n5. Finding intersections/unions of collections\n6. Deduplication\n7. Don't need ordering or indexing",
+    "tradeoffs": "Advantages:\n  1. O(1) membership testing\n  2. Automatic deduplication\n  3. Simple interface\n\nDisadvantages:\n  1. No ordering of elements\n  2. Cannot access by index\n  3. No duplicates allowed (sometimes this is disadvantage)\n  4. Space overhead from load factor",
     "commonUseCases": [
       "Contains Duplicate",
-      "Longest consecutive sequence",
-      "Visited tracking"
+      "Longest Consecutive Sequence",
+      "Intersection of Two Arrays",
+      "Happy Number",
+      "Single Number variations",
+      "Visited tracking in BFS/DFS",
+      "Valid Sudoku - check duplicates",
+      "Jewels and Stones",
+      "Unique Email Addresses"
     ],
-    "implementation": "Hash table without values...",
+    "implementation": "# Python set\nmy_set = set()\nmy_set.add(5)  # O(1)\nmy_set.remove(5)  # O(1)\nif 5 in my_set:  # O(1) contains\n    pass\n\n# From list, auto-dedup\nnums = [1, 2, 2, 3]\nunique = set(nums)  # {1, 2, 3}\n\n# Set operations\na = {1, 2, 3}\nb = {2, 3, 4}\nunion = a | b  # {1, 2, 3, 4}\nintersect = a & b  # {2, 3}\ndiff = a - b  # {1}\n\n# Java HashSet\nHashSet<Integer> set = new HashSet<>();\nset.add(5);\nboolean exists = set.contains(5);",
+    "commonMistakes": [
+      "Using mutable objects - set elements must be immutable (hashable)",
+      "Trying to index set like list - sets have no index, no order",
+      "Not checking if element exists before removing - use discard() instead of remove() to avoid errors",
+      "Assuming iteration order - sets are unordered (except Python 3.7+ maintains insertion order)",
+      "Forgetting sets automatically dedupe - adding duplicate does nothing silently"
+    ],
     "resources": [
       {
         "title": "Set",
         "url": "https://leetcode.com/",
         "type": "practice"
+      },
+      {
+        "title": "Hash Set Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Hash Set Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440005"
     ]
   },
   {
@@ -220,35 +480,82 @@
     "name": "Binary Search Tree",
     "description": "Tree where left < parent < right",
     "category": "Tree",
-    "whatItIs": "BST maintains sorted property enabling efficient search",
+    "whatItIs": "A Binary Search Tree (BST) maintains sorted property: for each node, left subtree has smaller values, right has larger. Enables efficient O(log n) search in balanced trees by halving search space at each step. Operations follow sorted property: search goes left/right based on comparison, insert finds correct leaf position, delete has 3 cases (leaf, one child, two children). Inorder traversal yields sorted sequence. BST degenerates to linked list O(n) if data inserted in sorted order - use balanced variants (AVL, Red-Black) for guaranteed O(log n). Key for ordered data with frequent search/insert.",
     "operations": [
       {
         "name": "Search",
-        "timeComplexity": "O(h)*"
+        "timeComplexity": "O(h)",
+        "description": "h is height: O(log n) balanced, O(n) worst (skewed)"
       },
       {
         "name": "Insert",
-        "timeComplexity": "O(h)*"
+        "timeComplexity": "O(h)",
+        "description": "Find position following BST property"
       },
       {
         "name": "Delete",
-        "timeComplexity": "O(h)*"
+        "timeComplexity": "O(h)",
+        "description": "3 cases: leaf, one child, two children"
+      },
+      {
+        "name": "Min/Max",
+        "timeComplexity": "O(h)",
+        "description": "Leftmost/rightmost node"
+      },
+      {
+        "name": "Inorder",
+        "timeComplexity": "O(n)",
+        "description": "Visit all nodes in sorted order"
       }
     ],
-    "whenToUse": "Ordered data with search/insert, Finding predecessor/successor",
-    "tradeoffs": "Pros: Ordered, O(log n) when balanced. Cons: Can degenerate to O(n)",
+    "whenToUse": "Use when:\n1. Ordered data with frequent search/insert\n2. Finding predecessor/successor\n3. Range queries\n4. Maintaining sorted stream\n5. Need fast min/max access\n6. Implementing sets/maps with ordering\n7. Database indexing. Note: Use balanced BST (AVL, Red-Black) for guaranteed performance",
+    "tradeoffs": "Advantages:\n  1. O(log n) operations when balanced\n  2. Maintains order\n  3. Efficient range queries\n  4. Can find kth smallest\n\nDisadvantages:\n  1. Can degenerate to O(n) if unbalanced\n  2. More complex than hash table\n  3. Requires comparable keys\n  4. Extra pointer overhead",
     "commonUseCases": [
-      "Validate BST",
-      "Kth smallest element",
-      "LCA in BST"
+      "Validate Binary Search Tree",
+      "Kth Smallest Element in BST",
+      "Lowest Common Ancestor in BST",
+      "Convert Sorted Array to BST",
+      "Delete Node in BST",
+      "Range Sum of BST",
+      "Inorder Successor in BST",
+      "BST Iterator",
+      "Recover BST",
+      "Trim BST"
     ],
-    "implementation": "Nodes with left/right children, Recursive operations...",
+    "implementation": "class TreeNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n\nclass BST:\n    def __init__(self):\n        self.root = None\n    \n    def search(self, val):\n        node = self.root\n        while node:\n            if val == node.val:\n                return node\n            node = node.left if val < node.val else node.right\n        return None\n    \n    def insert(self, val):\n        if not self.root:\n            self.root = TreeNode(val)\n            return\n        node = self.root\n        while True:\n            if val < node.val:\n                if not node.left:\n                    node.left = TreeNode(val)\n                    return\n                node = node.left\n            else:\n                if not node.right:\n                    node.right = TreeNode(val)\n                    return\n                node = node.right\n    \n    def inorder(self, node):\n        if not node:\n            return []\n        return self.inorder(node.left) + [node.val] + self.inorder(node.right)",
+    "commonMistakes": [
+      "Not handling unbalanced trees - insert sorted data creates O(n) linked list. Use self-balancing BST.",
+      "Wrong deletion logic - must handle 3 cases: leaf (just remove), one child (replace with child), two children (replace with inorder successor)",
+      "Not maintaining BST property - after modifications, must ensure left < parent < right",
+      "Confusing BST with complete binary tree - BST is about values, not structure",
+      "Integer overflow in finding middle - use mid = left + (right - left) // 2"
+    ],
     "resources": [
       {
         "title": "BST",
         "url": "https://leetcode.com/",
         "type": "course"
+      },
+      {
+        "title": "Binary Search Tree Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Binary Search Tree Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Binary Search Tree Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440015",
+      "660e8400-e29b-41d4-a716-446655440008",
+      "660e8400-e29b-41d4-a716-446655440009"
     ]
   },
   {
@@ -256,35 +563,86 @@
     "name": "Heap",
     "description": "Complete binary tree maintaining min or max at root",
     "category": "Heap",
-    "whatItIs": "Heap maintains parent <= children (min) or >= children (max)",
+    "whatItIs": "A Heap is a complete binary tree where each parent node satisfies heap property: parent <= children (min-heap) or parent >= children (max-heap). Stored efficiently as array: parent at i, children at 2i+1, 2i+2. Provides O(1) access to min/max, O(log n) insert/delete via heapify (bubble up/down). Perfect for priority queues: highest priority always at root. Heapify builds heap from array in O(n). Common operations: insert (add to end, bubble up), extract (remove root, move last to root, bubble down), peek (return root). Used in: k-largest/smallest problems, merge k sorted lists, median finding, scheduling",
     "operations": [
       {
         "name": "Insert",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Add to end, bubble up to restore heap property"
       },
       {
-        "name": "Extract min/max",
-        "timeComplexity": "O(log n)"
+        "name": "Extract Min/Max",
+        "timeComplexity": "O(log n)",
+        "description": "Remove root, move last to root, bubble down"
       },
       {
         "name": "Peek",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Access root without removal"
+      },
+      {
+        "name": "Heapify",
+        "timeComplexity": "O(n)",
+        "description": "Build heap from array, start from last parent"
+      },
+      {
+        "name": "Delete",
+        "timeComplexity": "O(log n)",
+        "description": "Replace with last, bubble up/down"
       }
     ],
-    "whenToUse": "Quick access to min/max, Priority queue, K largest/smallest",
-    "tradeoffs": "Pros: O(1) access to extreme, O(log n) ops. Cons: Only one extreme, Not sorted",
+    "whenToUse": "Use when:\n1. Quick access to min/max element\n2. Priority queue implementation\n3. K largest/smallest problems\n4. Merge k sorted lists/streams\n5. Finding median in data stream\n6. Dijkstra's shortest path\n7. Huffman coding\n8. Top K frequent elements",
+    "tradeoffs": "Advantages:\n  1. O(1) access to extreme value\n  2. O(log n) insert/extract\n  3. O(n) heapify\n  4. Space-efficient array representation\n\nDisadvantages:\n  1. Only one extreme accessible\n  2. No O(1) contains check\n  3. Not sorted (only partial order)\n  4. No efficient search for arbitrary element",
     "commonUseCases": [
-      "Kth largest element",
-      "Merge k sorted lists",
-      "Find median"
+      "Kth Largest Element",
+      "Merge K Sorted Lists",
+      "Find Median from Data Stream",
+      "Top K Frequent Elements",
+      "Task Scheduler",
+      "Meeting Rooms II",
+      "Reorganize String",
+      "Kth Smallest in Matrix",
+      "IPO",
+      "Sliding Window Maximum"
     ],
-    "implementation": "Array with parent/child relationships via index...",
+    "implementation": "import heapq\n\n# Min-heap by default\nheap = []\nheapq.heappush(heap, 5)  # O(log n)\nheapq.heappush(heap, 3)\nmin_val = heapq.heappop(heap)  # O(log n) returns 3\npeek = heap[0]  # O(1) peek at min\n\n# Max-heap: negate values\nmax_heap = []\nheapq.heappush(max_heap, -5)\nmax_val = -heapq.heappop(max_heap)\n\n# Heapify from list\nnums = [3, 1, 4, 1, 5]\nheapq.heapify(nums)  # O(n) in-place\n\n# K largest elements\nk_largest = heapq.nlargest(3, nums)\nk_smallest = heapq.nsmallest(3, nums)\n\n# Java PriorityQueue\nPriorityQueue<Integer> minHeap = new PriorityQueue<>();\nPriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());",
+    "commonMistakes": [
+      "Assuming heap is fully sorted - only root is guaranteed min/max, siblings not ordered",
+      "Accessing non-root elements - O(n) search needed, heap not for general lookup",
+      "Forgetting Python heapq is min-heap only - negate values for max-heap",
+      "Not using heapify for initial build - inserting n items is O(n log n), heapify is O(n)",
+      "Modifying heap elements in-place - breaks heap property, must extract and re-insert"
+    ],
     "resources": [
       {
         "title": "Heaps",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Heap Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Heap Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Heap Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Heap Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440007",
+      "660e8400-e29b-41d4-a716-446655440004"
     ]
   },
   {
@@ -292,35 +650,75 @@
     "name": "Trie",
     "description": "Tree for efficient string storage and prefix-based retrieval",
     "category": "Tree",
-    "whatItIs": "Trie stores strings with paths representing prefixes",
+    "whatItIs": "A Trie (prefix tree) stores strings efficiently with shared prefixes. Each node represents a character, paths from root spell words. Operations are O(m) where m is word length - independent of number of strings stored! Each node has children map (letter → child node) and isEndOfWord flag. Perfect for: autocomplete, spell check, prefix matching, IP routing. Space trade-off: many nodes but shared prefixes save space vs storing all strings separately. Insert: traverse/create nodes for each char. Search: traverse existing nodes. StartsWith: like search but ignore isEndOfWord.",
     "operations": [
       {
-        "name": "Insert word",
-        "timeComplexity": "O(m)"
+        "name": "Insert",
+        "timeComplexity": "O(m)",
+        "description": "m = word length, create/traverse nodes for each char"
       },
       {
-        "name": "Search word",
-        "timeComplexity": "O(m)"
+        "name": "Search",
+        "timeComplexity": "O(m)",
+        "description": "Traverse nodes, check isEndOfWord"
       },
       {
-        "name": "Search prefix",
-        "timeComplexity": "O(m)"
+        "name": "StartsWith",
+        "timeComplexity": "O(m)",
+        "description": "Traverse nodes, don't need complete word"
+      },
+      {
+        "name": "Delete",
+        "timeComplexity": "O(m)",
+        "description": "Traverse, remove nodes if no other words use them"
       }
     ],
-    "whenToUse": "Prefix search, Autocomplete, Spell checking, Word search",
-    "tradeoffs": "Pros: O(m) independent of dictionary, Prefix matching. Cons: Memory intensive, Complex",
+    "whenToUse": "Use when:\n1. Autocomplete functionality\n2. Spell checker\n3. Prefix-based search\n4. Word games (Boggle, Scrabble)\n5. IP routing tables\n6. Dictionary with common prefixes\n7. Phone directory\n8. Multiple string searches more efficient than separate searches",
+    "tradeoffs": "Advantages:\n  1. O(m) operations independent of number of words\n  2. Shared prefix storage\n  3. Fast prefix queries\n  4. No hash collisions\n\nDisadvantages:\n  1. High space complexity (many nodes)\n  2. Pointer overhead per node\n  3. Slower than hash table for exact word lookup only\n  4. Not efficient for finding suffixes",
     "commonUseCases": [
-      "Autocomplete",
+      "Implement Trie",
+      "Add and Search Word",
       "Word Search II",
-      "Replace words"
+      "Design Add and Search Words",
+      "Replace Words",
+      "Longest Word in Dictionary",
+      "Prefix and Suffix Search",
+      "Map Sum Pairs",
+      "Stream of Characters"
     ],
-    "implementation": "Tree nodes with children map/array, end-of-word flag...",
+    "implementation": "class TrieNode:\n    def __init__(self):\n        self.children = {}  # char -> TrieNode\n        self.is_end_of_word = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n    \n    def insert(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end_of_word = True\n    \n    def search(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return node.is_end_of_word\n    \n    def starts_with(self, prefix):\n        node = self.root\n        for char in prefix:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return True\n\n# Usage\ntrie = Trie()\ntrie.insert('apple')\ntrie.search('apple')  # True\ntrie.starts_with('app')  # True",
+    "commonMistakes": [
+      "Not marking end of word - 'app' vs 'apple', need isEndOfWord flag",
+      "Wrong deletion logic - can't just delete last node, must check if other words use prefix",
+      "Using list instead of dict for children - 26-element list wastes space, dict more flexible for any charset",
+      "Forgetting to handle wildcards - Word Search II needs DFS with backtracking at each node",
+      "Memory leaks in C++ - must properly delete nodes recursively"
+    ],
     "resources": [
       {
         "title": "Trie",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Trie Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Trie Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Trie Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440007",
+      "660e8400-e29b-41d4-a716-446655440005"
     ]
   },
   {
@@ -328,35 +726,86 @@
     "name": "Graph",
     "description": "Collection of vertices connected by edges",
     "category": "Graph",
-    "whatItIs": "Graph with vertices/edges, adjacency list representation",
+    "whatItIs": "A Graph consists of vertices (nodes) connected by edges. Can be directed (one-way) or undirected (two-way), weighted or unweighted. Two common representations:\n1. Adjacency List: map/dict vertex → list of neighbors, space O(V+E), efficient for sparse graphs\n2. Adjacency Matrix: 2D array, space O(V²), fast edge lookup O(1) . Common algorithms: BFS (shortest path unweighted), DFS (connectivity, cycle detection), Dijkstra (shortest path weighted), topological sort (ordering), Kruskal/Prim (MST). Graphs model: social networks, web links, maps, dependencies, state machines",
     "operations": [
       {
         "name": "Add vertex",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Insert into adjacency list"
       },
       {
         "name": "Add edge",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Add to neighbor lists"
       },
       {
-        "name": "Get neighbors",
-        "timeComplexity": "O(1)"
+        "name": "Remove vertex",
+        "timeComplexity": "O(V+E)",
+        "description": "Remove all edges involving vertex"
+      },
+      {
+        "name": "BFS/DFS",
+        "timeComplexity": "O(V+E)",
+        "description": "Visit all vertices and edges"
+      },
+      {
+        "name": "Check adjacent",
+        "timeComplexity": "O(1) matrix, O(degree) list",
+        "description": "Depends on representation"
       }
     ],
-    "whenToUse": "Sparse graphs, DFS/BFS, Network problems",
-    "tradeoffs": "Pros: O(V+E) space, Fast neighbor iteration. Cons: O(degree) edge lookup",
+    "whenToUse": "Use when:\n1. Modeling relationships/connections\n2. Shortest path problems\n3. Connectivity questions\n4. Cycle detection\n5. Dependency resolution (topological sort)\n6. Network flow\n7. Social network analysis\n8. Map navigation",
+    "tradeoffs": "Advantages (Adjacency List):\n  1. Space O(V+E), efficient for sparse graphs\n  2. Fast iteration over neighbors\n\nDisadvantages (Adjacency List):\n  1. Slow edge existence check\n  2. Choose based on graph density and operation frequency",
     "commonUseCases": [
-      "Social networks",
-      "Course prerequisites",
-      "Web crawling"
+      "Clone Graph",
+      "Course Schedule",
+      "Number of Islands",
+      "Surrounded Regions",
+      "Word Ladder",
+      "Pacific Atlantic Water Flow",
+      "Network Delay Time",
+      "Cheapest Flights Within K Stops",
+      "Alien Dictionary",
+      "Graph Valid Tree"
     ],
-    "implementation": "Adjacency list map or array...",
+    "implementation": "# Adjacency List\nfrom collections import defaultdict\n\nclass Graph:\n    def __init__(self):\n        self.graph = defaultdict(list)\n    \n    def add_edge(self, u, v):\n        self.graph[u].append(v)\n        # For undirected: self.graph[v].append(u)\n    \n    def bfs(self, start):\n        visited = set([start])\n        queue = [start]\n        while queue:\n            vertex = queue.pop(0)\n            for neighbor in self.graph[vertex]:\n                if neighbor not in visited:\n                    visited.add(neighbor)\n                    queue.append(neighbor)\n        return visited\n    \n    def dfs(self, vertex, visited=None):\n        if visited is None:\n            visited = set()\n        visited.add(vertex)\n        for neighbor in self.graph[vertex]:\n            if neighbor not in visited:\n                self.dfs(neighbor, visited)\n        return visited\n\n# Adjacency Matrix\nmatrix = [[0] * n for _ in range(n)]  # n vertices\nmatrix[u][v] = 1  # edge u -> v",
+    "commonMistakes": [
+      "Forgetting to handle directed vs undirected - undirected needs edge in both directions",
+      "Not tracking visited nodes - leads to infinite loops in DFS/BFS",
+      "Using adjacency matrix for sparse graphs - wastes O(V²) space when E << V²",
+      "Modifying graph during traversal - can miss nodes or double-visit",
+      "Wrong cycle detection in directed graphs - need recursion stack, not just visited set"
+    ],
     "resources": [
       {
         "title": "Graph",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Graph Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Graph Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Graph Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Graph Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440020",
+      "660e8400-e29b-41d4-a716-446655440012"
     ]
   },
   {
@@ -364,31 +813,75 @@
     "name": "Deque",
     "description": "Double-ended queue with O(1) at both ends",
     "category": "Linear",
-    "whatItIs": "Deque supports efficient operations at both front and back",
+    "whatItIs": "A Deque (double-ended queue) allows O(1) insertion and deletion at both front and back. Combines stack and queue: can work as both LIFO and FIFO. Typically implemented as doubly-linked list or circular buffer. Superior to regular list for operations at ends - list.append is O(1) but list.pop\n0. is O(n), deque is O(1) for both. Perfect for: sliding window problems, maintaining min/max in window, BFS (more efficient than list), palindrome checking. Python collections.deque, Java ArrayDeque",
     "operations": [
       {
-        "name": "Append/Pop left/right",
-        "timeComplexity": "O(1)"
+        "name": "Append left/right",
+        "timeComplexity": "O(1)",
+        "description": "Add to either end"
       },
       {
-        "name": "Access ends",
-        "timeComplexity": "O(1)"
+        "name": "Pop left/right",
+        "timeComplexity": "O(1)",
+        "description": "Remove from either end"
+      },
+      {
+        "name": "Peek left/right",
+        "timeComplexity": "O(1)",
+        "description": "Access ends without removal"
+      },
+      {
+        "name": "Access middle",
+        "timeComplexity": "O(n)",
+        "description": "Not optimized for random access"
       }
     ],
-    "whenToUse": "Sliding window, BFS (more efficient), Both stack and queue ops",
-    "tradeoffs": "Pros: O(1) both ends, Flexible. Cons: O(n) random access",
+    "whenToUse": "Use when:\n1. Sliding window problems\n2. Need both stack and queue operations\n3. BFS traversal (more efficient than list)\n4. Palindrome checking\n5. Undo/redo with size limit\n6. Maintaining recent N items\n7. Work stealing algorithms",
+    "tradeoffs": "Advantages:\n  1. O(1) operations at both ends\n  2. Flexible as stack or queue\n  3. Efficient memory usage\n\nDisadvantages:\n  1. O(n) random access by index (slower than array)\n  2. Slightly more memory per element than array\n  3. Not ideal for middle insertions",
     "commonUseCases": [
-      "Sliding window maximum",
+      "Sliding Window Maximum",
+      "Max of All Subarrays of Size K",
+      "First Non-repeating in Stream",
+      "Palindrome Checker",
       "BFS",
-      "Palindrome checker"
+      "Design Browser History",
+      "Shortest Subarray with Sum at Least K",
+      "Jump Game VI"
     ],
-    "implementation": "Doubly-linked list or circular buffer...",
+    "implementation": "from collections import deque\n\n# Create deque\ndq = deque([1, 2, 3])\n\n# Operations at ends\ndq.append(4)  # right: [1,2,3,4]\ndq.appendleft(0)  # left: [0,1,2,3,4]\nright = dq.pop()  # O(1) remove right\nleft = dq.popleft()  # O(1) remove left\n\n# Peek\nif dq:\n    left_peek = dq[0]\n    right_peek = dq[-1]\n\n# Sliding window max\ndef max_sliding_window(nums, k):\n    dq = deque()  # store indices\n    result = []\n    for i, num in enumerate(nums):\n        # Remove elements outside window\n        while dq and dq[0] < i - k + 1:\n            dq.popleft()\n        # Remove smaller elements (not useful)\n        while dq and nums[dq[-1]] < num:\n            dq.pop()\n        dq.append(i)\n        if i >= k - 1:\n            result.append(nums[dq[0]])\n    return result\n\n# Java\nDeque<Integer> deque = new ArrayDeque<>();\ndeque.addFirst(1);\ndeque.addLast(2);",
+    "commonMistakes": [
+      "Using list instead of deque - list.pop(0) is O(n), deque.popleft() is O(1)",
+      "Trying to index deque efficiently - O(n) random access, use list if you need indexing",
+      "Not checking emptiness before pop - throws exception on empty deque",
+      "Confusing appendleft/popleft vs append/pop - left operations are on front, no 'left' means back",
+      "Not maintaining invariant in monotonic deque - must remove elements that violate monotonic property"
+    ],
     "resources": [
       {
         "title": "Deque",
         "url": "https://docs.python.org/3/",
         "type": "documentation"
+      },
+      {
+        "title": "Deque Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Deque Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Deque Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440003",
+      "660e8400-e29b-41d4-a716-446655440004",
+      "660e8400-e29b-41d4-a716-446655440018"
     ]
   },
   {
@@ -396,31 +889,68 @@
     "name": "Union-Find",
     "description": "Track disjoint sets with near O(1) union/find",
     "category": "Advanced",
-    "whatItIs": "Union-Find maintains non-overlapping sets efficiently",
+    "whatItIs": "Union-Find (Disjoint Set Union) efficiently manages partitioning elements into disjoint sets. Two main operations: Find (which set does element belong to?) and Union (merge two sets). Uses parent pointers forming trees. Optimizations:\n1. Path Compression - during find, point nodes directly to root, flattens tree\n2. Union by Rank/Size - attach smaller tree under larger, keeps trees shallow. With both optimizations, operations are O(α(n)) where α is inverse Ackermann function (< 5 for all practical n). Perfect for: connected components, cycle detection in undirected graphs, Kruskal's MST algorithm",
     "operations": [
       {
         "name": "Find",
-        "timeComplexity": "O(α(n))"
+        "timeComplexity": "O(α(n))",
+        "description": "Find root with path compression, α(n) ≈ O(1)"
       },
       {
         "name": "Union",
-        "timeComplexity": "O(α(n))"
+        "timeComplexity": "O(α(n))",
+        "description": "Merge sets using union by rank"
+      },
+      {
+        "name": "Connected",
+        "timeComplexity": "O(α(n))",
+        "description": "Check if two elements in same set"
       }
     ],
-    "whenToUse": "Connected components, Kruskal's MST, Cycle detection",
-    "tradeoffs": "Pros: Nearly O(1), Efficient connectivity. Cons: Can't split sets easily",
+    "whenToUse": "Use when:\n1. Finding connected components in graph\n2. Kruskal's minimum spanning tree\n3. Cycle detection in undirected graph\n4. Checking graph connectivity\n5. Dynamic connectivity problems\n6. Percolation theory\n7. Image processing (region labeling)",
+    "tradeoffs": "Advantages:\n  1. Nearly O(1) operations with optimizations\n  2. Simple to implement\n  3. Efficient for dynamic connectivity\n\nDisadvantages:\n  1. Cannot split sets after union\n  2. Not efficient for deletion\n  3. Only works with discrete elements\n  4. Requires integer mapping for non-integer elements",
     "commonUseCases": [
-      "Connected components",
-      "Redundant connection",
-      "Making a large island"
+      "Number of Connected Components",
+      "Redundant Connection",
+      "Most Stones Removed",
+      "Accounts Merge",
+      "Satisfiability of Equality Equations",
+      "Smallest String With Swaps",
+      "Evaluate Division",
+      "Making A Large Island"
     ],
-    "implementation": "Parent pointers with path compression and union by rank...",
+    "implementation": "class UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))  # parent[i] = parent of i\n        self.rank = [0] * n  # rank[i] = tree depth\n        self.count = n  # number of disjoint sets\n    \n    def find(self, x):\n        # Path compression\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        root_x = self.find(x)\n        root_y = self.find(y)\n        \n        if root_x == root_y:\n            return False  # already connected\n        \n        # Union by rank\n        if self.rank[root_x] < self.rank[root_y]:\n            self.parent[root_x] = root_y\n        elif self.rank[root_x] > self.rank[root_y]:\n            self.parent[root_y] = root_x\n        else:\n            self.parent[root_y] = root_x\n            self.rank[root_x] += 1\n        \n        self.count -= 1\n        return True  # newly connected\n    \n    def connected(self, x, y):\n        return self.find(x) == self.find(y)\n\n# Usage\nuf = UnionFind(5)\nuf.union(0, 1)\nuf.union(1, 2)\nprint(uf.connected(0, 2))  # True",
+    "commonMistakes": [
+      "Not implementing path compression - O(n) worst case without it",
+      "Not using union by rank/size - trees can become skewed",
+      "Trying to delete elements - Union-Find doesn't support splitting sets efficiently",
+      "Wrong cycle detection in directed graphs - Union-Find only works for undirected",
+      "Not handling edge case - need to check if union actually connected new components"
+    ],
     "resources": [
       {
         "title": "Union Find",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Union-Find Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Union-Find Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Union-Find Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440010"
     ]
   },
   {
@@ -428,35 +958,78 @@
     "name": "Segment Tree",
     "description": "Tree for efficient range queries and updates",
     "category": "Advanced",
-    "whatItIs": "Segment Tree enables O(log n) range queries on arrays",
+    "whatItIs": "A Segment Tree is a binary tree structure that allows O(log n) queries and updates over array ranges. Each node represents a segment (range) of the array: leaves are single elements, internal nodes are unions of children's ranges. Root represents entire array. Supports: range sum, range min/max, range GCD, lazy propagation for range updates. Build tree recursively dividing ranges. Query: if node's range fully inside query range, use node's value; if partially overlaps, recurse on children. Update: propagate changes up the tree. Space: O(4n) for safety. Perfect for: competitive programming, range queries with updates.",
     "operations": [
       {
         "name": "Build",
-        "timeComplexity": "O(n)"
+        "timeComplexity": "O(n)",
+        "description": "Build tree from array recursively"
       },
       {
         "name": "Range query",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Sum/min/max over range by combining node values"
       },
       {
         "name": "Point update",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Update leaf, propagate to root"
+      },
+      {
+        "name": "Range update (lazy)",
+        "timeComplexity": "O(log n)",
+        "description": "With lazy propagation for efficiency"
       }
     ],
-    "whenToUse": "Range sum queries, Multiple updates, Competitive programming",
-    "tradeoffs": "Pros: O(log n) range ops, Flexible. Cons: O(n) space, Complex implementation",
+    "whenToUse": "Use when:\n1. Range sum/min/max queries with updates\n2. Counting inversions\n3. Range GCD queries\n4. Competitive programming problems\n5. Dynamic prefix sums\n6. 2D range queries (2D segment tree)\n7. Skyline problems",
+    "tradeoffs": "Advantages:\n  1. O(log n) both query and update\n  2. Flexible (supports various operations)\n  3. Handles range updates with lazy propagation\n\nDisadvantages:\n  1. O(4n) space overhead\n  2. Complex implementation\n  3. Higher constant factor than simpler structures\n  4. Overkill for static range queries (use prefix sums)",
     "commonUseCases": [
-      "Range Sum Query",
+      "Range Sum Query Mutable",
       "Range Minimum Query",
-      "Falling Squares"
+      "Falling Squares",
+      "Count of Smaller Numbers After Self",
+      "The Skyline Problem",
+      "My Calendar I/II/III",
+      "Count of Range Sum"
     ],
-    "implementation": "Binary tree in array form...",
+    "implementation": "class SegmentTree:\n    def __init__(self, arr):\n        self.n = len(arr)\n        self.tree = [0] * (4 * self.n)\n        self.build(arr, 0, 0, self.n - 1)\n    \n    def build(self, arr, node, left, right):\n        if left == right:\n            self.tree[node] = arr[left]\n            return\n        mid = (left + right) // 2\n        self.build(arr, 2*node+1, left, mid)\n        self.build(arr, 2*node+2, mid+1, right)\n        self.tree[node] = self.tree[2*node+1] + self.tree[2*node+2]\n    \n    def query(self, node, left, right, qleft, qright):\n        # No overlap\n        if qright < left or qleft > right:\n            return 0\n        # Complete overlap\n        if qleft <= left and right <= qright:\n            return self.tree[node]\n        # Partial overlap\n        mid = (left + right) // 2\n        left_sum = self.query(2*node+1, left, mid, qleft, qright)\n        right_sum = self.query(2*node+2, mid+1, right, qleft, qright)\n        return left_sum + right_sum\n    \n    def update(self, node, left, right, idx, val):\n        if left == right:\n            self.tree[node] = val\n            return\n        mid = (left + right) // 2\n        if idx <= mid:\n            self.update(2*node+1, left, mid, idx, val)\n        else:\n            self.update(2*node+2, mid+1, right, idx, val)\n        self.tree[node] = self.tree[2*node+1] + self.tree[2*node+2]",
+    "commonMistakes": [
+      "Not allocating enough space - use 4n, not 2n array size",
+      "Wrong query range handling - must check no overlap, complete overlap, partial overlap cases",
+      "Forgetting to merge children - after recursion, parent = left_child op right_child",
+      "Not using lazy propagation for range updates - naive approach is O(n log n)",
+      "Index calculation errors - left child at 2i+1, right at 2i+2 (0-indexed)"
+    ],
     "resources": [
       {
         "title": "Segment Tree",
         "url": "https://cp-algorithms.com/",
         "type": "article"
+      },
+      {
+        "title": "Segment Tree Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Segment Tree Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Segment Tree Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Segment Tree Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440014",
+      "660e8400-e29b-41d4-a716-446655440001"
     ]
   },
   {
@@ -464,31 +1037,77 @@
     "name": "Fenwick Tree",
     "description": "Space-efficient structure for prefix sums with O(log n) updates",
     "category": "Advanced",
-    "whatItIs": "Fenwick Tree (BIT) uses bit manipulation for efficient prefix sums",
+    "whatItIs": "A Fenwick Tree (Binary Indexed Tree - BIT) provides efficient prefix sum queries and point updates using clever bit manipulation. Array-based, uses O(n) space vs segment tree's O(4n). Each index i stores sum of elements in a range determined by i's binary representation. Key insight: i & -i gives last set bit, determining range size. Operations: to get prefix sum, repeatedly remove last set bit and sum; to update, repeatedly add last set bit and update. Simpler to code than segment tree but less flexible - mainly for prefix sums, can adapt for range min/max with tricks.",
     "operations": [
       {
         "name": "Point update",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Add value at index, propagate by adding last set bit"
       },
       {
         "name": "Prefix sum",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Sum [0, i] by removing last set bit"
+      },
+      {
+        "name": "Range sum",
+        "timeComplexity": "O(log n)",
+        "description": "prefix_sum(right) - prefix_sum(left-1)"
+      },
+      {
+        "name": "Build",
+        "timeComplexity": "O(n log n)",
+        "description": "Update each element individually"
       }
     ],
-    "whenToUse": "Prefix sums with updates, Counting inversions, Range sums",
-    "tradeoffs": "Pros: O(n) space (vs 4n for Segment Tree), Simple. Cons: Less flexible",
+    "whenToUse": "Use when:\n1. Prefix sum queries with updates\n2. Counting inversions in array\n3. 2D prefix sums (2D BIT)\n4. Range sum queries (mutable)\n5. Need space efficiency over segment tree\n6. Competitive programming\n7. Don't need complex operations like range updates",
+    "tradeoffs": "Advantages:\n  1. O(n) space (half of segment tree)\n  2. Simple elegant code\n  3. Faster constants than segment tree\n  4. Handles prefix sums perfectly\n\nDisadvantages:\n  1. Less flexible than segment tree\n  2. Mainly for prefix sums\n  3. Harder to understand bit manipulation\n  4. Tricky for range min/max\n  5. 1-indexed typically",
     "commonUseCases": [
       "Range Sum Query Mutable",
-      "Count inversions",
-      "2D range sums"
+      "Count of Smaller Numbers After Self",
+      "Reverse Pairs",
+      "Count of Range Sum",
+      "Create Sorted Array through Instructions",
+      "Counting inversions"
     ],
-    "implementation": "Array with bit manipulation for parent/child...",
+    "implementation": "class FenwickTree:\n    def __init__(self, n):\n        self.n = n\n        self.tree = [0] * (n + 1)  # 1-indexed\n    \n    def update(self, i, delta):\n        # Add delta to index i (1-indexed)\n        while i <= self.n:\n            self.tree[i] += delta\n            i += i & -i  # Add last set bit\n    \n    def query(self, i):\n        # Get prefix sum [1, i]\n        result = 0\n        while i > 0:\n            result += self.tree[i]\n            i -= i & -i  # Remove last set bit\n        return result\n    \n    def range_query(self, left, right):\n        # Get sum [left, right]\n        return self.query(right) - self.query(left - 1)\n\n# Usage\nbit = FenwickTree(10)\nfor i, val in enumerate([1, 2, 3, 4], 1):\n    bit.update(i, val)\nprint(bit.query(3))  # prefix sum [1,3] = 6\nprint(bit.range_query(2, 4))  # sum [2,4] = 9",
+    "commonMistakes": [
+      "Forgetting 1-indexing - BIT is typically 1-indexed, 0 is unused",
+      "Wrong bit manipulation - must use i & -i to get last set bit, not i & (~i + 1)",
+      "Not understanding range coverage - each index covers range determined by binary representation",
+      "Trying to use for complex operations - BIT best for prefix sums, segment tree better for general range ops",
+      "Off-by-one in range queries - range_query(l, r) needs query(r) - query(l-1)"
+    ],
     "resources": [
       {
         "title": "Fenwick Tree",
         "url": "https://cp-algorithms.com/",
         "type": "article"
+      },
+      {
+        "title": "Fenwick Tree Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Fenwick Tree Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Fenwick Tree Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Fenwick Tree Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440013",
+      "660e8400-e29b-41d4-a716-446655440001"
     ]
   },
   {
@@ -496,34 +1115,72 @@
     "name": "AVL Tree",
     "description": "Self-balancing BST with guaranteed O(log n) operations",
     "category": "Tree",
-    "whatItIs": "AVL Tree maintains strict balance (height diff <= 1)",
+    "whatItIs": "An AVL Tree is a self-balancing BST where the height difference (balance factor) between left and right subtrees is at most 1 for every node. After each insert/delete, tree rebalances using rotations to maintain property. Four rotation types: Left-Left (right rotation), Right-Right (left rotation), Left-Right (left-right rotation), Right-Left (right-left rotation). Balance factor = height(left) - height(right), must be -1, 0, or 1. Guarantees O(log n) for all operations unlike plain BST. More strictly balanced than Red-Black trees - faster lookups but more rotations on modification.",
     "operations": [
       {
         "name": "Search",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Guaranteed log height due to balance"
       },
       {
         "name": "Insert",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Insert as BST, then rebalance with rotations"
       },
       {
         "name": "Delete",
-        "timeComplexity": "O(log n)"
+        "timeComplexity": "O(log n)",
+        "description": "Delete as BST, then rebalance"
+      },
+      {
+        "name": "Min/Max",
+        "timeComplexity": "O(log n)",
+        "description": "Leftmost/rightmost node"
       }
     ],
-    "whenToUse": "Guaranteed O(log n) operations, Frequent searches, Ordered data",
-    "tradeoffs": "Pros: Strictly balanced, Faster lookups. Cons: More rotations on insert/delete",
+    "whenToUse": "Use when:\n1. Need guaranteed O(log n) operations\n2. Frequent searches, fewer modifications\n3. Database indexing\n4. In-memory sorted collections\n5. When consistency more important than throughput\n6. Real-time systems needing predictable performance",
+    "tradeoffs": "Advantages:\n  1. Guaranteed O(log n)\n  2. Strictly balanced\n  3. Faster searches than Red-Black\n  4. Simpler than Red-Black\n\nDisadvantages:\n  1. More rotations on insert/delete (worse than Red-Black for write-heavy)\n  2. Complex rotation logic\n  3. Extra space for height/balance factor\n  4. Overkill if ordering not needed",
     "commonUseCases": [
       "Database indexing",
-      "Sorted in-memory data"
+      "File systems",
+      "In-memory sorted collections",
+      "Priority queues with predictable performance",
+      "Real-time systems",
+      "Autocomplete with sorting"
     ],
-    "implementation": "BST with rotation rebalancing...",
+    "implementation": "class AVLNode:\n    def __init__(self, val):\n        self.val = val\n        self.left = None\n        self.right = None\n        self.height = 1\n\nclass AVLTree:\n    def get_height(self, node):\n        return node.height if node else 0\n    \n    def get_balance(self, node):\n        return self.get_height(node.left) - self.get_height(node.right) if node else 0\n    \n    def right_rotate(self, y):\n        x = y.left\n        T2 = x.right\n        x.right = y\n        y.left = T2\n        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))\n        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))\n        return x\n    \n    def left_rotate(self, x):\n        y = x.right\n        T2 = y.left\n        y.left = x\n        x.right = T2\n        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))\n        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))\n        return y\n    \n    def insert(self, node, val):\n        if not node:\n            return AVLNode(val)\n        if val < node.val:\n            node.left = self.insert(node.left, val)\n        else:\n            node.right = self.insert(node.right, val)\n        \n        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))\n        balance = self.get_balance(node)\n        \n        # Left-Left\n        if balance > 1 and val < node.left.val:\n            return self.right_rotate(node)\n        # Right-Right\n        if balance < -1 and val > node.right.val:\n            return self.left_rotate(node)\n        # Left-Right\n        if balance > 1 and val > node.left.val:\n            node.left = self.left_rotate(node.left)\n            return self.right_rotate(node)\n        # Right-Left\n        if balance < -1 and val < node.right.val:\n            node.right = self.right_rotate(node.right)\n            return self.left_rotate(node)\n        \n        return node",
+    "commonMistakes": [
+      "Not updating heights after rotation - must recalculate for affected nodes",
+      "Wrong rotation selection - must check balance factor AND which side insertion happened",
+      "Forgetting to rebalance after deletion - deletion can also unbalance tree",
+      "Not handling all 4 rotation cases - Left-Left, Right-Right, Left-Right, Right-Left",
+      "Using when writes dominate - Red-Black trees have fewer rotations for write-heavy workloads"
+    ],
     "resources": [
       {
         "title": "AVL Tree",
         "url": "https://www.geeksforgeeks.org/",
         "type": "article"
+      },
+      {
+        "title": "AVL Tree Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "AVL Tree Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "AVL Tree Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440007",
+      "660e8400-e29b-41d4-a716-446655440017"
     ]
   },
   {
@@ -531,31 +1188,63 @@
     "name": "LRU Cache",
     "description": "Cache with Least Recently Used eviction policy",
     "category": "Advanced",
-    "whatItIs": "LRU Cache evicts least recently used item when full",
+    "whatItIs": "An LRU (Least Recently Used) Cache stores key-value pairs with capacity limit, automatically evicting least recently accessed item when full. Combines hash map (for O(1) lookup) + doubly linked list (for O(1) removal/addition). List tracks recency: most recent at head, least at tail. On get: move node to head. On put: if exists, update and move to head; if new and full, remove tail then add at head. Hash map stores key → list node pointer for O(1) access. Classic design pattern problem combining two data structures for complementary strengths",
     "operations": [
       {
         "name": "Get",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Hash lookup + list move to front"
       },
       {
         "name": "Put",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Hash insert/update + list operations"
+      },
+      {
+        "name": "Evict",
+        "timeComplexity": "O(1)",
+        "description": "Remove tail node and hash entry"
       }
     ],
-    "whenToUse": "Caching with size limits, Memoization, Web caching",
-    "tradeoffs": "Pros: O(1) ops, Automatic eviction, Good hit rates. Cons: Extra memory for list",
+    "whenToUse": "Use when:\n1. Caching with size limits\n2. Browser/web cache\n3. Database buffer pool\n4. Memoization with eviction\n5. CDN caching\n6. OS page replacement\n7. API rate limiting (with time component)",
+    "tradeoffs": "Advantages:\n  1. O(1) get and put\n  2. Automatic eviction of cold data\n  3. Good cache hit rates for temporal locality\n  4. Widely used and understood\n\nDisadvantages:\n  1. Extra memory for doubly linked list\n  2. More complex than simple dict/map\n  3. Not optimal for all access patterns (LFU might be better)\n  4. Requires careful implementation",
     "commonUseCases": [
-      "LRU Cache problem",
-      "Browser cache",
-      "Database buffer pool"
+      "LRU Cache (LC 146)",
+      "LFU Cache",
+      "Browser back/forward",
+      "Database buffer pool",
+      "Operating system page cache",
+      "Redis cache eviction",
+      "CDN content caching"
     ],
-    "implementation": "Hash map + doubly linked list...",
+    "implementation": "class Node:\n    def __init__(self, key, val):\n        self.key = key\n        self.val = val\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = {}  # key -> Node\n        self.head = Node(0, 0)  # dummy head\n        self.tail = Node(0, 0)  # dummy tail\n        self.head.next = self.tail\n        self.tail.prev = self.head\n    \n    def remove(self, node):\n        # Remove from list\n        node.prev.next = node.next\n        node.next.prev = node.prev\n    \n    def add_to_head(self, node):\n        # Add right after head (most recent)\n        node.next = self.head.next\n        node.prev = self.head\n        self.head.next.prev = node\n        self.head.next = node\n    \n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        node = self.cache[key]\n        self.remove(node)\n        self.add_to_head(node)  # mark as recent\n        return node.val\n    \n    def put(self, key, value):\n        if key in self.cache:\n            self.remove(self.cache[key])\n        node = Node(key, value)\n        self.add_to_head(node)\n        self.cache[key] = node\n        if len(self.cache) > self.capacity:\n            # Evict LRU (tail.prev)\n            lru = self.tail.prev\n            self.remove(lru)\n            del self.cache[lru.key]\n\n# Python OrderedDict alternative\nfrom collections import OrderedDict\nclass LRUCache2:\n    def __init__(self, capacity):\n        self.cache = OrderedDict()\n        self.capacity = capacity\n    \n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        self.cache.move_to_end(key)\n        return self.cache[key]\n    \n    def put(self, key, value):\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)",
+    "commonMistakes": [
+      "Forgetting to update on get - must move accessed node to head, not just on put",
+      "Not using dummy head/tail - makes edge cases complex without sentinels",
+      "Memory leak - must remove from hash map when evicting from list",
+      "Wrong eviction target - evict tail.prev (last real node), not tail (dummy)",
+      "Not handling update case - if key exists in put, must remove old node first"
+    ],
     "resources": [
       {
         "title": "LRU Cache",
         "url": "https://leetcode.com/",
         "type": "problem"
+      },
+      {
+        "title": "LRU Cache Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "LRU Cache Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440005",
+      "660e8400-e29b-41d4-a716-446655440002"
     ]
   },
   {
@@ -563,34 +1252,76 @@
     "name": "Skip List",
     "description": "Probabilistic data structure with O(log n) search",
     "category": "Advanced",
-    "whatItIs": "Skip List uses multiple layers of linked lists for fast traversal",
+    "whatItIs": "A Skip List is a probabilistic alternative to balanced trees, using multiple layers of sorted linked lists. Bottom layer contains all elements in sorted order, each higher layer is express lane with fewer elements. Each element promotes to next level with probability p (typically 0.5). Search: start at top layer, move right until overshoot, drop down, repeat. Like binary search but with linked lists. Simpler to implement than AVL/Red-Black trees. Lock-free implementations possible (used in Redis, Java ConcurrentSkipListMap). Average O(log n) search/insert/delete, but probabilistic - no worst-case guarantee.",
     "operations": [
       {
         "name": "Search",
-        "timeComplexity": "O(log n)*"
+        "timeComplexity": "O(log n) avg",
+        "description": "Expected log n levels, binary search within level"
       },
       {
         "name": "Insert",
-        "timeComplexity": "O(log n)*"
+        "timeComplexity": "O(log n) avg",
+        "description": "Find position, random coin flips for height"
       },
       {
         "name": "Delete",
-        "timeComplexity": "O(log n)*"
+        "timeComplexity": "O(log n) avg",
+        "description": "Find and remove from all levels"
+      },
+      {
+        "name": "Range query",
+        "timeComplexity": "O(log n + k)",
+        "description": "Find start, traverse k elements"
       }
     ],
-    "whenToUse": "Ordered data alternative to balanced trees, Concurrent access",
-    "tradeoffs": "Pros: Simple to implement, Lock-free variants. Cons: Probabilistic, More space",
+    "whenToUse": "Use when:\n1. Need ordered data with concurrent access\n2. Simpler than balanced trees but similar performance\n3. Lock-free concurrent data structure\n4. Redis sorted sets implementation\n5. Database indexing alternative\n6. Don't need worst-case guarantees",
+    "tradeoffs": "Advantages:\n  1. Simpler to implement than balanced trees\n  2. Lock-free variants exist\n  3. Good average case\n  4. Range queries efficient\n  5. Conceptually elegant\n\nDisadvantages:\n  1. Probabilistic (no worst-case guarantee)\n  2. More space than array (multiple layers)\n  3. Worse cache locality than array\n  4. Not as widely taught as balanced trees",
     "commonUseCases": [
       "Redis sorted sets",
-      "LevelDB/RocksDB"
+      "LevelDB/RocksDB MemTable",
+      "Concurrent sorted maps",
+      "Database indexing",
+      "In-memory ordered caches"
     ],
-    "implementation": "Multiple linked list layers with random heights...",
+    "implementation": "import random\n\nclass Node:\n    def __init__(self, val, level):\n        self.val = val\n        self.forward = [None] * (level + 1)\n\nclass SkipList:\n    def __init__(self, max_level=16, p=0.5):\n        self.max_level = max_level\n        self.p = p\n        self.head = Node(float('-inf'), max_level)\n        self.level = 0\n    \n    def random_level(self):\n        level = 0\n        while random.random() < self.p and level < self.max_level:\n            level += 1\n        return level\n    \n    def search(self, target):\n        curr = self.head\n        for i in range(self.level, -1, -1):\n            while curr.forward[i] and curr.forward[i].val < target:\n                curr = curr.forward[i]\n        curr = curr.forward[0]\n        return curr and curr.val == target\n    \n    def insert(self, val):\n        update = [None] * (self.max_level + 1)\n        curr = self.head\n        \n        for i in range(self.level, -1, -1):\n            while curr.forward[i] and curr.forward[i].val < val:\n                curr = curr.forward[i]\n            update[i] = curr\n        \n        new_level = self.random_level()\n        if new_level > self.level:\n            for i in range(self.level + 1, new_level + 1):\n                update[i] = self.head\n            self.level = new_level\n        \n        new_node = Node(val, new_level)\n        for i in range(new_level + 1):\n            new_node.forward[i] = update[i].forward[i]\n            update[i].forward[i] = new_node",
+    "commonMistakes": [
+      "Not handling level updates - when inserting taller node, must update skip list level",
+      "Wrong probability - typically use p=0.5, not p=0.25 or other values without reason",
+      "Not initializing all levels - new node needs pointers for each level up to its height",
+      "Sequential level assignment - must use random levels, not sequential promotion",
+      "Memory leaks - must properly free nodes at all levels during deletion"
+    ],
     "resources": [
       {
         "title": "Skip List",
         "url": "https://en.wikipedia.org/",
         "type": "article"
+      },
+      {
+        "title": "Skip List Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Skip List Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Skip List Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Skip List Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440015",
+      "660e8400-e29b-41d4-a716-446655440002"
     ]
   },
   {
@@ -598,34 +1329,72 @@
     "name": "Monotonic Queue",
     "description": "Queue maintaining elements in sorted order",
     "category": "Linear",
-    "whatItIs": "Deque maintaining decreasing/increasing order",
+    "whatItIs": "A Monotonic Queue is a deque maintaining elements in monotonic (increasing or decreasing) order. Not all elements are kept - elements that can never be answer are removed. For monotonic decreasing: when adding element, remove all smaller elements from back (they'll never be max). For sliding window max: stores indices in decreasing order of values. Each element added/removed at most once - O(1) amortized per operation. Perfect for sliding window min/max problems. The key insight: if nums[i] >= nums[j] and i > j, nums[j] will never be answer for any future window",
     "operations": [
       {
         "name": "Push",
-        "timeComplexity": "O(1)*"
+        "timeComplexity": "O(1) amortized",
+        "description": "Remove violating elements, add to back"
       },
       {
         "name": "Pop front",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Remove from front if outside window"
       },
       {
         "name": "Get min/max",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Front element is always min/max"
+      },
+      {
+        "name": "Size",
+        "timeComplexity": "O(1)",
+        "description": "Track deque size"
       }
     ],
-    "whenToUse": "Sliding window min/max, Maintaining sorted window",
-    "tradeoffs": "Pros: O(1) amortized, Perfect for sliding window. Cons: Specific use case",
+    "whenToUse": "Use when:\n1. Sliding window maximum/minimum\n2. Next greater/smaller element\n3. Stock span problem\n4. Maximum of all subarrays of size k\n5. Jump Game VI\n6. Shortest Subarray with Sum at Least K\n7. Longest Continuous Subarray With Absolute Diff",
+    "tradeoffs": "Advantages:\n  1. O(1) amortized operations\n  2. Perfect for sliding window min/max\n  3. Elegant solution\n  4. Memory efficient\n\nDisadvantages:\n  1. Specific use case (not general purpose)\n  2. Requires understanding of monotonic property\n  3. Tricky to implement correctly first time",
     "commonUseCases": [
       "Sliding Window Maximum",
-      "Jump Game VI"
+      "Jump Game VI",
+      "Shortest Subarray with Sum at Least K",
+      "Longest Continuous Subarray",
+      "Constrained Subsequence Sum",
+      "Max Value of Equation"
     ],
-    "implementation": "Deque with constraint maintenance...",
+    "implementation": "from collections import deque\n\n# Sliding window maximum\ndef max_sliding_window(nums, k):\n    dq = deque()  # stores indices\n    result = []\n    \n    for i in range(len(nums)):\n        # Remove indices outside window\n        while dq and dq[0] < i - k + 1:\n            dq.popleft()\n        \n        # Maintain decreasing order\n        # Remove smaller elements - they can't be max\n        while dq and nums[dq[-1]] < nums[i]:\n            dq.pop()\n        \n        dq.append(i)\n        \n        # Add to result when window is full\n        if i >= k - 1:\n            result.append(nums[dq[0]])  # front is max\n    \n    return result\n\n# Monotonic increasing (for finding next smaller)\nclass MonotonicQueue:\n    def __init__(self):\n        self.dq = deque()\n    \n    def push(self, val):\n        # For increasing: remove larger\n        while self.dq and self.dq[-1] > val:\n            self.dq.pop()\n        self.dq.append(val)\n    \n    def get_min(self):\n        return self.dq[0] if self.dq else None\n\n# Usage\nmq = MonotonicQueue()\nfor num in [3, 1, 4, 1, 5]:\n    mq.push(num)\n    print(mq.get_min())  # minimum so far",
+    "commonMistakes": [
+      "Storing values instead of indices - indices give both value and position",
+      "Wrong monotonic direction - decreasing for max, increasing for min",
+      "Not removing out-of-window elements - check front of deque against window bounds",
+      "Not checking deque emptiness - always check before accessing front/back",
+      "Forgetting it's amortized O(1) - each element pushed/popped at most once total"
+    ],
     "resources": [
       {
         "title": "Sliding Window Maximum",
         "url": "https://leetcode.com/",
         "type": "problem"
+      },
+      {
+        "title": "Monotonic Queue Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Monotonic Queue Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Monotonic Queue Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440011",
+      "660e8400-e29b-41d4-a716-446655440003"
     ]
   },
   {
@@ -633,35 +1402,68 @@
     "name": "Circular Buffer",
     "description": "Fixed-size buffer that wraps around",
     "category": "Linear",
-    "whatItIs": "Ring buffer with fixed capacity, overwrites oldest when full",
+    "whatItIs": "A Circular Buffer (Ring Buffer) is a fixed-size array treated as circular - when end is reached, wrap to beginning. Uses two pointers: head (write position) and tail (read position). When buffer fills, either block writes or overwrite oldest data. Uses modulo arithmetic: (head + 1) % capacity for wraparound. All operations O(1) . Perfect for: streaming data, producer-consumer with fixed memory, audio/video buffers. Space-efficient: no dynamic allocation, cache-friendly (contiguous memory). Common in embedded systems, real-time processing, logging",
     "operations": [
       {
         "name": "Enqueue",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Add at head, advance with modulo"
       },
       {
         "name": "Dequeue",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Remove from tail, advance with modulo"
       },
       {
-        "name": "IsFull/Empty",
-        "timeComplexity": "O(1)"
+        "name": "IsFull",
+        "timeComplexity": "O(1)",
+        "description": "Check if (head+1)%cap == tail"
+      },
+      {
+        "name": "IsEmpty",
+        "timeComplexity": "O(1)",
+        "description": "Check if head == tail"
       }
     ],
-    "whenToUse": "Fixed memory budget, Streaming data, Producer-consumer",
-    "tradeoffs": "Pros: Fixed memory, O(1) ops, Cache friendly. Cons: Fixed capacity, Loses data",
+    "whenToUse": "Use when:\n1. Fixed memory budget required\n2. Streaming data processing\n3. Producer-consumer queues\n4. Audio/video buffering\n5. Network packet buffers\n6. UART/serial communication\n7. Log rotation with size limit\n8. Embedded systems",
+    "tradeoffs": "Advantages:\n  1. Fixed memory footprint\n  2. O(1) operations\n  3. No dynamic allocation\n  4. Cache-friendly\n  5. Predictable performance\n  6. Simple implementation\n\nDisadvantages:\n  1. Fixed capacity (no growth)\n  2. Data loss when full (if overwriting)\n  3. Distinguishing full vs empty needs extra logic\n  4. Wasted slot (one element unused in some implementations)",
     "commonUseCases": [
-      "Design Circular Queue",
-      "Audio buffers",
+      "Design Circular Queue (LC 622)",
+      "Design Circular Deque (LC 641)",
+      "Audio buffering",
+      "Video streaming",
+      "Network packet queues",
+      "Keyboard input buffer",
       "Log rotation"
     ],
-    "implementation": "Array with head/tail pointers and modulo arithmetic...",
+    "implementation": "class CircularBuffer:\n    def __init__(self, capacity):\n        self.capacity = capacity + 1  # One extra for full/empty distinction\n        self.buffer = [None] * self.capacity\n        self.head = 0  # write position\n        self.tail = 0  # read position\n    \n    def is_empty(self):\n        return self.head == self.tail\n    \n    def is_full(self):\n        return (self.head + 1) % self.capacity == self.tail\n    \n    def enqueue(self, val):\n        if self.is_full():\n            return False  # Can't add, full\n        self.buffer[self.head] = val\n        self.head = (self.head + 1) % self.capacity\n        return True\n    \n    def dequeue(self):\n        if self.is_empty():\n            return None\n        val = self.buffer[self.tail]\n        self.tail = (self.tail + 1) % self.capacity\n        return val\n    \n    def front(self):\n        if self.is_empty():\n            return None\n        return self.buffer[self.tail]\n    \n    def size(self):\n        return (self.head - self.tail + self.capacity) % self.capacity\n\n# Alternative: Overwrite oldest on full\nclass OverwriteCircularBuffer:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.buffer = [None] * capacity\n        self.head = 0\n        self.count = 0\n    \n    def enqueue(self, val):\n        self.buffer[self.head] = val\n        self.head = (self.head + 1) % self.capacity\n        if self.count < self.capacity:\n            self.count += 1",
+    "commonMistakes": [
+      "Not handling full vs empty - both have head==tail in naive implementation, need extra slot or count",
+      "Wrong modulo usage - must use (i + 1) % capacity, not i % (capacity + 1)",
+      "Not checking bounds - always check full before enqueue, empty before dequeue",
+      "Off-by-one capacity - may need capacity+1 array for capacity items",
+      "Not thread-safe - needs synchronization for concurrent access"
+    ],
     "resources": [
       {
         "title": "Circular Queue",
         "url": "https://leetcode.com/",
         "type": "problem"
+      },
+      {
+        "title": "Circular Buffer Data Structure - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Circular Buffer Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440001",
+      "660e8400-e29b-41d4-a716-446655440004"
     ]
   },
   {
@@ -669,34 +1471,76 @@
     "name": "Graph (Adjacency Matrix)",
     "description": "Graph represented as 2D matrix",
     "category": "Graph",
-    "whatItIs": "Matrix[i][j] indicates edge between vertices i and j",
+    "whatItIs": "An Adjacency Matrix represents a graph as 2D array: matrix[i][j] = 1 if edge from vertex i to j (unweighted), or matrix[i][j] = weight for weighted graphs. Space: O(V²) regardless of edges. Perfect for dense graphs (many edges) where E ≈ V². Checking if edge exists: O(1) just array access. Getting all neighbors: O(V) must scan entire row. For undirected graphs, matrix is symmetric. For directed, not symmetric. Easy to implement graph algorithms like Floyd-Warshall (all-pairs shortest path). Trade-off: simple and fast edge checks, but wastes space for sparse graphs",
     "operations": [
       {
         "name": "Check edge",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Direct array access matrix[i][j]"
       },
       {
         "name": "Add edge",
-        "timeComplexity": "O(1)"
+        "timeComplexity": "O(1)",
+        "description": "Set matrix[i][j] = weight"
+      },
+      {
+        "name": "Remove edge",
+        "timeComplexity": "O(1)",
+        "description": "Set matrix[i][j] = 0 or infinity"
       },
       {
         "name": "Get neighbors",
-        "timeComplexity": "O(V)"
+        "timeComplexity": "O(V)",
+        "description": "Scan entire row for non-zero entries"
+      },
+      {
+        "name": "BFS/DFS",
+        "timeComplexity": "O(V²)",
+        "description": "Must check all V² entries"
       }
     ],
-    "whenToUse": "Dense graphs, Frequent edge checks, All-pairs problems",
-    "tradeoffs": "Pros: O(1) edge lookup, Simple. Cons: O(V²) space always, Wasteful for sparse",
+    "whenToUse": "Use when:\n1. Dense graphs (E close to V²)\n2. Frequent edge existence queries\n3. Floyd-Warshall all-pairs shortest path\n4. Small graphs (V < 1000)\n5. Need to check all possible edges\n6. Matrix multiplication algorithms on graphs\n7. Simple to implement and understand",
+    "tradeoffs": "Advantages:\n  1. O(1) edge check\n  2. Simple implementation\n  3. Good for dense graphs\n  4. Easy matrix operations\n  5. Cache-friendly for small graphs\n\nDisadvantages:\n  1. O(V²) space always (wasteful for sparse)\n  2. O(V) to get neighbors\n  3. O(V²) to iterate all edges\n  4. Memory prohibitive for large V",
     "commonUseCases": [
-      "Floyd-Warshall",
-      "Dense graph algorithms"
+      "Floyd-Warshall shortest paths",
+      "Graph coloring",
+      "Detect cycles in dense graphs",
+      "All-pairs problems",
+      "Small complete/nearly-complete graphs",
+      "Mathematical graph theory problems"
     ],
-    "implementation": "2D array with edge weights...",
+    "implementation": "# Unweighted undirected graph\nn = 5  # vertices\nmatrix = [[0] * n for _ in range(n)]\n\n# Add edge\nmatrix[0][1] = 1\nmatrix[1][0] = 1  # undirected\n\n# Check edge\nif matrix[i][j]:\n    print(f\"Edge {i} -> {j}\")\n\n# Get neighbors\nneighbors = [j for j in range(n) if matrix[i][j]]\n\n# Weighted directed graph\nimport sys\nINF = sys.maxsize\nweighted = [[INF] * n for _ in range(n)]\nfor i in range(n):\n    weighted[i][i] = 0  # distance to self\n\nweighted[0][1] = 5  # edge 0->1 weight 5\n\n# Floyd-Warshall\nfor k in range(n):\n    for i in range(n):\n        for j in range(n):\n            if weighted[i][k] + weighted[k][j] < weighted[i][j]:\n                weighted[i][j] = weighted[i][k] + weighted[k][j]\n\n# Java\nint[][] graph = new int[n][n];\ngraph[i][j] = weight;",
+    "commonMistakes": [
+      "Using for sparse graphs - wastes O(V²) space when few edges exist, use adjacency list instead",
+      "Forgetting both directions for undirected - must set matrix[i][j] AND matrix[j][i]",
+      "Not initializing properly - weighted graphs need infinity, unweighted need 0",
+      "Self-loops handling - diagonal matrix[i][i] should be 0 for distances, can be 1 for self-loops",
+      "Memory issues with large V - matrix for 10,000 vertices needs 400MB+ for integers"
+    ],
     "resources": [
       {
         "title": "Graph Representations",
         "url": "https://www.geeksforgeeks.org/",
         "type": "article"
+      },
+      {
+        "title": "Graph (Adjacency Matrix) Practice Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Graph (Adjacency Matrix) Visualization - VisualGo",
+        "url": "https://visualgo.net/",
+        "type": "documentation"
+      },
+      {
+        "title": "Graph (Adjacency Matrix) Tutorial - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedStructureIds": [
+      "660e8400-e29b-41d4-a716-446655440010"
     ]
   }
 ]

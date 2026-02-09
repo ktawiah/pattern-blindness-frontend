@@ -5,7 +5,7 @@
     "description": "Use two pointers to traverse a data structure, typically from opposite ends or at different speeds.",
     "category": "TwoPointers",
     "whatItIs": "Two Pointers is a powerful algorithmic technique that uses two references (pointers) to traverse a data structure, typically an array or string, in a coordinated manner. The pointers can move in various patterns: towards each other from opposite ends, in the same direction at different speeds (fast and slow), or in tandem while maintaining a fixed distance. This technique is particularly effective because it reduces the need for nested loops, transforming O(n²) brute force solutions into O(n) linear time solutions. The key insight is that by maintaining two positions and making intelligent decisions about which pointer to move based on the current state, you can efficiently explore the solution space without examining every possible pair or subset.",
-    "whenToUse": "Use Two Pointers when: (1) The input is sorted or has an inherent ordering that allows you to make decisions based on comparisons - this is crucial as it enables you to eliminate large portions of the search space. (2) You need to find pairs, triplets, or subarrays that satisfy a specific condition (sum, product, distance). (3) The problem involves in-place array manipulation where extra space is limited. (4) You're checking for palindromes or symmetric properties. (5) You need to merge, partition, or rearrange elements based on a condition. (6) The problem asks to remove or modify elements while iterating. (7) You're dealing with linked lists and need to detect cycles or find middle elements. The technique is especially powerful when the problem hints at finding relationships between elements at different positions.",
+    "whenToUse": "Use Two Pointers when:\n1. The input is sorted or has an inherent ordering that allows you to make decisions based on comparisons - this is crucial as it enables you to eliminate large portions of the search space\n2. You need to find pairs, triplets, or subarrays that satisfy a specific condition (sum, product, distance)\n3. The problem involves in-place array manipulation where extra space is limited\n4. You're checking for palindromes or symmetric properties\n5. You need to merge, partition, or rearrange elements based on a condition\n6. The problem asks to remove or modify elements while iterating\n7. You're dealing with linked lists and need to detect cycles or find middle elements. The technique is especially powerful when the problem hints at finding relationships between elements at different positions",
     "whyItWorks": "Two Pointers works because it exploits the ordered nature of data to make intelligent elimination decisions. When data is sorted, comparing elements at two positions gives you information about what direction to search next. For example, if the sum of two elements is too large, you know moving the right pointer left will only produce smaller or equal sums. This monotonic property means each pointer movement eliminates possibilities, ensuring you don't miss any valid solutions while avoiding redundant checks. The technique also works for the fast-slow pointer variant because the mathematical relationship between their speeds creates predictable collision points in cyclic structures.",
     "commonUseCases": [
       "Two Sum in sorted array - Find pair that sums to target",
@@ -48,7 +48,32 @@
         "title": "Two Pointers - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Two Pointers Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Two Pointers Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Two Pointers Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Two Pointers Tutorial - TakeUForward",
+        "url": "https://takeuforward.org/",
+        "type": "article"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440002",
+      "550e8400-e29b-41d4-a716-446655440018",
+      "550e8400-e29b-41d4-a716-446655440003"
     ]
   },
   {
@@ -57,8 +82,8 @@
     "description": "Maintain a window of elements that slides through the data structure to find optimal subarrays/substrings.",
     "category": "SlidingWindow",
     "whatItIs": "Sliding Window is an optimization technique that maintains a contiguous subset of elements (the 'window') and efficiently slides it through an array or string to solve problems involving subarrays or substrings. The technique comes in two main flavors: Fixed-size windows (where the window size is constant, like 'maximum sum of k consecutive elements') and Variable-size windows (where the window expands and contracts based on conditions, like 'longest substring without repeating characters'). The power of this technique lies in its ability to avoid recomputing the same information repeatedly - instead of recalculating everything for each new window position from scratch (which would be O(n×k) or O(n²)), we incrementally update by adding the new element entering the window and removing the old element leaving it (achieving O(n)). This makes it ideal for problems that ask about contiguous sequences meeting certain criteria.",
-    "whenToUse": "Use Sliding Window when: (1) The problem explicitly asks about contiguous subarrays or substrings - keywords like 'consecutive', 'contiguous', or 'substring' are strong indicators. (2) You need to find maximum/minimum length, maximum/minimum sum, or count of subarrays meeting a condition. (3) The problem involves finding the optimal window (longest, shortest, or with specific properties) within a sequence. (4) You're asked to maintain or track something over a range that moves through the data. (5) There's a fixed window size k and you need statistics (max, min, avg) for each window. (6) The problem requires checking every possible subarray - sliding window can optimize this from O(n²) to O(n). (7) You need to track character frequencies, sums, or counts within a moving range. The technique is particularly effective when the window's validity can be determined efficiently as elements enter and leave.",
-    "whyItWorks": "Sliding Window works by exploiting the overlap between consecutive subarrays. When you move the window one position to the right, most of the elements (k-1 out of k in fixed windows) remain the same. Instead of reprocessing all these elements, you only need to: (1) Remove the contribution of the element leaving the window, (2) Add the contribution of the element entering the window, and (3) Update your tracking variables accordingly. This incremental update is O(1) for most operations (sum, count, frequency map operations), making the overall algorithm O(n). For variable windows, the expansion and contraction logic ensures that each element is processed at most twice (once when entering, once when leaving), maintaining linear time complexity. The technique essentially trades space (storing window state) for time (avoiding recomputation).",
+    "whenToUse": "Use Sliding Window when:\n1. The problem explicitly asks about contiguous subarrays or substrings - keywords like 'consecutive', 'contiguous', or 'substring' are strong indicators\n2. You need to find maximum/minimum length, maximum/minimum sum, or count of subarrays meeting a condition\n3. The problem involves finding the optimal window (longest, shortest, or with specific properties) within a sequence\n4. You're asked to maintain or track something over a range that moves through the data\n5. There's a fixed window size k and you need statistics (max, min, avg) for each window\n6. The problem requires checking every possible subarray - sliding window can optimize this from O(n²) to O(n)\n7. You need to track character frequencies, sums, or counts within a moving range. The technique is particularly effective when the window's validity can be determined efficiently as elements enter and leave",
+    "whyItWorks": "Sliding Window works by exploiting the overlap between consecutive subarrays. When you move the window one position to the right, most of the elements (k-1 out of k in fixed windows) remain the same. Instead of reprocessing all these elements, you only need to:\n1. Remove the contribution of the element leaving the window,\n2. Add the contribution of the element entering the window, and\n3. Update your tracking variables accordingly. This incremental update is O(1) for most operations (sum, count, frequency map operations), making the overall algorithm O(n). For variable windows, the expansion and contraction logic ensures that each element is processed at most twice (once when entering, once when leaving), maintaining linear time complexity. The technique essentially trades space (storing window state) for time (avoiding recomputation)",
     "commonUseCases": [
       "Longest substring without repeating characters - Variable window with hashmap",
       "Minimum window substring - Variable window finding smallest containing target",
@@ -102,7 +127,31 @@
         "title": "Sliding Window - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Sliding Window Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Sliding Window Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Sliding Window Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Sliding Window Tutorial - TakeUForward",
+        "url": "https://takeuforward.org/",
+        "type": "article"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440001",
+      "550e8400-e29b-41d4-a716-446655440017"
     ]
   },
   {
@@ -111,7 +160,7 @@
     "description": "Repeatedly divide the search space in half to find target or optimal value in logarithmic time.",
     "category": "BinarySearch",
     "whatItIs": "Binary Search is a highly efficient search algorithm that works on sorted arrays by repeatedly dividing the search interval in half. The core idea is to compare the target value with the middle element: if they match, you've found it; if the target is smaller, search the left half; if larger, search the right half. This halving process continues until the target is found or the search space is exhausted. Beyond just finding exact values, Binary Search can be extended to find boundaries (first/last occurrence), search in rotated arrays, find peaks, and even solve optimization problems by searching the solution space. The algorithm's power comes from its ability to eliminate half the remaining possibilities with each comparison, achieving O(log n) time complexity. This makes it dramatically faster than linear search for large datasets - searching 1 billion elements takes only about 30 comparisons!",
-    "whenToUse": "Use Binary Search when: (1) The input array or list is sorted (or can be sorted efficiently). This is the primary requirement - without ordering, binary search cannot make elimination decisions. (2) You need to find an exact value, the first/last occurrence, or insertion position. (3) The problem involves finding a minimum/maximum value that satisfies a condition (binary search on answer). (4) You're searching in a rotated sorted array or mountain array where partial order exists. (5) The search space is vast and linear search would be too slow (O(n) → O(log n) improvement). (6) You need to find a threshold or boundary where a property changes from false to true (monotonic function). (7) Asked to minimize/maximize something subject to constraints (capacity to ship packages, minimum in rotated array, kth smallest element in matrix). (8) The problem mentions 'sorted', 'ordered', or gives you sorted input. (9) You need efficient search in infinite or very large arrays. (10) The problem is an optimization problem that can be formulated as 'can we achieve X?' where X can be binary searched.",
+    "whenToUse": "Use Binary Search when:\n1. The input array or list is sorted (or can be sorted efficiently). This is the primary requirement - without ordering, binary search cannot make elimination decisions\n2. You need to find an exact value, the first/last occurrence, or insertion position\n3. The problem involves finding a minimum/maximum value that satisfies a condition (binary search on answer)\n4. You're searching in a rotated sorted array or mountain array where partial order exists\n5. The search space is vast and linear search would be too slow (O(n) → O(log n) improvement)\n6. You need to find a threshold or boundary where a property changes from false to true (monotonic function)\n7. Asked to minimize/maximize something subject to constraints (capacity to ship packages, minimum in rotated array, kth smallest element in matrix)\n8. The problem mentions 'sorted', 'ordered', or gives you sorted input\n9. You need efficient search in infinite or very large arrays\n10. The problem is an optimization problem that can be formulated as 'can we achieve X?' where X can be binary searched",
     "whyItWorks": "Binary Search works because of the monotonic property of sorted data. When you compare with the middle element, the comparison gives you definitive information about which half could possibly contain your target. Since the array is sorted, if target is less than middle, it CANNOT be in the right half; if greater, it CANNOT be in the left half. This guarantee allows safely discarding half the search space with each iteration. The logarithmic time comes from dividing problem size by 2 repeatedly: n → n/2 → n/4 → n/8 ... until reaching 1. The number of divisions needed is log₂(n). Even for binary search on answer problems, the principle is the same - you're searching a monotonic solution space where feasibility is preserved in one direction.",
     "commonUseCases": [
       "Find element in sorted array",
@@ -148,7 +197,31 @@
         "title": "Binary Search - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Binary Search Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Binary Search Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Binary Search Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Binary Search - CP Algorithms",
+        "url": "https://cp-algorithms.com/",
+        "type": "article"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440001",
+      "550e8400-e29b-41d4-a716-446655440014"
     ]
   },
   {
@@ -157,7 +230,7 @@
     "description": "Explore as far as possible along each branch before backtracking, used for trees, graphs, and recursive exploration.",
     "category": "Graph",
     "whatItIs": "Depth-First Search (DFS) is a fundamental graph/tree traversal algorithm that explores as deeply as possible along each branch before backtracking. It uses a stack data structure (either explicitly or implicitly through recursion) to remember vertices to visit later. Starting from a source vertex, DFS visits a neighbor, then a neighbor of that neighbor, and so on, going deeper until it reaches a dead end (no unvisited neighbors), at which point it backtracks to the most recent vertex with unvisited neighbors. This strategy is called 'depth-first' because it prioritizes deepening the search before widening it. DFS can be implemented recursively (using the call stack) or iteratively (using an explicit stack). The recursive version is often more intuitive and cleaner, while the iterative version gives more control over memory usage and can avoid stack overflow on very deep graphs.",
-    "whenToUse": "Use DFS when: (1) You need to explore ALL paths or possibilities (backtracking problems, finding all solutions). (2) Checking connectivity between nodes or finding connected components. (3) Detecting cycles in directed or undirected graphs. (4) Topological sorting (with modifications). (5) Path-finding where you need the actual path, not just shortest distance. (6) Tree traversals (inorder, preorder, postorder). (7) Solving maze/puzzle problems where you try all possibilities. (8) Detecting strongly connected components (Tarjan's algorithm). (9) The solution is likely to be far from root (problems where BFS would take too long). (10) Memory is constrained (DFS uses O(h) space vs BFS's O(w) where h=height, w=width).",
+    "whenToUse": "Use DFS when:\n1. You need to explore ALL paths or possibilities (backtracking problems, finding all solutions)\n2. Checking connectivity between nodes or finding connected components\n3. Detecting cycles in directed or undirected graphs\n4. Topological sorting (with modifications)\n5. Path-finding where you need the actual path, not just shortest distance\n6. Tree traversals (inorder, preorder, postorder)\n7. Solving maze/puzzle problems where you try all possibilities\n8. Detecting strongly connected components (Tarjan's algorithm)\n9. The solution is likely to be far from root (problems where BFS would take too long)\n10. Memory is constrained (DFS uses O(h) space vs BFS's O(w) where h=height, w=width)",
     "whyItWorks": "DFS works because the stack structure (explicit or call stack) provides natural backtracking. When you hit a dead end, the stack remembers where you came from, allowing you to return and try alternative paths. This makes DFS perfect for problems requiring exhaustive search. The visited set prevents infinite loops in cyclic graphs by marking explored vertices. DFS's depth-first nature means it finds complete paths before exploring alternatives, making it ideal for problems where you need to analyze full paths or detect patterns that require seeing the entire branch.",
     "commonUseCases": [
       "Number of islands - Flood fill with DFS",
@@ -194,7 +267,32 @@
         "title": "Graph DFS - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Depth-First Search (DFS) Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Depth-First Search (DFS) Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Depth-First Search (DFS) Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Depth-First Search (DFS) - CP Algorithms",
+        "url": "https://cp-algorithms.com/",
+        "type": "article"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440005",
+      "550e8400-e29b-41d4-a716-446655440007",
+      "550e8400-e29b-41d4-a716-446655440015"
     ]
   },
   {
@@ -203,7 +301,7 @@
     "description": "Explore all neighbors at present depth before moving to nodes at next depth level, ideal for shortest paths.",
     "category": "Graph",
     "whatItIs": "Breadth-First Search (BFS) is a graph traversal algorithm that explores vertices level by level, visiting all neighbors at the current depth before moving deeper. It uses a queue (FIFO - First In, First Out) to manage which vertices to visit next. Starting from a source vertex, BFS visits all its direct neighbors first (level 1), then all unvisited neighbors of those neighbors (level 2), and so on. This layer-by-layer expansion is like ripples spreading from a stone dropped in water. BFS guarantees finding the shortest path in unweighted graphs because it explores paths in increasing order of length - when you first reach a node, you've found the shortest path to it. This property makes BFS the go-to algorithm for shortest path problems in unweighted graphs and for finding minimum steps/moves/levels in various problems.",
-    "whenToUse": "Use BFS when: (1) Finding shortest path in unweighted graphs (THE primary use case - BFS guarantees shortest path). (2) Level-order traversal of trees (process nodes level by level). (3) Finding minimum number of steps, moves, or operations. (4) Finding nodes within k distance/steps from source. (5) Testing bipartiteness of a graph (2-coloring). (6) Finding all nodes in a connected component. (7) Solving puzzle/maze problems asking for minimum moves. (8) Broadcasting/spreading problems (rotting oranges, spreading info). (9) Building level-based structures or ensuring layer-wise processing. (10) When solution is likely close to root (opposite of DFS use case). Note: BFS is NOT suitable for weighted graphs - use Dijkstra instead.",
+    "whenToUse": "Use BFS when:\n1. Finding shortest path in unweighted graphs (THE primary use case - BFS guarantees shortest path)\n2. Level-order traversal of trees (process nodes level by level)\n3. Finding minimum number of steps, moves, or operations\n4. Finding nodes within k distance/steps from source\n5. Testing bipartiteness of a graph (2-coloring)\n6. Finding all nodes in a connected component\n7. Solving puzzle/maze problems asking for minimum moves\n8. Broadcasting/spreading problems (rotting oranges, spreading info)\n9. Building level-based structures or ensuring layer-wise processing\n10. When solution is likely close to root (opposite of DFS use case). Note: BFS is NOT suitable for weighted graphs - use Dijkstra instead",
     "whyItWorks": "BFS works because the queue's FIFO property ensures vertices are visited in order of their distance from the source. When you dequeue a vertex at distance d, you enqueue its unvisited neighbors at distance d+1. This systematic layer-by-layer expansion means when you first discover a vertex, you've found the shortest path to it (in unweighted graphs). No shorter path exists because any other path would require going through at least as many levels. The visited set prevents revisiting nodes and ensures each node is processed once, giving O(V+E) time complexity.",
     "commonUseCases": [
       "Shortest path in maze/grid",
@@ -240,7 +338,31 @@
         "title": "Graph BFS - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Breadth-First Search (BFS) Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Breadth-First Search (BFS) Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Breadth-First Search (BFS) Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Breadth-First Search (BFS) - CP Algorithms",
+        "url": "https://cp-algorithms.com/",
+        "type": "article"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440004",
+      "550e8400-e29b-41d4-a716-446655440022"
     ]
   },
   {
@@ -248,9 +370,9 @@
     "name": "Dynamic Programming",
     "description": "Break down problems into overlapping subproblems and store solutions to avoid redundant computation.",
     "category": "DynamicProgramming",
-    "whatItIs": "Dynamic Programming (DP) is a powerful optimization technique that solves complex problems by breaking them down into simpler overlapping subproblems, solving each subproblem once, and storing their solutions to avoid redundant computation (memoization). DP is applicable when a problem has two key properties: (1) Optimal Substructure - the optimal solution can be constructed from optimal solutions of subproblems, and (2) Overlapping Subproblems - the same subproblems are solved multiple times in a naive recursive approach. DP can be implemented using top-down (recursion + memoization) or bottom-up (iterative tabulation) approaches. Top-down starts with the original problem and recursively breaks it down, caching results. Bottom-up builds solutions iteratively from base cases. DP transforms exponential time algorithms into polynomial time by eliminating redundant calculations, making previously intractable problems solvable.",
-    "whenToUse": "Use DP when: (1) Problem asks to count number of ways to do something (count all possibilities). (2) Find minimum or maximum value/cost (optimization). (3) Making sequential decisions where each decision depends on previous decisions. (4) Problem can be broken into overlapping subproblems. (5) Naive recursion leads to repeated calculations (fibonacci is classic example). (6) Problem involves finding optimal path/sequence/subset. (7) Keywords like 'maximize profit', 'minimize cost', 'longest/shortest', 'count ways'. (8) Problems involving choices at each step (take/skip, buy/sell). (9) String matching or subsequence problems. (10) Game theory problems with optimal play. The key is identifying the state (what parameters define a subproblem) and the recurrence relation (how subproblems relate).",
-    "whyItWorks": "DP works by exploiting the overlap between subproblems. In naive recursion, the same subproblem might be solved thousands or millions of times. By storing (memoizing) the result the first time we solve it, all subsequent encounters return the cached value in O(1) time. This transforms the time complexity dramatically - for example, naive recursive Fibonacci is O(2^n), but with memoization it becomes O(n). The space-time tradeoff (using extra memory to store results) yields exponential speedup. DP essentially organizes computation to ensure each unique subproblem is solved exactly once.",
+    "whatItIs": "Dynamic Programming (DP) is a powerful optimization technique that solves complex problems by breaking them down into simpler overlapping subproblems, solving each subproblem once, and storing their solutions to avoid redundant computation (memoization). DP is applicable when a problem has two key properties:\n1. Optimal Substructure - the optimal solution can be constructed from optimal solutions of subproblems, and\n2. Overlapping Subproblems - the same subproblems are solved multiple times in a naive recursive approach. DP can be implemented using top-down (recursion + memoization) or bottom-up (iterative tabulation) approaches. Top-down starts with the original problem and recursively breaks it down, caching results. Bottom-up builds solutions iteratively from base cases. DP transforms exponential time algorithms into polynomial time by eliminating redundant calculations, making previously intractable problems solvable",
+    "whenToUse": "Use DP when:\n1. Problem asks to count number of ways to do something (count all possibilities)\n2. Find minimum or maximum value/cost (optimization)\n3. Making sequential decisions where each decision depends on previous decisions\n4. Problem can be broken into overlapping subproblems\n5. Naive recursion leads to repeated calculations (fibonacci is classic example)\n6. Problem involves finding optimal path/sequence/subset\n7. Keywords like 'maximize profit', 'minimize cost', 'longest/shortest', 'count ways'\n8. Problems involving choices at each step (take/skip, buy/sell)\n9. String matching or subsequence problems\n10. Game theory problems with optimal play. The key is identifying the state (what parameters define a subproblem) and the recurrence relation (how subproblems relate)",
+    "whyItWorks": "DP works by exploiting the overlap between subproblems. In naive recursion, the same subproblem might be solved thousands or millions of times. By storing (memoizing) the result the first time we solve it, all subsequent encounters return the cached value in O(1) time. This transforms the time complexity dramatically - for example, naive recursive Fibonacci is O(2^n), but with memoization it becomes O(n). The space-time tradeoff (using extra memory to store results) yields exponential speedup. DP essentially organizes computation to ensure each unique subproblem is solved exactly once",
     "commonUseCases": [
       "Fibonacci sequence - Classic overlapping subproblems",
       "Climbing stairs - Count ways with memoization",
@@ -297,7 +419,27 @@
         "title": "DP - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Dynamic Programming Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Dynamic Programming Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Dynamic Programming Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440009",
+      "550e8400-e29b-41d4-a716-446655440014",
+      "550e8400-e29b-41d4-a716-446655440017"
     ]
   },
   {
@@ -306,7 +448,7 @@
     "description": "Build solutions incrementally, abandoning paths that fail to satisfy constraints.",
     "category": "Backtracking",
     "whatItIs": "Backtracking is a systematic algorithmic technique for finding all (or some) solutions to computational problems by incrementally building candidates and abandoning (backtracking from) each partial candidate as soon as it determines the candidate cannot lead to a valid solution. It's essentially a refined brute force approach that prunes the search space. The algorithm makes a choice, recursively explores that choice, and if it doesn't work out (violates constraints or leads to invalid solutions), it undoes that choice (backtracks) and tries the next option. This choose-explore-unchoose pattern continues until all possibilities are exhausted. Backtracking is the go-to technique for constraint satisfaction problems, combinatorial optimization, and puzzle solving where you need enumerate all solutions or find any valid solution under constraints.",
-    "whenToUse": "Use Backtracking when: (1) Need to generate ALL solutions (permutations, combinations, subsets). (2) Problem involves making a sequence of decisions under constraints. (3) Problem is about finding ANY valid solution satisfying constraints (Sudoku, N-Queens). (4) Need to explore all possible paths/configurations. (5) Problem asks for 'all possible ways' or 'count all solutions'. (6) Constraint satisfaction problems (placing items with restrictions). (7) Puzzle solving (crossword, maze with restrictions). (8) Generating valid strings/sequences (balanced parentheses, IP addresses). (9) Partitioning problems (split array into valid subsets). The key indicator is needing exhaustive search with the ability to prune invalid branches early.",
+    "whenToUse": "Use Backtracking when:\n1. Need to generate ALL solutions (permutations, combinations, subsets)\n2. Problem involves making a sequence of decisions under constraints\n3. Problem is about finding ANY valid solution satisfying constraints (Sudoku, N-Queens)\n4. Need to explore all possible paths/configurations\n5. Problem asks for 'all possible ways' or 'count all solutions'\n6. Constraint satisfaction problems (placing items with restrictions)\n7. Puzzle solving (crossword, maze with restrictions)\n8. Generating valid strings/sequences (balanced parentheses, IP addresses)\n9. Partitioning problems (split array into valid subsets). The key indicator is needing exhaustive search with the ability to prune invalid branches early",
     "whyItWorks": "Backtracking works by systematically exploring the entire solution space while intelligently pruning branches that cannot lead to valid solutions. The pruning is crucial - by checking constraints as you build the solution incrementally, you can abandon an entire subtree of possibilities as soon as a violation is detected, avoiding wasted exploration of billions of invalid paths. Without pruning, complete enumeration would be intractable. The recursive structure naturally handle the 'undo' operation - as the recursion unwinds, the previous state is restored. This makes backtracking both complete (finds all solutions) and efficient (prunes impossible branches).",
     "commonUseCases": [
       "N-Queens - Place N queens on N×N chessboard",
@@ -348,7 +490,26 @@
         "title": "Backtracking - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Backtracking Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Backtracking Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Backtracking Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440004",
+      "550e8400-e29b-41d4-a716-446655440006"
     ]
   },
   {
@@ -356,8 +517,8 @@
     "name": "Heap / Priority Queue",
     "description": "Efficiently maintain and access the minimum or maximum element in a dynamic collection.",
     "category": "Heap",
-    "whatItIs": "A Heap is a specialized tree-based data structure that maintains a partial ordering property: in a min-heap, parent nodes are smaller than their children; in a max-heap, parents are larger. This heap property is weaker than complete sorting but much cheaper to maintain - insertions and deletions are O(log n) instead of the O(n) needed to maintain a sorted array. Heaps are typically implemented as complete binary trees stored in arrays, where for node at index i, the left child is at 2i+1 and right child at 2i+2. Priority Queues are the abstract data type that heaps implement, providing quick access (O(1)) to the highest-priority (min or max) element and efficient (O(log n)) insertion and removal. Heaps are the secret sauce behind efficient algorithms for top-K problems, streaming data, task scheduling, and graph algorithms like Dijkstra's.",
-    "whenToUse": "Use Heap/Priority Queue when: (1) Need repeated access to minimum or maximum element (K largest/smallest problems). (2) Processing elements in priority order rather than insertion order. (3) Merging K sorted lists/arrays efficiently. (4) Finding median in a data stream (using two heaps). (5) Task scheduling where priority matters. (6) Graph algorithms (Dijkstra's shortest path, Prim's MST). (7) Implementing efficient sorting (heapsort). (8) Finding K-th largest/smallest element. (9) Top K frequent elements. (10) Continuous median calculation. The key insight is when you need 'best so far' tracking in a dynamic set where elements are added/removed frequently.",
+    "whatItIs": "A Heap is a specialized tree-based data structure that maintains a partial ordering property: in a min-heap, parent nodes are smaller than their children; in a max-heap, parents are larger. This heap property is weaker than complete sorting but much cheaper to maintain - insertions and deletions are O(log n) instead of the O(n) needed to maintain a sorted array. Heaps are typically implemented as complete binary trees stored in arrays, where for node at index i, the left child is at 2i+1 and right child at 2i+2. Priority Queues are the abstract data type that heaps implement, providing quick access (O(1) ) to the highest-priority (min or max) element and efficient (O(log n)) insertion and removal. Heaps are the secret sauce behind efficient algorithms for top-K problems, streaming data, task scheduling, and graph algorithms like Dijkstra's",
+    "whenToUse": "Use Heap/Priority Queue when:\n1. Need repeated access to minimum or maximum element (K largest/smallest problems)\n2. Processing elements in priority order rather than insertion order\n3. Merging K sorted lists/arrays efficiently\n4. Finding median in a data stream (using two heaps)\n5. Task scheduling where priority matters\n6. Graph algorithms (Dijkstra's shortest path, Prim's MST)\n7. Implementing efficient sorting (heapsort)\n8. Finding K-th largest/smallest element\n9. Top K frequent elements\n10. Continuous median calculation. The key insight is when you need 'best so far' tracking in a dynamic set where elements are added/removed frequently",
     "whyItWorks": "Heaps work by maintaining a weaker invariant than full sorting. The heap property only requires parent ≥ children (max-heap) or parent ≤ children (min-heap), not global ordering. This partial order is sufficient for finding min/max and can be maintained with O(log n) operations via bubble-up (heapify-up) after insertion and bubble-down (heapify-down) after deletion. The tree height is log n for n elements, so worst-case path length is log n. The array representation is cache-friendly and space-efficient with no pointer overhead. For K-largest problems, maintaining a min-heap of size K means you always have the K largest elements, and checking if a new element belongs takes O(log K) not O(K).",
     "commonUseCases": [
       "Kth largest element in array - Min-heap of size K",
@@ -398,7 +559,27 @@
         "title": "Heaps - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Heap / Priority Queue Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Heap / Priority Queue Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Heap / Priority Queue Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440020",
+      "550e8400-e29b-41d4-a716-446655440021",
+      "550e8400-e29b-41d4-a716-446655440009"
     ]
   },
   {
@@ -406,33 +587,65 @@
     "name": "Greedy",
     "description": "Make locally optimal choices at each step, hoping to find a global optimum.",
     "category": "Greedy",
-    "whatItIs": "Greedy algorithms make the best choice at each step without considering future consequences.",
-    "whenToUse": "Use Greedy when: Problem has greedy choice property, Local optimal leads to global optimal",
-    "whyItWorks": "For certain problems, locally optimal choice is part of globally optimal solution",
+    "whatItIs": "Greedy algorithms make decisions based on the information available at the current moment, choosing the option that seems best locally, without reconsidering past choices or looking ahead to future consequences. The key characteristic is that once a choice is made, it's never reconsidered - the algorithm commits to each greedy choice irrevocably. This approach works for a special class of problems that have the 'greedy choice property' - where making locally optimal choices leads to a globally optimal solution. Unlike Dynamic Programming which considers all possibilities, greedy algorithms follow a single path of choices. This makes them fast (often O(n log n) due to sorting) but applicable only when the greedy choice property can be proven. Famous examples include Huffman coding, Dijkstra's algorithm, and activity selection.",
+    "whenToUse": "Use Greedy when:\n1. The problem has the greedy choice property - making the locally optimal choice at each step leads to a globally optimal solution. This must be proven or strongly suspected\n2. The problem exhibits optimal substructure - an optimal solution contains optimal solutions to subproblems\n3. Sorting helps reveal the greedy choice (sort by end time, start time, ratio, etc.)\n4. Making the best choice now doesn't prevent future optimal choices\n5. Interval scheduling and selection problems\n6. Problems asking to minimize/maximize something with no complex dependencies\n7. Exchange argument can prove correctness (swapping choices doesn't improve solution)\n8. Matroid structure exists (harder to verify). Warning: Many problems seem greedy but actually need DP - greedy is often the tempting wrong answer. Always verify the greedy choice property",
+    "whyItWorks": "Greedy algorithms work when the problem structure guarantees that local optimization leads to global optimization. This happens when:\n1. Greedy Choice Property holds - you can make a choice that looks best now and solve the remaining subproblem independently. The key is that this choice is part of some optimal solution\n2. Optimal Substructure exists - after making the greedy choice, the remaining problem is an independent subproblem\n3. No dependencies between choices exist that prevent local optimal from being globally optimal. The correctness is often proven by exchange argument: assume optimal solution differs from greedy, swap one choice to make it more greedy; if this doesn't worsen the solution, greedy is optimal. Sorting often helps because it orders choices by priority, making the greedy selection clear",
     "commonUseCases": [
-      "Activity selection",
-      "Jump game",
-      "Gas station",
-      "Non-overlapping intervals"
+      "Activity selection - Choose maximum non-overlapping activities",
+      "Jump game - Can reach end with minimum jumps",
+      "Gas station - Find starting station for circular tour",
+      "Non-overlapping intervals - Minimum removals for non-overlap",
+      "Fractional knapsack - Maximize value with fractional items",
+      "Minimum number of platforms - Schedule trains",
+      "Huffman coding - Optimal prefix codes",
+      "Task scheduler - Schedule with cooldown",
+      "Candy distribution - Minimum candies satisfying ratings",
+      "Queue reconstruction by height - Greedy insertion"
     ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(1)",
-    "pseudoCode": "Identify greedy choice, sort, make greedy selections...",
+    "timeComplexity": "O(n log n) typically from sorting, O(n) if already sorted",
+    "spaceComplexity": "O(1) to O(n) depending on what needs to be stored",
+    "pseudoCode": "ACTIVITY SELECTION:\nfunction activitySelection(activities):\n    // Sort by end time (greedy choice: earliest ending)\n    activities.sort(key=lambda x: x.end)\n    \n    selected = [activities[0]]\n    lastEnd = activities[0].end\n    \n    for activity in activities[1:]:\n        if activity.start >= lastEnd:\n            selected.append(activity)\n            lastEnd = activity.end\n    \n    return selected\n\nJUMP GAME II (Minimum Jumps):\nfunction minJumps(nums):\n    jumps = 0\n    currentEnd = 0\n    farthest = 0\n    \n    for i in 0 to len(nums)-1:\n        farthest = max(farthest, i + nums[i])\n        \n        if i == currentEnd:\n            jumps++\n            currentEnd = farthest\n            \n            if currentEnd >= len(nums)-1:\n                break\n    \n    return jumps\n\nFRACTIONAL KNAPSACK:\nfunction fractionalKnapsack(items, capacity):\n    // Sort by value/weight ratio (greedy choice)\n    items.sort(key=lambda x: x.value/x.weight, reverse=True)\n    \n    totalValue = 0\n    remaining = capacity\n    \n    for item in items:\n        if remaining == 0:\n            break\n        \n        take = min(item.weight, remaining)\n        totalValue += take * (item.value / item.weight)\n        remaining -= take\n    \n    return totalValue\n\nGAS STATION:\nfunction canCompleteCircuit(gas, cost):\n    totalGas = 0\n    currentGas = 0\n    startStation = 0\n    \n    for i in 0 to len(gas):\n        totalGas += gas[i] - cost[i]\n        currentGas += gas[i] - cost[i]\n        \n        if currentGas < 0:\n            startStation = i + 1\n            currentGas = 0\n    \n    return startStation if totalGas >= 0 else -1",
     "triggerSignals": [
-      "Maximize/minimize with constraints",
-      "Interval problems",
-      "Sorting might help"
+      "Maximize/minimize something with no complex dependencies",
+      "Interval scheduling and selection problems",
+      "Problem mentions 'earliest', 'latest', 'minimum', 'maximum'",
+      "Sorting reveals optimal choice",
+      "Local choice doesn't affect future choices",
+      "Activity/task selection with constraints",
+      "Exchange argument seems applicable"
     ],
     "commonMistakes": [
-      "Applying greedy when DP needed",
-      "Wrong sorting criteria"
+      "Applying greedy when DP is needed: Coin change is classic trap - greedy fails for some denominations (e.g., coins=[1,3,4], amount=6: greedy gives 4+1+1=3 coins, optimal is 3+3=2 coins). Always verify greedy choice property.",
+      "Wrong sorting criteria: Sorting by wrong parameter leads to incorrect greedy choice. For activity selection, must sort by end time, not start time or duration. For fractional knapsack, must sort by value/weight ratio.",
+      "Not considering edge cases: Empty input, single element, all same values - greedy algorithms can fail on edge cases if not carefully implemented.",
+      "Assuming greedy works without proof: Just because greedy gives an answer doesn't mean it's optimal. Need exchange argument or formal proof.",
+      "Greedy on wrong direction: Some problems need greedy from end to start, not start to end. Jump Game II works forward, some problems need backward greedy."
     ],
     "resources": [
       {
         "title": "Greedy Algorithms",
         "url": "https://www.geeksforgeeks.org/",
         "type": "article"
+      },
+      {
+        "title": "Greedy Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Greedy Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Greedy Course - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440006",
+      "550e8400-e29b-41d4-a716-446655440013"
     ]
   },
   {
@@ -440,33 +653,67 @@
     "name": "Monotonic Stack",
     "description": "Maintain a stack with elements in sorted order to efficiently solve next greater/smaller element problems.",
     "category": "MonotonicStack",
-    "whatItIs": "A Monotonic Stack maintains elements in increasing or decreasing order.",
-    "whenToUse": "Use when: Finding next/previous greater/smaller element, Stock span problems, Largest rectangle",
-    "whyItWorks": "Each element pushed/popped once, O(1) amortized per element",
+    "whatItIs": "A Monotonic Stack is a stack data structure where elements are maintained in monotonically increasing or decreasing order. As you push elements, you pop elements that violate the monotonic property. This creates a stack that's always sorted in a specific order (increasing: bottom to top are larger, decreasing: bottom to top are smaller). The key insight is that each element is pushed exactly once and popped at most once, making operations amortized O(1) per element, achieving O(n) total time for n elements. Monotonic stacks are incredibly powerful for 'next greater/smaller element' type problems - they can solve in one pass what would take O(n²) with nested loops. The technique is also used for finding spans, histograms, and in problems where you need to know the nearest larger/smaller element in O(n) time",
+    "whenToUse": "Use Monotonic Stack when:\n1. Finding next greater element (NGE) or next smaller element for each element in array\n2. Previous greater/smaller element problems\n3. Finding span (distance to previous greater/smaller)\n4. Largest rectangle in histogram problems\n5. Trapping water problems where heights matter\n6. Problems requiring nearest larger/smaller elements\n7. Stock span problems (days until price exceeds current)\n8. Subarray problems with min/max element constraints\n9. When you need O(n) solution for problems that seem to require O(n²) nested loops. Key indicator: the problem involves finding relationships between elements and their neighbors based on value comparisons",
+    "whyItWorks": "Monotonic Stack works because it maintains useful information while discarding irrelevant data efficiently. When processing element at index i:\n1. Pop all elements from stack that violate monotonic property - these elements will never be the answer for any future element (they're 'blocked' by current element)\n2. The element now at top of stack is the nearest previous greater/smaller element for current element\n3. Push current element's index. Since each element is pushed once and popped at most once, total operations are O(n). The stack acts as a filter, keeping only 'candidate' elements that could be answers for future elements, automatically discarding impossible candidates",
     "commonUseCases": [
-      "Next greater element",
-      "Daily temperatures",
-      "Largest rectangle",
-      "Trapping rain water"
+      "Next greater element - Find next larger element for each position",
+      "Daily temperatures - Days until warmer temperature",
+      "Largest rectangle in histogram - Maximum rectangular area",
+      "Trapping rain water - Calculate trapped water between heights",
+      "Stock span problem - Days price is less than or equal to today",
+      "Remove K digits - Smallest number after removing K digits",
+      "132 pattern - Find i < j < k where nums[i] < nums[k] < nums[j]",
+      "Sum of subarray minimums - Sum of mins of all subarrays",
+      "Maximum width ramp - Maximum j-i where nums[i] <= nums[j]",
+      "Online stock span - Real-time span calculation"
     ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "Maintain monotonic property while processing elements...",
+    "timeComplexity": "O(n) - each element pushed and popped at most once",
+    "spaceComplexity": "O(n) for stack in worst case (all elements increasing/decreasing)",
+    "pseudoCode": "NEXT GREATER ELEMENT (NGE):\nfunction nextGreaterElements(nums):\n    n = len(nums)\n    result = array of size n filled with -1\n    stack = []  // Stores indices\n    \n    for i in 0 to n:\n        // Pop smaller elements - they found their NGE\n        while stack and nums[i] > nums[stack[-1]]:\n            idx = stack.pop()\n            result[idx] = nums[i]\n        \n        stack.append(i)\n    \n    return result\n\nLARGEST RECTANGLE IN HISTOGRAM:\nfunction largestRectangle(heights):\n    stack = []  // Stores indices\n    maxArea = 0\n    \n    for i in 0 to len(heights):\n        // Pop taller bars and calculate their areas\n        while stack and heights[i] < heights[stack[-1]]:\n            h = heights[stack.pop()]\n            w = i if not stack else i - stack[-1] - 1\n            maxArea = max(maxArea, h * w)\n        \n        stack.append(i)\n    \n    // Process remaining bars\n    while stack:\n        h = heights[stack.pop()]\n        w = len(heights) if not stack else len(heights) - stack[-1] - 1\n        maxArea = max(maxArea, h * w)\n    \n    return maxArea\n\nDAILY TEMPERATURES:\nfunction dailyTemperatures(temps):\n    n = len(temps)\n    result = array of size n filled with 0\n    stack = []  // Decreasing stack of indices\n    \n    for i in 0 to n:\n        while stack and temps[i] > temps[stack[-1]]:\n            prevDay = stack.pop()\n            result[prevDay] = i - prevDay\n        \n        stack.append(i)\n    \n    return result\n\nMONOTONIC INCREASING STACK TEMPLATE:\nfor i in 0 to n:\n    while stack and arr[i] > arr[stack[-1]]:\n        idx = stack.pop()\n        // Process popped element\n        // arr[i] is NGE for arr[idx]\n    \n    stack.append(i)",
     "triggerSignals": [
-      "Next/greater smaller element",
-      "Span problems",
-      "Subarray min/max sums"
+      "'Next greater element' or 'next smaller element'",
+      "'Previous greater/smaller'",
+      "'Stock span' or days until condition met",
+      "'Largest rectangle' with heights",
+      "'Trapped water' or 'container' problems",
+      "Finding span or distance to nearest larger/smaller",
+      "Subarray problems involving min/max elements",
+      "Problems with O(n²) nested loop that checks all pairs"
     ],
     "commonMistakes": [
-      "Wrong monotonic direction",
-      "Storing values instead of indices"
+      "Wrong monotonic direction: For next greater, use increasing stack (pop smaller). For next smaller, use decreasing stack (pop greater). Confusing these gives wrong answers.",
+      "Storing values instead of indices: Almost always want to store indices, not values. Indices let you calculate distances/spans and access original array. Storing values loses position information.",
+      "Off-by-one in width calculation: For rectangular area, width is (current_index - stack_top - 1), not (current_index - stack_top). Common source of bugs.",
+      "Forgetting to process remaining stack: After main loop, stack may have unprocessed elements. Must handle these separately (they have no next greater/smaller).",
+      "Using wrong comparison: Using >= instead of > (or <= instead of <) changes the monotonic property. For duplicates, decide if equal elements should be popped.",
+      "Not handling empty stack: When calculating width/distance, check if stack is empty. Empty means element extends to start of array."
     ],
     "resources": [
       {
         "title": "Monotonic Stack - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Monotonic Stack Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Monotonic Stack Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Monotonic Stack Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440001",
+      "550e8400-e29b-41d4-a716-446655440002"
     ]
   },
   {
@@ -474,34 +721,67 @@
     "name": "Union-Find (Disjoint Set)",
     "description": "Track connected components with near O(1) union and find operations.",
     "category": "UnionFind",
-    "whatItIs": "Union-Find maintains disjoint sets with efficient union and find operations.",
-    "whenToUse": "Use when: Tracking connected components, Determining set membership, Kruskal's MST, Cycle detection",
-    "whyItWorks": "Path compression and union by rank achieve O(α(n)) amortized time",
+    "whatItIs": "Union-Find (also called Disjoint Set Union or DSU) is a data structure that efficiently tracks partitions of a set into disjoint subsets. It supports two main operations: Find (determine which subset an element belongs to) and Union (merge two subsets). Each subset is represented as a tree with a root element. Initially, each element is in its own set (singleton). When we union two sets, we make one root point to the other. The beauty is in the optimizations: Path Compression (during find, make nodes point directly to root) and Union by Rank (attach smaller tree under larger tree). With these optimizations, both operations become nearly O(1) - specifically O(α(n)) where α is the inverse Ackermann function, which grows so slowly that it's effectively constant for all practical purposes (α(n) < 5 for any n in the observable universe)",
+    "whenToUse": "Use Union-Find when:\n1. Tracking connected components in dynamic graph where edges are added incrementally\n2. Detecting cycles in undirected graphs efficiently\n3. Kruskal's Minimum Spanning Tree algorithm\n4. Problems about grouping/clustering elements based on relationships\n5. Determining if two elements are in same group/component\n6. Merging accounts/profiles/groups based on common properties\n7. Problems where elements form equivalence classes\n8. Island counting with dynamic addition\n9. Network connectivity problems (can A reach B?)\n10. When you need near-constant time for connectivity queries after initial setup. Key: problem involves disjoint sets that can be merged, and you need fast membership testing",
+    "whyItWorks": "Union-Find achieves near-constant time through two optimizations:\n1. Path Compression: When finding root of x, make all nodes on path point directly to root. This flattens the tree, making future finds on these nodes O(2) Union by Rank/Size: When unioning, attach tree with fewer nodes under tree with more nodes (or lower rank under higher rank). This keeps trees balanced and shallow. Together, these optimizations ensure tree height stays very small (practically constant). The amortized complexity of O(α(n)) comes from the fact that path compression pays for itself over multiple operations - early operations might be slower but they compress paths making future operations faster",
     "commonUseCases": [
-      "Number of connected components",
-      "Redundant connection",
-      "Accounts merge",
-      "Making a large island"
+      "Number of connected components - Count groups in undirected graph",
+      "Redundant connection - Find edge that creates cycle",
+      "Accounts merge - Merge accounts with common emails",
+      "Making a large island - Maximum connected 1s after one flip",
+      "Graph valid tree - Check if edges form valid tree",
+      "Most stones removed - Stones sharing row/column",
+      "Satisfiability of equality equations - Check if equations consistent",
+      "Regions cut by slashes - Count regions in grid with slashes",
+      "Kruskal's MST - Minimum spanning tree",
+      "Number of provinces - Count connected cities"
     ],
-    "timeComplexity": "O(α(n))",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "Find with path compression, union by rank...",
+    "timeComplexity": "O(α(n)) per operation where α is inverse Ackermann (effectively constant)",
+    "spaceComplexity": "O(n) for parent and rank arrays",
+    "pseudoCode": "UNION-FIND WITH PATH COMPRESSION AND UNION BY RANK:\nclass UnionFind:\n    function __init__(n):\n        parent = [0, 1, 2, ..., n-1]  // Each element is its own parent\n        rank = [0, 0, 0, ..., 0]      // Initial rank is 0\n        count = n                      // Number of components\n    \n    function find(x):\n        if parent[x] != x:\n            parent[x] = find(parent[x])  // Path compression\n        return parent[x]\n    \n    function union(x, y):\n        rootX = find(x)\n        rootY = find(y)\n        \n        if rootX == rootY:\n            return false  // Already in same set\n        \n        // Union by rank: attach smaller tree under larger\n        if rank[rootX] < rank[rootY]:\n            parent[rootX] = rootY\n        elif rank[rootX] > rank[rootY]:\n            parent[rootY] = rootX\n        else:\n            parent[rootY] = rootX\n            rank[rootX]++\n        \n        count--\n        return true  // Successfully merged\n    \n    function connected(x, y):\n        return find(x) == find(y)\n    \n    function getCount():\n        return count\n\nUSAGE FOR CONNECTED COMPONENTS:\nfunction countComponents(n, edges):\n    uf = UnionFind(n)\n    \n    for [u, v] in edges:\n        uf.union(u, v)\n    \n    return uf.getCount()\n\nCYCLE DETECTION:\nfunction hasCycle(edges):\n    uf = UnionFind(n)\n    \n    for [u, v] in edges:\n        if not uf.union(u, v):\n            return true  // Edge connects already connected nodes\n    \n    return false",
     "triggerSignals": [
-      "Connected components",
-      "Group membership",
-      "Merge groups",
-      "Cycle detection undirected"
+      "'Connected components' in dynamic/undirected graph",
+      "'Group' or 'cluster' elements based on relationships",
+      "'Merge' sets or accounts with common properties",
+      "'Cycle detection' in undirected graph",
+      "'Check if two elements are in same group'",
+      "Kruskal's algorithm or MST",
+      "'Equivalence classes' or 'disjoint sets'",
+      "Network connectivity or reachability queries"
     ],
     "commonMistakes": [
-      "Forgetting path compression",
-      "Not using union by rank"
+      "Forgetting path compression: Without path compression, find() is O(n) in worst case. MUST flatten path by making nodes point directly to root: parent[x] = find(parent[x])",
+      "Not using union by rank/size: Without it, trees can become chains making operations O(n). Always attach smaller tree under larger to keep balanced.",
+      "Using wrong parent during union: Must union roots, not the elements themselves. Always: rootX = find(x), rootY = find(y), then parent[rootY] = rootX",
+      "Not checking if already connected: Before union, check if elements already in same set (find(x) == find(y)). Important for cycle detection and optimization.",
+      "Off-by-one in initialization: Parent array must be size n if nodes are 0 to n-1. Initialize parent[i] = i for all i.",
+      "Forgetting to decrease count: When unionizing two different components, decrement component count. Tracking count is useful for many problems."
     ],
     "resources": [
       {
         "title": "Union Find - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Union-Find (Disjoint Set) Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Union-Find (Disjoint Set) Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Union-Find (Disjoint Set) Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440004",
+      "550e8400-e29b-41d4-a716-446655440023"
     ]
   },
   {
@@ -509,70 +789,140 @@
     "name": "Trie (Prefix Tree)",
     "description": "Tree structure for efficient storage and retrieval of strings with prefix-based operations.",
     "category": "Trie",
-    "whatItIs": "A Trie is a tree where paths from root form prefixes of stored strings.",
-    "whenToUse": "Use when: Prefix-based search, Autocomplete, Word search in grid, Spell checking",
-    "whyItWorks": "Common prefixes stored once, search time O(m) independent of dictionary size",
+    "whatItIs": "A Trie (pronounced 'try') is a tree data structure specialized for storing strings where each path from root to node represents a prefix, and paths to special 'end' nodes represent complete words. Each node has children for possible next characters (typically 26 for lowercase letters or 256 for ASCII). Unlike hash tables where each word is stored completely, tries share common prefixes - 'cat' and 'car' share 'ca'. This makes tries extremely space-efficient for sets of strings with many common prefixes (like dictionaries). The key advantage is that search/insert/delete time depends only on the length of the word O(m), completely independent of how many words are in the trie (unlike hash tables that can have collisions). Tries are the go-to structure for autocomplete, spell check, IP routing, and any application involving prefix-based search.",
+    "whenToUse": "Use Trie when:\n1. Prefix-based search ('words starting with...'). Essential for autocomplete features\n2. Storing dictionary of words where many words share prefixes\n3. Finding all words with common prefix quickly\n4. Word search in 2D grid (avoid revisiting same prefix paths)\n5. Spell checking and autocorrect systems\n6. IP routing tables (matching longest prefix)\n7. Phone directory with prefix search\n8. Boggle/word square games\n9. Finding words that can be formed from a set of characters\n10. Lexicographic sorting of strings. Key indicator: problem involves multiple strings and prefix relationships matter, or you need to search many strings for prefix/pattern matches",
+    "whyItWorks": "Trie works by exploiting prefix sharing. In a set of n words, without sharing, total storage is O(n×m) where m is average length. With trie, common prefixes stored once, often much smaller. Search time O(m) is independent of n because you just follow the path m characters deep - no comparison with other words needed. Unlike binary search on sorted strings O(m log n) or hash table O(m) with collision handling, trie is deterministic O(m). The tree structure naturally organizes words by prefix, making prefix queries O(m+k) where k is number of words with that prefix, which is optimal. For autocomplete, this is dramatically faster than checking every word in dictionary.",
     "commonUseCases": [
-      "Implement Trie",
-      "Word search II",
-      "Search suggestions",
-      "Design add and search",
-      "Palindrome pairs"
+      "Implement Trie - Basic insert, search, startsWith operations",
+      "Word search II - Find all words from dictionary in 2D grid",
+      "Search autocomplete - Suggest words with given prefix",
+      "Design add and search word - Support '.' wildcard in search",
+      "Palindrome pairs - Find word pairs forming palindromes",
+      "Replace words - Replace words with shortest root",
+      "Map sum pairs - Sum of values for keys with given prefix",
+      "Maximum XOR of two numbers - Using binary trie",
+      "Longest word in dictionary - Built one character at a time",
+      "Word squares - Find all valid word squares"
     ],
-    "timeComplexity": "O(m)",
-    "spaceComplexity": "O(total characters)",
-    "pseudoCode": "Insert with node creation, search with traversal...",
+    "timeComplexity": "Insert/Search/Delete: O(m) where m is word length, independent of dictionary size",
+    "spaceComplexity": "O(total characters) = O(n×m) worst case, much better with shared prefixes",
+    "pseudoCode": "TRIE NODE AND IMPLEMENTATION:\nclass TrieNode:\n    function __init__():\n        children = {}  // Map from char to TrieNode\n        isEndOfWord = false\n\nclass Trie:\n    function __init__():\n        root = TrieNode()\n    \n    function insert(word):\n        node = root\n        \n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        \n        node.isEndOfWord = true\n    \n    function search(word):\n        node = root\n        \n        for char in word:\n            if char not in node.children:\n                return false\n            node = node.children[char]\n        \n        return node.isEndOfWord\n    \n    function startsWith(prefix):\n        node = root\n        \n        for char in prefix:\n            if char not in node.children:\n                return false\n            node = node.children[char]\n        \n        return true\n    \n    function getAllWordsWithPrefix(prefix):\n        node = root\n        \n        // Navigate to prefix end\n        for char in prefix:\n            if char not in node.children:\n                return []\n            node = node.children[char]\n        \n        // DFS to collect all words from this point\n        return dfsCollect(node, prefix)\n    \n    function dfsCollect(node, current):\n        results = []\n        \n        if node.isEndOfWord:\n            results.append(current)\n        \n        for char, child in node.children:\n            results.extend(dfsCollect(child, current + char))\n        \n        return results\n\nWORD SEARCH II WITH TRIE:\nfunction findWords(board, words):\n    // Build trie from dictionary\n    trie = Trie()\n    for word in words:\n        trie.insert(word)\n    \n    result = []\n    \n    function dfs(i, j, node, path):\n        if node.isEndOfWord:\n            result.append(path)\n            node.isEndOfWord = false  // Avoid duplicates\n        \n        if i < 0 or i >= rows or j < 0 or j >= cols:\n            return\n        \n        char = board[i][j]\n        if char not in node.children:\n            return\n        \n        board[i][j] = '#'  // Mark visited\n        \n        for di, dj in [(0,1),(0,-1),(1,0),(-1,0)]:\n            dfs(i+di, j+dj, node.children[char], path+char)\n        \n        board[i][j] = char  // Restore\n    \n    for i in rows:\n        for j in cols:\n            dfs(i, j, trie.root, \"\")\n    \n    return result",
     "triggerSignals": [
-      "Prefix search",
-      "Autocomplete",
-      "Word dictionary",
-      "Multiple string search"
+      "'Prefix' search or matching",
+      "'Autocomplete' or 'search suggestions'",
+      "'Dictionary' of words with prefix queries",
+      "'Word search' in 2D grid with dictionary",
+      "'Find all words starting with...'",
+      "Multiple strings with shared prefixes",
+      "Spell checking or word validation",
+      "IP routing or longest prefix matching"
     ],
     "commonMistakes": [
-      "Forgetting is_end flag",
-      "Not handling empty strings"
+      "Forgetting isEndOfWord flag: Without it, every prefix is considered a valid word. Must mark when a word ends, not just when path exists.",
+      "Not handling empty strings: insert(\"\") should work. Empty string is valid word (root has isEndOfWord=true).",
+      "Using list instead of map for children: children = [None]*26 works but [None]*256 wastes space. HashMap is more flexible and memory-efficient.",
+      "Confusing search vs startsWith: search(\"cat\") requires exact word (isEndOfWord=true at 't'). startsWith(\"cat\") just needs path to exist.",
+      "Memory leaks in deletion: When deleting word, must delete nodes that become useless (no children, not end of another word). Otherwise trie grows forever.",
+      "Not pruning in Word Search II: After finding word, should remove from trie or mark as found to avoid duplicate results and improve performance."
     ],
     "resources": [
       {
         "title": "Trie - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
+      },
+      {
+        "title": "Trie (Prefix Tree) Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Trie (Prefix Tree) Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Trie (Prefix Tree) Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440024",
+      "550e8400-e29b-41d4-a716-446655440007"
     ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440013",
     "name": "Intervals",
-    "description": "Techniques for handling overlapping intervals: merging, finding gaps, and scheduling.",
+    "description": "Techniques for handling overlapping and non-overlapping intervals.",
     "category": "Intervals",
-    "whatItIs": "Interval problems involve ranges with common operations like merging and finding overlaps.",
-    "whenToUse": "Use when: Dealing with time ranges, Meeting room scheduling, Merging ranges, Finding overlaps",
-    "whyItWorks": "Sorting allows linear processing of overlaps",
+    "whatItIs": "Interval problems involve working with ranges [start, end] where you need to merge overlapping intervals, find intersections, detect conflicts, or schedule activities. The fundamental insight is that sorting intervals (usually by start time) transforms a complex O(n²) all-pairs comparison into an efficient O(n log n) solution where you only compare adjacent intervals. Once sorted, overlapping intervals are adjacent, making detection trivial. Common interval operations include: merge (combine overlapping), insert (add interval and merge if needed), intersection (find common parts), and removing/covering intervals. These problems appear in scheduling (meeting rooms, calendar conflicts), resource allocation (CPU scheduling, room booking), and range queries. The key pattern is: sort first, then scan linearly comparing each interval with previous/next.",
+    "whenToUse": "Use Intervals pattern when:\n1. Problem involves ranges or time periods [start, end]\n2. Detecting overlapping intervals or conflicts\n3. Merging overlapping ranges\n4. Finding intersections between intervals\n5. Scheduling problems (meeting rooms, tasks with deadlines)\n6. Minimum resources needed (how many rooms for all meetings?)\n7. Finding gaps or free time between intervals\n8. Inserting interval into sorted list and handling overlaps\n9. Checking if point is in any interval (sweep line)\n10. Problems mention 'ranges', 'time periods', 'schedules', 'overlapping', or 'conflicts'. The sorting step is the key transformation that makes these problems tractable",
+    "whyItWorks": "Interval problems work through sorting because:\n1. Overlapping intervals become adjacent after sorting by start time. You only need to check if current interval overlaps with previous, not all previous intervals\n2. This reduces comparisons from O(n²) to O(n)\n3. For merging: if intervals[i].start <= intervals[i-1].end, they overlap; extend intervals[i-1].end = max(end1, end2)\n4. For counting resources (meeting rooms): use start/end events sorted by time; at each start event increment count, at each end event decrement; max count is answer\n5. Sorting establishes a total order allowing greedy choices (earliest end time for activity selection). The key insight is that solving locally (checking adjacent) solves globally after sorting",
     "commonUseCases": [
-      "Merge intervals",
-      "Insert interval",
-      "Meeting rooms",
-      "Non-overlapping intervals"
+      "Merge intervals - Combine all overlapping intervals",
+      "Insert interval - Add interval to sorted list and merge",
+      "Meeting rooms II - Minimum meeting rooms needed",
+      "Non-overlapping intervals - Minimum removals for no overlap",
+      "My calendar I - Can book without double booking",
+      "Employee free time - Common free time for all employees",
+      "Interval list intersections - Intersection of two lists",
+      "Minimum number of arrows - Pop balloons with minimum arrows",
+      "Car pooling - Can accommodate all trips",
+      "Data stream as disjoint intervals - Summarize stream as intervals"
     ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "Sort by start, merge overlapping intervals...",
+    "timeComplexity": "O(n log n) for sorting, then O(n) for merging/processing",
+    "spaceComplexity": "O(n) for output or O(1) if modifying in place",
+    "pseudoCode": "MERGE INTERVALS:\nfunction mergeIntervals(intervals):\n    if not intervals:\n        return []\n    \n    // Sort by start time\n    intervals.sort(key=lambda x: x.start)\n    \n    merged = [intervals[0]]\n    \n    for i in 1 to len(intervals):\n        current = intervals[i]\n        last = merged[-1]\n        \n        if current.start <= last.end:\n            // Overlapping: merge by extending end\n            last.end = max(last.end, current.end)\n        else:\n            // Non-overlapping: add as new interval\n            merged.append(current)\n    \n    return merged\n\nMEETING ROOMS II (Min Rooms Needed):\nfunction minMeetingRooms(intervals):\n    starts = sorted([i.start for i in intervals])\n    ends = sorted([i.end for i in intervals])\n    \n    startPtr = 0\n    endPtr = 0\n    rooms = 0\n    maxRooms = 0\n    \n    while startPtr < len(intervals):\n        if starts[startPtr] < ends[endPtr]:\n            // Meeting starts before another ends: need room\n            rooms++\n            maxRooms = max(maxRooms, rooms)\n            startPtr++\n        else:\n            // Meeting ends: free up room\n            rooms--\n            endPtr++\n    \n    return maxRooms\n\nINSERT INTERVAL:\nfunction insertInterval(intervals, newInterval):\n    result = []\n    i = 0\n    n = len(intervals)\n    \n    // Add all intervals before newInterval\n    while i < n and intervals[i].end < newInterval.start:\n        result.append(intervals[i])\n        i++\n    \n    // Merge overlapping intervals\n    while i < n and intervals[i].start <= newInterval.end:\n        newInterval.start = min(newInterval.start, intervals[i].start)\n        newInterval.end = max(newInterval.end, intervals[i].end)\n        i++\n    \n    result.append(newInterval)\n    \n    // Add remaining intervals\n    while i < n:\n        result.append(intervals[i])\n        i++\n    \n    return result\n\nNON-OVERLAPPING INTERVALS (Min Removals):\nfunction eraseOverlapIntervals(intervals):\n    intervals.sort(key=lambda x: x.end)  // Sort by end time\n    \n    removals = 0\n    lastEnd = intervals[0].end\n    \n    for i in 1 to len(intervals):\n        if intervals[i].start < lastEnd:\n            // Overlaps: remove this interval (keep earlier ending)\n            removals++\n        else:\n            lastEnd = intervals[i].end\n    \n    return removals",
     "triggerSignals": [
-      "Time ranges",
-      "Overlapping intervals",
-      "Merge ranges",
-      "Meeting scheduling"
+      "'Intervals', 'ranges', or 'time periods'",
+      "'Overlapping' or 'conflicts'",
+      "'Merge' or 'combine' ranges",
+      "'Meeting rooms' or scheduling problems",
+      "'Minimum removals' for non-overlap",
+      "'Insert' interval into sorted list",
+      "'Intersection' of interval lists",
+      "Problems with [start, end] pairs"
     ],
     "commonMistakes": [
-      "Wrong sort key",
-      "Not merging all overlaps"
+      "Not sorting: Forgetting to sort intervals first. Almost all interval problems require sorting by start (or sometimes end) time as first step.",
+      "Wrong overlap condition: Intervals [a,b] and [c,d] overlap if a <= d AND c <= b. Common mistake: using a < d instead of a <= d, which fails for touching intervals.",
+      "Touching vs overlapping: [1,2] and [2,3] touch but don't overlap. Decide if touching counts as overlap (usually doesn't for merging, does for scheduling).",
+      "Wrong merge logic: Must extend end to max(end1, end2), not just end2. Example: [1,5] and [2,3] should merge to [1,5], not [1,3].",
+      "Sorting by wrong key: Merge needs sort by start. Activity selection needs sort by end. Meeting rooms can use either with different logic. Choose carefully.",
+      "Not handling edge cases: Empty list, single interval, all overlapping, none overlapping - test all cases."
     ],
     "resources": [
       {
-        "title": "Intervals - NeetCode",
+        "title": "Intervals - LeetCode",
+        "url": "https://leetcode.com/tag/intervals/",
+        "type": "problems"
+      },
+      {
+        "title": "Intervals Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Intervals Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Intervals Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Intervals Course - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440009",
+      "550e8400-e29b-41d4-a716-446655440001"
     ]
   },
   {
@@ -580,106 +930,789 @@
     "name": "Divide and Conquer",
     "description": "Break problem into smaller subproblems, solve recursively, and combine results.",
     "category": "DivideAndConquer",
-    "whatItIs": "Divide and Conquer breaks problems into independent subproblems and combines solutions.",
-    "whenToUse": "Use when: Problem breaks into independent subproblems, Solutions combine efficiently",
-    "whyItWorks": "Smaller problems are easier, recursion handles division, combining is often O(n)",
+    "whatItIs": "Divide and Conquer is an algorithmic paradigm that solves problems by:\n1. Divide: Break problem into smaller subproblems of same type\n2. Conquer: Solve subproblems recursively. If small enough, solve directly\n3. Combine: Merge solutions of subproblems into solution for original problem. Classic examples include merge sort (divide array in half, sort halves, merge) and quicksort (partition around pivot, sort partitions). The time complexity often follows the Master Theorem: T(n) = aT(n/b) + f(n) where a is number of subproblems, b is factor by which problem size reduces, and f(n) is cost of divide+combine. Divide and Conquer differs from Dynamic Programming: D&C solves independent subproblems (no overlap), DP solves overlapping subproblems with memoization. D&C is top-down (break down then build up), typically using recursion",
+    "whenToUse": "Use Divide and Conquer when:\n1. Problem can be broken into independent subproblems of same type\n2. Subproblems don't overlap (otherwise use DP)\n3. Combining subproblem solutions is efficient\n4. Base case is simple to solve\n5. Problem has recursive structure (tree, array, linked list)\n6. You need O(n log n) sorting (merge/quick sort)\n7. Binary search type problems\n8. Closest pair of points, maximum subarray\n9. Matrix multiplication (Strassen's algorithm)\n10. When dividing problem in half repeatedly makes sense. Key indicator: problem naturally splits into independent halves/parts that can be solved separately then merged",
+    "whyItWorks": "Divide and Conquer achieves efficiency through:\n1. Reducing problem size exponentially - dividing by 2 each time leads to log n levels of recursion\n2. Each level does O(n) work (like merge sort: dividing is O(1) , merging is O(n))\n3. Total: O(n log n) which beats naive O(n²) approaches\n4. The divide step creates independent subproblems - no need to solve overlapping cases multiple times (unlike naive recursion)\n5. Works well with cache locality - smaller subproblems fit in cache. Master Theorem precisely analyzes these recurrences: if divide creates a subproblems of size n/b each, and divide+combine costs f(n), then T(n) = aT(n/b) + f(n) has solution depending on how a compares to b^k where f(n) = Θ(n^k)",
     "commonUseCases": [
-      "Merge Sort",
-      "Quick Sort",
-      "Binary Search",
-      "Maximum subarray",
-      "Closest pair of points"
+      "Merge sort - Stable O(n log n) sorting",
+      "Quick sort - Average O(n log n) in-place sorting",
+      "Binary search - O(log n) search in sorted array",
+      "Maximum subarray - Kadane's or divide-conquer approach",
+      "Closest pair of points - O(n log n) with divide & conquer",
+      "Strassen's matrix multiplication - O(n^2.807) vs naive O(n³)",
+      "Median of two sorted arrays - Binary search divide & conquer",
+      "Count inversions - Modified merge sort",
+      "Karatsuba multiplication - Fast integer multiplication",
+      "Fast Fourier Transform - O(n log n) polynomial multiplication"
     ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "Base case, divide, conquer recursively, combine...",
+    "timeComplexity": "Often O(n log n) for balanced divide-by-2, varies by Master Theorem",
+    "spaceComplexity": "O(log n) recursion stack for balanced divide, O(n) for merge sort aux array",
+    "pseudoCode": "MERGE SORT (Classic Divide & Conquer):\nfunction mergeSort(arr, left, right):\n    if left >= right:\n        return  // Base case: 1 element or empty\n    \n    // DIVIDE\n    mid = left + (right - left) / 2\n    \n    // CONQUER\n    mergeSort(arr, left, mid)\n    mergeSort(arr, mid + 1, right)\n    \n    // COMBINE\n    merge(arr, left, mid, right)\n\nfunction merge(arr, left, mid, right):\n    leftArr = arr[left:mid+1]\n    rightArr = arr[mid+1:right+1]\n    \n    i = 0, j = 0, k = left\n    \n    while i < len(leftArr) and j < len(rightArr):\n        if leftArr[i] <= rightArr[j]:\n            arr[k] = leftArr[i]\n            i++\n        else:\n            arr[k] = rightArr[j]\n            j++\n        k++\n    \n    // Copy remaining\n    while i < len(leftArr):\n        arr[k] = leftArr[i]\n        i++, k++\n    \n    while j < len(rightArr):\n        arr[k] = rightArr[j]\n        j++, k++\n\nQUICK SORT:\nfunction quickSort(arr, left, right):\n    if left >= right:\n        return\n    \n    // DIVIDE: partition around pivot\n    pivotIdx = partition(arr, left, right)\n    \n    // CONQUER: sort both sides\n    quickSort(arr, left, pivotIdx - 1)\n    quickSort(arr, pivotIdx + 1, right)\n\nfunction partition(arr, left, right):\n    pivot = arr[right]\n    i = left - 1\n    \n    for j in left to right-1:\n        if arr[j] <= pivot:\n            i++\n            swap(arr[i], arr[j])\n    \n    swap(arr[i+1], arr[right])\n    return i + 1\n\nMAXIMUM SUBARRAY (Divide & Conquer):\nfunction maxSubarrayDivConq(arr, left, right):\n    if left == right:\n        return arr[left]\n    \n    mid = left + (right - left) / 2\n    \n    leftMax = maxSubarrayDivConq(arr, left, mid)\n    rightMax = maxSubarrayDivConq(arr, mid+1, right)\n    crossMax = maxCrossingSubarray(arr, left, mid, right)\n    \n    return max(leftMax, rightMax, crossMax)\n\nfunction maxCrossingSubarray(arr, left, mid, right):\n    leftSum = -infinity\n    sum = 0\n    for i from mid down to left:\n        sum += arr[i]\n        leftSum = max(leftSum, sum)\n    \n    rightSum = -infinity\n    sum = 0\n    for i from mid+1 to right:\n        sum += arr[i]\n        rightSum = max(rightSum, sum)\n    \n    return leftSum + rightSum",
     "triggerSignals": [
-      "Problem can be halved",
-      "Subproblems are independent",
-      "Sorting algorithms"
+      "Problem naturally divides in half",
+      "Sorting needed (merge/quick sort)",
+      "Binary search variations",
+      "'Divide' or 'split' mentioned",
+      "Independent subproblems (no overlap)",
+      "Tree-like recursion structure",
+      "Combine/merge step is clear",
+      "Need better than O(n²) for comparison-based task"
     ],
     "commonMistakes": [
-      "Wrong base case",
-      "Inefficient combine step"
+      "Confusing with Dynamic Programming: D&C has independent subproblems (no overlap). DP has overlapping subproblems requiring memoization. If solving same subproblem multiple times, use DP not D&C.",
+      "Inefficient combine step: If combine is O(n²), total complexity suffers (becomes O(n² log n)). Must keep combine at O(n) or better for O(n log n) overall.",
+      "Wrong base case: Must handle single element and empty array correctly. Merge sort base: left >= right (not just left == right).",
+      "Stack overflow: Deep recursion (unbalanced divide) causes stack overflow. Quicksort worst case with bad pivot selection: O(n) depth. Use randomization or median-of-three.",
+      "Not handling mid calculation overflow: mid = (left + right) / 2 overflows for large left+right. Use mid = left + (right - left) / 2.",
+      "Forgetting to return combined result: After conquering subproblems, must return merged/combined result, not just one subproblem's result."
     ],
     "resources": [
       {
-        "title": "Divide and Conquer - Khan Academy",
-        "url": "https://www.khanacademy.org/",
+        "title": "Divide and Conquer - CLRS",
+        "url": "https://mitpress.mit.edu/",
+        "type": "book"
+      },
+      {
+        "title": "Divide and Conquer Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Divide and Conquer Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
         "type": "article"
+      },
+      {
+        "title": "Divide and Conquer Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Divide and Conquer Course - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440003",
+      "550e8400-e29b-41d4-a716-446655440006"
     ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440015",
     "name": "Topological Sort",
-    "description": "Linear ordering of vertices in a DAG where every directed edge u→v has u before v.",
-    "category": "Graph",
-    "whatItIs": "Topological Sort produces linear ordering of vertices in a Directed Acyclic Graph.",
-    "whenToUse": "Use when: Processing dependencies, Build systems, Course prerequisites, Task scheduling",
-    "whyItWorks": "In a DAG, there's always a vertex with no incoming edges",
+    "description": "Order vertices in Directed Acyclic Graph such that for every edge u→v, u comes before v.",
+    "category": "TopologicalSort",
+    "whatItIs": "Topological Sort produces a linear ordering of vertices in a Directed Acyclic Graph (DAG) where every directed edge u→v results in u appearing before v in the ordering. This is only possible for DAGs - if graph has cycle, no valid topological ordering exists (you can't complete tasks that depend on each other cyclically). There are two main algorithms:\n1. Kahn's Algorithm (BFS-based): repeatedly remove vertices with in-degree 0 (no dependencies) and add to result, decrement in-degrees of neighbors. If process completes with all vertices removed, graph is DAG; otherwise has cycle\n2. DFS-based: perform DFS, add vertex to result after visiting all descendants (reverse postorder). This produces valid topological order. Use case: any problem with dependencies/prerequisites - course scheduling, task execution order, build systems, package managers",
+    "whenToUse": "Use Topological Sort when:\n1. Directed graph with dependency relationships\n2. Need to order tasks respecting prerequisites\n3. Course prerequisites - which order to take courses\n4. Build systems - compile order for dependencies\n5. Package/module installation order\n6. Alien dictionary - derive alien language character order\n7. Detecting cycles in directed graphs (if topological sort fails, cycle exists)\n8. Scheduling tasks with dependencies\n9. Problems asking 'is there a valid order?' or 'find a valid order'\n10. When you see 'prerequisites', 'dependencies', 'course schedule', or directed graph with order requirements. Must be DAG - cycles make topological sort impossible",
+    "whyItWorks": "Topological sort works because:\n1. In a DAG, there must exist at least one vertex with in-degree 0 (no incoming edges) - this is a source vertex with no dependencies, safe to process first\n2. After removing this vertex and its edges, remaining graph is still a DAG with at least one in-degree-0 vertex\n3. By induction, we can keep removing in-degree-0 vertices until graph is empty, producing valid ordering\n4. DFS approach works because postorder traversal naturally processes dependencies before dependent tasks - when we finish DFS on vertex v (postorder), all vertices reachable from v are already in result, so v can safely be placed before them\n5. If cycle exists, Kahn's will leave vertices unprocessed (in-degrees never reach 0), and DFS will detect back edge",
     "commonUseCases": [
-      "Course Schedule",
-      "Alien Dictionary",
-      "Build order",
-      "Task scheduling",
-      "Package dependencies"
+      "Course schedule - Can finish all courses given prerequisites",
+      "Course schedule II - Find valid course order",
+      "Alien dictionary - Derive character order from sorted alien words",
+      "Minimum height trees - Find tree roots minimizing height",
+      "Parallel courses - Minimum semesters with parallel courses",
+      "Sequence reconstruction - Can uniquely reconstruct sequence",
+      "Build order - Valid build order for projects with dependencies",
+      "Task scheduling - Order tasks respecting dependencies",
+      "Sort items by groups - Topological sort with grouping constraints",
+      "Compile order - Order to compile source files"
     ],
-    "timeComplexity": "O(V + E)",
-    "spaceComplexity": "O(V)",
-    "pseudoCode": "Kahn's algorithm with indegree or DFS approach...",
+    "timeComplexity": "O(V + E) - visit each vertex and edge once",
+    "spaceComplexity": "O(V + E) for graph representation and auxiliary structures",
+    "pseudoCode": "KAHN'S ALGORITHM (BFS-based):\nfunction topologicalSortKahn(graph, numVertices):\n    // Build in-degree array\n    inDegree = array of size numVertices, initialized to 0\n    for u in vertices:\n        for v in graph[u]:\n            inDegree[v]++\n    \n    // Add all in-degree-0 vertices to queue\n    queue = []\n    for v in vertices:\n        if inDegree[v] == 0:\n            queue.append(v)\n    \n    result = []\n    \n    while queue not empty:\n        u = queue.pop()\n        result.append(u)\n        \n        // Reduce in-degree of neighbors\n        for v in graph[u]:\n            inDegree[v]--\n            if inDegree[v] == 0:\n                queue.append(v)\n    \n    // Check if all vertices processed (no cycle)\n    if len(result) != numVertices:\n        return []  // Cycle detected\n    \n    return result\n\nDFS-BASED TOPOLOGICAL SORT:\nfunction topologicalSortDFS(graph, numVertices):\n    visited = [false] * numVertices\n    recStack = [false] * numVertices  // For cycle detection\n    result = []\n    \n    function dfs(u):\n        if recStack[u]:\n            return false  // Cycle detected\n        \n        if visited[u]:\n            return true  // Already processed\n        \n        visited[u] = true\n        recStack[u] = true\n        \n        for v in graph[u]:\n            if not dfs(v):\n                return false\n        \n        recStack[u] = false\n        result.append(u)  // Add after visiting all descendants\n        return true\n    \n    for v in vertices:\n        if not visited[v]:\n            if not dfs(v):\n                return []  // Cycle detected\n    \n    result.reverse()  // Reverse to get correct order\n    return result\n\nCOURSE SCHEDULE (Cycle Detection):\nfunction canFinish(numCourses, prerequisites):\n    graph = adjacency list from prerequisites\n    inDegree = [0] * numCourses\n    \n    for [course, prereq] in prerequisites:\n        graph[prereq].append(course)\n        inDegree[course]++\n    \n    queue = [c for c in range(numCourses) if inDegree[c] == 0]\n    completed = 0\n    \n    while queue:\n        course = queue.pop()\n        completed++\n        \n        for next in graph[course]:\n            inDegree[next]--\n            if inDegree[next] == 0:\n                queue.append(next)\n    \n    return completed == numCourses",
     "triggerSignals": [
-      "Dependencies/prerequisites",
-      "Build order",
-      "Course schedule",
-      "Cycle detection"
+      "'Prerequisites' or 'dependencies'",
+      "'Course schedule' problems",
+      "'Build order' or 'compile order'",
+      "Directed Acyclic Graph (DAG)",
+      "'Find a valid order' respecting constraints",
+      "'Can complete all tasks'",
+      "'Alien dictionary' or character ordering",
+      "Cycle detection in directed graph"
     ],
     "commonMistakes": [
-      "Forgetting to check for cycles",
-      "Wrong indegree calculation"
+      "Not checking for cycles: Topological sort only works on DAGs. Must verify no cycles exist. Kahn's: check if all vertices processed. DFS: detect back edges with recursion stack.",
+      "Wrong edge direction: Edge u→v means u must come before v (u is prerequisite for v). Building graph with reversed edges gives wrong answer. prerequisites = [[1,0]] means 0→1, take course 0 before 1.",
+      "Forgetting to reverse DFS result: DFS produces reverse topological order (postorder). Must reverse final result for correct ordering.",
+      "Using visited without recursion stack in DFS: Need separate recursion stack to detect cycles. visited alone can't distinguish between current path and already-completed branches.",
+      "Not handling disconnected components: Graph might have multiple components. Must try DFS/BFS from all unvisited vertices, not just one starting vertex.",
+      "Modifying in-degrees incorrectly: Only decrement in-degree of neighbor when removing vertex. Common mistake: modifying in-degrees during graph construction."
     ],
     "resources": [
       {
-        "title": "Topological Sort - NeetCode",
-        "url": "https://neetcode.io/",
-        "type": "course"
+        "title": "Topological Sort - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/topological-sorting/",
+        "type": "article"
+      },
+      {
+        "title": "Topological Sort Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Topological Sort Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Topological Sort Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Topological Sort - CP Algorithms",
+        "url": "https://cp-algorithms.com/",
+        "type": "article"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440004",
+      "550e8400-e29b-41d4-a716-446655440005"
     ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440016",
     "name": "Bit Manipulation",
-    "description": "Use bitwise operations to solve problems efficiently with constant space.",
+    "description": "Use bitwise operations for efficient solutions to problems involving binary representations.",
     "category": "BitManipulation",
-    "whatItIs": "Bit manipulation uses bitwise operators to solve problems at the bit level.",
-    "whenToUse": "Use when: Finding single/unique numbers, Power of 2 checks, Counting bits, Generating subsets",
-    "whyItWorks": "XOR properties: x^x=0, x^0=x, operations are O(1)",
+    "whatItIs": "Bit Manipulation involves working directly with binary representations of numbers using bitwise operators: AND (&), OR (|), XOR (^), NOT (~), left shift (<<), right shift (>>). These operations work at the bit level and are extremely fast - typically single CPU instructions. Key properties:\n1. XOR has special properties: x^x=0, x^0=x, x^y^x=y (cancellation)\n2. AND can test/clear bits: x & (1<<i) tests if i-th bit is set; x & ~(1<<i) clears i-th bit\n3. OR sets bits: x | (1<<i) sets i-th bit\n4. Shifts multiply/divide by powers of 2: x<<k = x*2^k, x>>k = x/2^k\n5. Common tricks: x & (x-1) clears lowest set bit; x & -x isolates lowest set bit; ~x+1 or -x gives two's complement. Bit manipulation is essential for: space-efficient data structures (bit vectors, bloom filters), cryptography, graphics, low-level programming, and competitive programming where constant factor speedups matter",
+    "whenToUse": "Use Bit Manipulation when:\n1. Finding single number, missing number, or duplicate (XOR cancellation property)\n2. Checking if number is power of 2: n & (n-1) == 0\n3. Counting set bits (Hamming weight)\n4. Generating all subsets of set (2^n subsets, each bit represents include/exclude)\n5. Space optimization - store boolean flags in single integer\n6. Fast multiplication/division by powers of 2\n7. Swapping values without temp variable\n8. Finding parity (even/odd number of 1s)\n9. Reversing bits or checking palindrome in binary\n10. Problems explicitly about binary representation. Key indicators: 'single number', 'appears once/twice', 'power of 2', 'subsets', or problems where bits naturally represent choices",
+    "whyItWorks": "Bit manipulation works because:\n1. XOR cancellation: a^a=0 means identical elements cancel out, leaving unique element in array where all others appear twice\n2. Bitwise AND with masks efficiently tests/modifies specific bits without affecting others\n3. Shifts are fast multiply/divide by 2: hardware implements in one cycle vs multiple for general multiply/divide\n4. Each bit represents independent boolean, packing 32/64 booleans in one integer saves space\n5. Two's complement representation (-x = ~x + 1) provides elegant tricks: x & -x isolates rightmost 1 bit\n6. Powers of 2 have exactly one bit set, so n & (n-1) clears that bit giving 0. These properties arise from binary representation fundamentals and Boolean algebra",
     "commonUseCases": [
-      "Single Number",
-      "Number of 1 Bits",
-      "Power of Two",
-      "Counting Bits",
-      "Subsets"
+      "Single number - Find element appearing once when others appear twice",
+      "Number of 1 bits - Count set bits (Hamming weight)",
+      "Power of two - Check if n is power of 2",
+      "Reverse bits - Reverse bit pattern of integer",
+      "Missing number - Find missing number in sequence 0 to n",
+      "Subsets - Generate all subsets of array",
+      "Bitwise AND of numbers range - AND of all nums in [m,n]",
+      "Single number III - Two elements appearing once, others twice",
+      "Maximum XOR of two numbers - Maximum XOR in array",
+      "UTF-8 validation - Validate UTF-8 encoded data"
     ],
-    "timeComplexity": "O(1)",
-    "spaceComplexity": "O(1)",
-    "pseudoCode": "AND, OR, XOR operations, bit shifting...",
+    "timeComplexity": "O(1) per operation typically, O(32) or O(64) for bit iteration",
+    "spaceComplexity": "O(1) for in-place bit operations",
+    "pseudoCode": "COMMON BIT MANIPULATION OPERATIONS:\n\n// Test if i-th bit is set\nfunction testBit(num, i):\n    return (num & (1 << i)) != 0\n\n// Set i-th bit\nfunction setBit(num, i):\n    return num | (1 << i)\n\n// Clear i-th bit\nfunction clearBit(num, i):\n    return num & ~(1 << i)\n\n// Toggle i-th bit\nfunction toggleBit(num, i):\n    return num ^ (1 << i)\n\n// Count set bits (Brian Kernighan's Algorithm)\nfunction countSetBits(n):\n    count = 0\n    while n > 0:\n        n = n & (n - 1)  // Clear lowest set bit\n        count++\n    return count\n\n// Check if power of 2\nfunction isPowerOfTwo(n):\n    return n > 0 and (n & (n - 1)) == 0\n\n// Find single number (XOR approach)\nfunction singleNumber(nums):\n    result = 0\n    for num in nums:\n        result ^= num  // Duplicates cancel out\n    return result\n\n// Generate all subsets\nfunction subsets(nums):\n    n = len(nums)\n    result = []\n    \n    // Iterate through all 2^n subsets\n    for mask in 0 to (1 << n) - 1:\n        subset = []\n        \n        for i in 0 to n - 1:\n            if mask & (1 << i):\n                subset.append(nums[i])\n        \n        result.append(subset)\n    \n    return result\n\n// Find missing number (XOR approach)\nfunction missingNumber(nums):\n    n = len(nums)\n    xor = 0\n    \n    // XOR all array elements\n    for num in nums:\n        xor ^= num\n    \n    // XOR with all numbers 0 to n\n    for i in 0 to n:\n        xor ^= i\n    \n    return xor  // Missing number remains\n\n// Swap without temp variable\nfunction swap(a, b):\n    a = a ^ b\n    b = a ^ b  // b = (a^b)^b = a\n    a = a ^ b  // a = (a^b)^a = b\n\n// Get rightmost set bit\nfunction getRightmostSetBit(n):\n    return n & -n\n\n// Clear rightmost set bit\nfunction clearRightmostSetBit(n):\n    return n & (n - 1)",
     "triggerSignals": [
-      "Find unique/single number",
-      "Power of 2",
-      "Binary representation",
-      "O(1) space"
+      "'Single number' or element appearing different times",
+      "'Power of 2' checks",
+      "'Count bits' or Hamming weight",
+      "'Generate subsets' (bit masks for subsets)",
+      "'XOR' properties or cancellation",
+      "'Missing number' in sequence",
+      "Binary representation explicitly mentioned",
+      "Space-efficient boolean flags needed"
     ],
     "commonMistakes": [
-      "Sign bit issues",
-      "Wrong shift direction"
+      "Operator precedence: Bitwise operators have low precedence. MUST use parentheses: if (x & mask) == 0, not if x & mask == 0 (wrong: compares mask with 0 first, then ANDs with x).",
+      "Signed vs unsigned: Right shift (>>) is arithmetic for signed (sign extends), logical for unsigned (zero fills). Be careful with negative numbers.",
+      "Off-by-one in bit positions: Bits are 0-indexed. Bit 0 is rightmost (LSB), bit 31 is leftmost for 32-bit int. 1<<i creates mask with only bit i set.",
+      "Integer overflow in shifts: 1<<31 is undefined behavior in Java (int is 32-bit signed). Use 1L<<31 for long. Python handles arbitrary precision.",
+      "Forgetting XOR properties: a^a=0 (cancellation), a^0=a (identity), a^b^a=b (commutativity+cancellation). Must recognize when XOR applies.",
+      "Using & instead of &&, | instead of ||: Bitwise operators (&,|,^) vs logical operators (&&,||). Bitwise don't short-circuit and work on all bits. Usually want logical for boolean conditions."
     ],
     "resources": [
       {
-        "title": "Bit Manipulation - NeetCode",
+        "title": "Bit Manipulation - LeetCode",
+        "url": "https://leetcode.com/tag/bit-manipulation/",
+        "type": "problems"
+      },
+      {
+        "title": "Bit Manipulation Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Bit Manipulation Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Bit Manipulation Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Bit Manipulation Course - NeetCode",
         "url": "https://neetcode.io/",
         "type": "course"
       }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440006"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440017",
+    "name": "Prefix Sum",
+    "description": "Precompute cumulative sums to answer range sum queries in O(1) time after O(n) preprocessing.",
+    "category": "PrefixSum",
+    "whatItIs": "Prefix Sum is a preprocessing technique that transforms an array into a cumulative sum array, enabling O(1) range sum queries after an O(n) build step. Given an array nums, the prefix sum array prefix is constructed such that prefix[i] = nums[0] + nums[1] + ... + nums[i-1]. With this precomputation, the sum of any subarray nums[l..r] can be computed as prefix[r+1] - prefix[l] in constant time, rather than iterating through each element. This trades O(n) space for dramatically faster queries.\n\nThe technique generalizes beyond simple sums. You can build prefix products, prefix XORs, prefix min/max (with sparse tables), and even 2D prefix sums for matrix region queries. In 2D, prefix[i][j] stores the sum of all elements in the rectangle from (0,0) to (i-1,j-1), and any rectangular subregion sum can be computed using inclusion-exclusion in O(1).\n\nPrefix Sum is foundational to many advanced techniques. Difference arrays (the inverse of prefix sums) allow range updates in O(1) and reconstruction in O(n). Fenwick Trees (Binary Indexed Trees) extend prefix sums to support dynamic updates in O(log n). Understanding prefix sums is crucial because the core insight -- precompute aggregate information to answer queries faster -- appears throughout algorithm design, from range queries to hashing to dynamic programming optimizations.",
+    "whenToUse": "Use Prefix Sum when:\n1. You need to compute the sum (or product, XOR, etc.) of multiple subarrays or ranges from the same array -- prefix sums turn each query from O(n) to O(1)\n2. The problem asks for subarrays whose sum equals a target value -- use a hashmap of prefix sums to find complementary prefix values in O(n)\n3. You need cumulative frequency or cumulative probability calculations, such as in weighted random selection\n4. The problem involves 2D matrix region sum queries -- build a 2D prefix sum array and use inclusion-exclusion for O(1) queries\n5. You need to perform range updates efficiently -- use a difference array (inverse of prefix sum) to mark range increments in O(1) then reconstruct in O(n)\n6. The problem involves checking divisibility conditions over subarrays -- prefix sum modulo arithmetic can detect subarrays with sum divisible by k\n7. You are working with immutable data and many queries -- prefix sums are ideal for static arrays with repeated range queries",
+    "whyItWorks": "Prefix Sum works because of the telescoping property of addition:\n1. If prefix[i] = nums[0] + nums[1] + ... + nums[i-1], then the sum of nums[l..r] equals prefix[r+1] - prefix[l]. The subtraction cancels out all elements before index l, isolating exactly the desired range\n2. For finding subarrays with a target sum, if prefix[j] - prefix[i] == target, then sum(nums[i..j-1]) == target. By storing prefix sums in a hashmap, you can check for the complementary value prefix[j] - target in O(1)\n3. The technique exploits the associative and commutative properties of addition. Any contiguous range sum can be expressed as the difference of two prefix sums, which means O(n) precomputation enables O(1) per query\n4. For 2D prefix sums, inclusion-exclusion works because overlapping rectangle sums can be added and subtracted systematically: sum(r1,c1,r2,c2) = prefix[r2+1][c2+1] - prefix[r1][c2+1] - prefix[r2+1][c1] + prefix[r1][c1]",
+    "commonUseCases": [
+      "Range Sum Query - Immutable: precompute prefix sums to answer sum(l, r) in O(1)",
+      "Subarray Sum Equals K: use hashmap of prefix sums to count subarrays with target sum",
+      "Product of Array Except Self: use prefix and suffix products to compute result without division",
+      "Continuous Subarray Sum: prefix sum modulo k with hashmap to find subarray sum divisible by k",
+      "Random Pick with Weight: prefix sums of weights plus binary search for weighted random selection",
+      "Range Addition (Difference Array): mark range updates in O(1) using difference array, reconstruct with prefix sum",
+      "Number of Subarrays with Bounded Maximum: prefix counting technique for range-constrained subarrays",
+      "Maximum Subarray Sum with One Deletion: combine prefix and suffix max subarray sums",
+      "Find Pivot Index: prefix sum from left equals suffix sum from right",
+      "Matrix Block Sum: 2D prefix sums with inclusion-exclusion for rectangular region queries",
+      "Count Number of Nice Subarrays: prefix count of odd numbers to find subarrays with exactly k odds",
+      "Subarray Sums Divisible by K: prefix sum modulo with hashmap counting to find divisible subarrays"
+    ],
+    "timeComplexity": "O(n) build, O(1) per query",
+    "spaceComplexity": "O(n) for prefix sum array",
+    "pseudoCode": "1D PREFIX SUM (Build + Query):\nfunction buildPrefixSum(nums):\n    n = len(nums)\n    prefix = array of size (n + 1) filled with 0\n    \n    for i in 0 to n - 1:\n        prefix[i + 1] = prefix[i] + nums[i]\n    \n    return prefix\n\nfunction rangeSum(prefix, left, right):\n    // Sum of nums[left..right] inclusive\n    return prefix[right + 1] - prefix[left]\n\nSUBARRAY SUM EQUALS K (HashMap Approach):\nfunction subarraySumEqualsK(nums, k):\n    prefixSum = 0\n    count = 0\n    // Map from prefix sum value to its frequency\n    sumCount = {0: 1}  // Base case: empty prefix has sum 0\n    \n    for num in nums:\n        prefixSum += num\n        \n        // If (prefixSum - k) was seen before, those\n        // indices are valid subarray start points\n        if (prefixSum - k) in sumCount:\n            count += sumCount[prefixSum - k]\n        \n        sumCount[prefixSum] = sumCount.get(prefixSum, 0) + 1\n    \n    return count\n\n2D PREFIX SUM (Build + Query):\nfunction build2DPrefix(matrix):\n    rows = len(matrix)\n    cols = len(matrix[0])\n    prefix = 2D array of size (rows+1) x (cols+1), filled with 0\n    \n    for i in 1 to rows:\n        for j in 1 to cols:\n            prefix[i][j] = matrix[i-1][j-1]\n                         + prefix[i-1][j]\n                         + prefix[i][j-1]\n                         - prefix[i-1][j-1]\n    \n    return prefix\n\nfunction regionSum(prefix, r1, c1, r2, c2):\n    // Sum of submatrix from (r1,c1) to (r2,c2) inclusive\n    return prefix[r2+1][c2+1]\n         - prefix[r1][c2+1]\n         - prefix[r2+1][c1]\n         + prefix[r1][c1]",
+    "triggerSignals": [
+      "Problem asks for sum of elements in a range or subarray multiple times",
+      "Need to find subarrays with a specific sum or sum divisible by k",
+      "Problem mentions 'cumulative sum', 'running total', or 'range query'",
+      "Asked to compute product of array except self without division",
+      "2D matrix region sum queries are required",
+      "Weighted random selection based on probabilities or weights",
+      "Problem involves difference arrays or range increment operations",
+      "Need to find a pivot or balance point where left sum equals right sum",
+      "Counting subarrays satisfying a sum-based condition efficiently"
+    ],
+    "commonMistakes": [
+      "Off-by-one in prefix array size: prefix array should be of size n+1 (not n) with prefix[0] = 0 so that rangeSum(l, r) = prefix[r+1] - prefix[l] works cleanly for all valid ranges including starting at index 0.",
+      "Forgetting the base case in hashmap approach: when using a hashmap to count subarrays with target sum, you must initialize {0: 1} to handle the case where a prefix sum itself equals the target (subarray starting from index 0).",
+      "Integer overflow on large arrays: prefix sums grow with the number of elements. For large arrays with large values, the prefix sum can overflow 32-bit integers. Use 64-bit integers or language-appropriate big number types.",
+      "Wrong inclusion-exclusion in 2D: the 2D prefix sum formula requires adding back the doubly-subtracted corner: sum = prefix[r2+1][c2+1] - prefix[r1][c2+1] - prefix[r2+1][c1] + prefix[r1][c1]. Forgetting the last term gives incorrect results.",
+      "Confusing prefix sum with difference array: prefix sum converts individual values to cumulative sums. Difference array is the inverse operation -- it converts range updates to point updates. Applying the wrong one reverses the intended transformation.",
+      "Using prefix sum when data changes frequently: prefix sums are optimal for static arrays. If the underlying array is modified between queries, you need a Fenwick Tree or Segment Tree that supports O(log n) updates instead of rebuilding the entire prefix array."
+    ],
+    "resources": [
+      {
+        "title": "Prefix Sum - LeetCode Explore",
+        "url": "https://leetcode.com/tag/prefix-sum/",
+        "type": "problems"
+      },
+      {
+        "title": "Prefix Sum Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Prefix Sum Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Prefix Sum Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Prefix Sum Course - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440002",
+      "550e8400-e29b-41d4-a716-446655440001",
+      "550e8400-e29b-41d4-a716-446655440019"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440018",
+    "name": "Fast and Slow Pointers",
+    "description": "Use two pointers moving at different speeds to detect cycles, find midpoints, and solve linked list problems in O(1) space.",
+    "category": "TwoPointers",
+    "whatItIs": "Fast and Slow Pointers (also known as Floyd's Tortoise and Hare algorithm) is a pointer technique where two pointers traverse a sequence at different speeds -- typically one moves one step at a time (slow) while the other moves two steps at a time (fast). This speed differential creates powerful mathematical properties: in a cyclic structure, the fast pointer will eventually catch up to the slow pointer, proving a cycle exists. In a linear structure (like a linked list), when the fast pointer reaches the end, the slow pointer will be at the midpoint.\n\nThe technique's elegance lies in its O(1) space complexity. Unlike hashmap-based cycle detection which requires O(n) space to track visited nodes, the two-pointer approach uses only two references regardless of input size. The mathematical proof is straightforward: if a cycle of length C exists, the fast pointer gains one step per iteration on the slow pointer, so they must meet within C iterations after both enter the cycle.\n\nBeyond cycle detection, the pattern extends to finding the cycle start (Floyd's algorithm phase 2), detecting duplicate numbers in arrays (treating values as next-pointers), and determining properties of sequences like happy numbers where repeated operations might cycle. The key insight is that any problem involving repeated transitions through a finite state space can potentially cycle, and fast-slow pointers can detect this.",
+    "whenToUse": "Use Fast and Slow Pointers when:\n1. Detecting cycles in a linked list -- fast pointer meets slow pointer if and only if a cycle exists, requiring only O(1) space\n2. Finding the middle node of a linked list -- when fast reaches the end, slow is at the middle, in a single pass without knowing the length\n3. Finding the start of a cycle -- after detection, reset one pointer to head and advance both at speed 1; they meet at cycle start (Floyd's phase 2)\n4. Detecting cycles in functional sequences -- problems like Happy Number where a function is applied repeatedly and you need to detect if the sequence cycles\n5. Finding duplicate numbers in arrays -- if values are in range [1, n] for array of size n+1, treat values as pointers; a duplicate creates a cycle\n6. Determining linked list properties -- checking if a linked list is a palindrome (find middle, reverse second half, compare)\n7. Rearranging linked lists -- problems that require finding the midpoint as a first step, like reorder list or sort list (merge sort on linked list)",
+    "whyItWorks": "Fast and Slow Pointers works due to the mathematical properties of relative motion in cyclic structures:\n1. In a cycle of length C, the fast pointer closes the gap by 1 step per iteration (fast gains 2-1=1 step). After at most C iterations inside the cycle, the gap becomes a multiple of C and they meet\n2. For finding cycle start: let the distance from head to cycle start be F, and the meeting point be M steps into the cycle. The slow pointer traveled F+M steps, fast traveled 2(F+M) steps. The difference (F+M) must be a multiple of cycle length C. So F+M = kC, meaning F = kC - M. Starting a pointer at head and one at meeting point, both moving 1 step, they meet at cycle start after F steps\n3. For midpoint finding: when fast has traveled 2k steps (reaching end of list of length n), slow has traveled k = n/2 steps, landing at the middle\n4. The O(1) space guarantee comes from using only two pointer variables regardless of input size, making this strictly better than hashset-based detection for memory-constrained scenarios",
+    "commonUseCases": [
+      "Linked List Cycle: determine if a linked list has a cycle using O(1) memory",
+      "Linked List Cycle II: find the node where the cycle begins using Floyd's algorithm phase 2",
+      "Middle of the Linked List: find the middle node in a single pass without counting length",
+      "Happy Number: detect if repeatedly summing squares of digits eventually reaches 1 or cycles forever",
+      "Find the Duplicate Number: find the duplicate in [1,n] array of size n+1 by treating values as next-pointers",
+      "Palindrome Linked List: find middle, reverse second half, compare with first half, then restore",
+      "Reorder List: find middle, reverse second half, interleave the two halves",
+      "Sort List: find middle with slow-fast, recursively merge sort both halves",
+      "Intersection of Two Linked Lists: use length difference or two-pointer technique to find meeting point",
+      "Circular Array Loop: detect if following array values as jumps creates a valid cycle"
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "pseudoCode": "CYCLE DETECTION (Floyd's Algorithm - Phase 1):\nfunction hasCycle(head):\n    if head == null or head.next == null:\n        return false\n    \n    slow = head\n    fast = head\n    \n    while fast != null and fast.next != null:\n        slow = slow.next          // Move 1 step\n        fast = fast.next.next     // Move 2 steps\n        \n        if slow == fast:\n            return true           // Cycle detected\n    \n    return false                  // No cycle\n\nFIND CYCLE START (Floyd's Algorithm - Phase 2):\nfunction detectCycleStart(head):\n    slow = head\n    fast = head\n    \n    // Phase 1: Detect cycle\n    while fast != null and fast.next != null:\n        slow = slow.next\n        fast = fast.next.next\n        \n        if slow == fast:\n            // Phase 2: Find start\n            slow = head\n            while slow != fast:\n                slow = slow.next\n                fast = fast.next  // Both move 1 step now\n            return slow           // Cycle start node\n    \n    return null                   // No cycle\n\nFIND MIDDLE OF LINKED LIST:\nfunction findMiddle(head):\n    slow = head\n    fast = head\n    \n    while fast != null and fast.next != null:\n        slow = slow.next\n        fast = fast.next.next\n    \n    return slow  // slow is at middle\n    // For even-length lists, this returns the second middle node\n    // To get first middle: use while fast.next != null and fast.next.next != null",
+    "triggerSignals": [
+      "Problem involves detecting a cycle in a linked list or sequence",
+      "Need to find the middle of a linked list in a single pass",
+      "Problem asks where a cycle begins, not just whether one exists",
+      "Sequence of repeated operations might loop (e.g., Happy Number, digit manipulation)",
+      "Finding duplicate in array with values in [1, n] range (pigeonhole + cycle)",
+      "Linked list problem that requires splitting into two halves",
+      "Problem requires O(1) space and involves cycle or midpoint detection",
+      "Problem mentions 'tortoise and hare' or 'Floyd's algorithm'",
+      "Rearranging linked list nodes which requires finding the midpoint first"
+    ],
+    "commonMistakes": [
+      "Null pointer errors: forgetting to check fast != null AND fast.next != null before accessing fast.next.next. Both conditions are required; missing either causes a null dereference on lists without cycles.",
+      "Wrong initialization for phase 2: after detecting the meeting point, one pointer must reset to head while the other stays at the meeting point. Both then advance one step at a time. Resetting both or advancing at different speeds gives the wrong cycle start.",
+      "Confusing middle for even-length lists: for a list of even length, fast-slow gives the second middle node. Some problems require the first middle node, which needs the condition fast.next != null and fast.next.next != null instead.",
+      "Applying to non-cyclic problems incorrectly: fast-slow pointers only detect cycles if the structure is actually cyclic. Using it on a plain array without treating values as pointers (like in Find the Duplicate Number) requires understanding the implicit graph structure.",
+      "Not restoring the list after modification: problems like Palindrome Linked List require reversing the second half to compare. Forgetting to reverse it back can corrupt the original list, which matters in production code and some problem constraints.",
+      "Incorrect speed ratio: the standard technique uses speeds 1 and 2. Using other speed ratios (like 1 and 3) changes the mathematical properties and may not guarantee meeting within the cycle in all cases."
+    ],
+    "resources": [
+      {
+        "title": "Fast & Slow Pointers - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      },
+      {
+        "title": "Fast and Slow Pointers Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Fast and Slow Pointers Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Fast and Slow Pointers Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Fast and Slow Pointers Tutorial - TakeUForward",
+        "url": "https://takeuforward.org/",
+        "type": "article"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440001"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440019",
+    "name": "Matrix Traversal",
+    "description": "Techniques for traversing 2D grids including spiral order, diagonal traversal, BFS/DFS on grids, and in-place transformations.",
+    "category": "Matrix",
+    "whatItIs": "Matrix Traversal encompasses a family of techniques for navigating and manipulating 2D grids (matrices). Unlike simple row-by-row or column-by-column iteration, matrix traversal problems require creative navigation patterns and state management. The main categories include:\n\nSpiral traversal walks the matrix in a spiral from outside to inside, requiring four boundary variables (top, bottom, left, right) that shrink inward after each complete layer. Diagonal traversal follows diagonal lines across the matrix, which requires careful index management since diagonals have varying lengths. Layer-by-layer traversal processes the matrix in concentric rectangular rings, useful for rotation problems.\n\nGrid BFS/DFS treats each cell as a graph node with 4 (or 8) directional edges to neighbors, enabling flood-fill, island counting, shortest path in maze, and connected component problems. The direction array pattern -- dirs = [(0,1),(0,-1),(1,0),(-1,0)] -- is fundamental for iterating over neighbors cleanly.\n\nIn-place matrix transformations (rotate, transpose, reflect) exploit mathematical relationships between old and new positions. For 90-degree clockwise rotation: new[j][n-1-i] = old[i][j], which decomposes into transpose + reverse each row. Understanding these decompositions avoids needing extra space.",
+    "whenToUse": "Use Matrix Traversal when:\n1. The problem requires visiting cells in a specific order -- spiral, diagonal, zigzag, or snake pattern -- rather than simple row/column iteration\n2. You need to perform flood fill, count islands, or find connected regions in a 2D grid using BFS or DFS\n3. The problem asks for shortest path in a grid or maze -- use BFS on the grid treating cells as graph nodes\n4. In-place rotation or transformation of the matrix is required, such as rotating an image 90 degrees or transposing\n5. You need to set entire rows/columns to zero based on a condition, requiring careful marking to avoid cascading changes\n6. The problem involves searching for a target in a sorted 2D matrix using the staircase search pattern from top-right or bottom-left corner\n7. Game of Life or cellular automata rules require reading old state while writing new state, needing encoding tricks for in-place updates\n8. The problem involves boundary conditions and edge handling, such as checking if a path exists from top-left to bottom-right",
+    "whyItWorks": "Matrix traversal techniques work because they exploit the regular structure of 2D grids:\n1. Spiral traversal works by maintaining four boundaries (top, bottom, left, right) and shrinking them inward. Each boundary movement processes exactly one row or column, ensuring every cell is visited exactly once in O(m*n) time\n2. Grid BFS/DFS works because a 2D grid is an implicit graph: each cell is a node, each valid neighbor is an edge. Standard graph algorithms apply directly with the direction array providing a clean abstraction for neighbor enumeration\n3. In-place rotation works because matrix transformations can be decomposed into simpler operations. Rotation = transpose + reflect. Each operation visits each cell once and uses O(1) extra space. The mathematical relationship (i,j) -> (j, n-1-i) for 90-degree rotation ensures every element lands in its correct final position\n4. The staircase search in sorted matrices works because moving right increases value and moving down increases value, so from top-right corner you can eliminate an entire row or column with each comparison, achieving O(m+n)\n5. For in-place state updates (like Game of Life), encoding both old and new states in the same cell (using bit manipulation or unused value ranges) avoids needing a copy of the matrix",
+    "commonUseCases": [
+      "Spiral Matrix: return all elements of a matrix in spiral order",
+      "Spiral Matrix II: generate an n x n matrix filled with elements 1 to n^2 in spiral order",
+      "Rotate Image: rotate an n x n matrix 90 degrees clockwise in-place",
+      "Set Matrix Zeroes: set entire row and column to zero if any element is zero, using O(1) extra space",
+      "Search a 2D Matrix: find target in row-sorted and column-sorted matrix efficiently",
+      "Game of Life: apply cellular automata rules simultaneously to all cells in-place",
+      "Number of Islands: count connected components of 1s in a binary grid using DFS/BFS",
+      "Shortest Path in Binary Matrix: find shortest path from top-left to bottom-right using BFS",
+      "Diagonal Traverse: return elements in diagonal zigzag order",
+      "Word Search: determine if a word exists in the grid by following adjacent cells with DFS backtracking"
+    ],
+    "timeComplexity": "O(m * n) where m = rows, n = columns",
+    "spaceComplexity": "O(m * n) for BFS/DFS visited array, O(1) for in-place transformations",
+    "pseudoCode": "SPIRAL TRAVERSAL:\nfunction spiralOrder(matrix):\n    result = []\n    top = 0, bottom = rows - 1\n    left = 0, right = cols - 1\n    \n    while top <= bottom and left <= right:\n        // Traverse right across top row\n        for col in left to right:\n            result.append(matrix[top][col])\n        top++\n        \n        // Traverse down right column\n        for row in top to bottom:\n            result.append(matrix[row][right])\n        right--\n        \n        // Traverse left across bottom row (if exists)\n        if top <= bottom:\n            for col in right down to left:\n                result.append(matrix[bottom][col])\n            bottom--\n        \n        // Traverse up left column (if exists)\n        if left <= right:\n            for row in bottom down to top:\n                result.append(matrix[row][left])\n            left++\n    \n    return result\n\nROTATE IMAGE 90 DEGREES CLOCKWISE (In-Place):\nfunction rotate(matrix):\n    n = len(matrix)\n    \n    // Step 1: Transpose (swap matrix[i][j] with matrix[j][i])\n    for i in 0 to n - 1:\n        for j in i + 1 to n - 1:\n            swap(matrix[i][j], matrix[j][i])\n    \n    // Step 2: Reverse each row\n    for i in 0 to n - 1:\n        reverse(matrix[i])\n\nGRID BFS (Shortest Path in Binary Matrix):\nfunction shortestPath(grid):\n    if grid[0][0] == 1:\n        return -1\n    \n    rows = len(grid), cols = len(grid[0])\n    dirs = [(0,1),(0,-1),(1,0),(-1,0)]  // 4 directions\n    queue = [(0, 0, 1)]  // (row, col, distance)\n    grid[0][0] = 1       // Mark visited\n    \n    while queue:\n        row, col, dist = queue.popleft()\n        \n        if row == rows-1 and col == cols-1:\n            return dist\n        \n        for dr, dc in dirs:\n            nr, nc = row + dr, col + dc\n            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 0:\n                grid[nr][nc] = 1  // Mark visited\n                queue.append((nr, nc, dist + 1))\n    \n    return -1",
+    "triggerSignals": [
+      "Problem asks for elements in spiral, diagonal, or zigzag order",
+      "Need to rotate, transpose, or reflect a matrix in-place",
+      "2D grid with connected regions, islands, or flood-fill requirements",
+      "Shortest path or minimum steps in a grid or maze",
+      "Setting rows/columns to zero based on conditions",
+      "Searching in a sorted 2D matrix",
+      "Cellular automata or simultaneous state updates on a grid",
+      "Problem involves boundary tracking with top/bottom/left/right variables",
+      "Word search or path existence in a 2D grid"
+    ],
+    "commonMistakes": [
+      "Off-by-one in spiral boundaries: after traversing top row, must increment top before traversing the right column. Missing this causes the corner element to be visited twice or skipped entirely.",
+      "Forgetting boundary checks in spiral for non-square matrices: after incrementing top or decrementing right, must re-check that top <= bottom and left <= right before continuing. Non-square matrices cause extra passes without these guards.",
+      "Modifying grid during BFS/DFS without proper tracking: marking cells as visited by modifying the input grid is efficient but destructive. If the original grid is needed later, use a separate visited array instead.",
+      "Wrong direction array: using [(0,1),(1,0),(0,-1),(-1,0)] for 4-directional movement is correct, but problems requiring 8-directional movement (like shortest path in binary matrix) need all 8 combinations including diagonals.",
+      "In-place rotation confusion: rotating 90 degrees clockwise is transpose + reverse rows. Rotating counterclockwise is transpose + reverse columns (or reverse rows + transpose). Mixing these up gives the wrong rotation direction.",
+      "Cascading zeros in Set Matrix Zeroes: marking rows/columns to zero immediately causes false positives where a newly-zeroed cell triggers zeroing of additional rows/columns. Must first record which rows and columns need zeroing, then apply."
+    ],
+    "resources": [
+      {
+        "title": "Matrix Problems - LeetCode",
+        "url": "https://leetcode.com/tag/matrix/",
+        "type": "problems"
+      },
+      {
+        "title": "Matrix Traversal Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Matrix Traversal Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Matrix Traversal Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "Matrix Traversal Course - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440004",
+      "550e8400-e29b-41d4-a716-446655440005",
+      "550e8400-e29b-41d4-a716-446655440017"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440020",
+    "name": "Top K Elements",
+    "description": "Use heaps or quickselect to efficiently find the K largest, smallest, or most frequent elements without fully sorting.",
+    "category": "Heap",
+    "whatItIs": "Top K Elements is a pattern for efficiently extracting the K most significant elements (largest, smallest, most frequent, closest, etc.) from a collection. The naive approach of sorting the entire collection is O(n log n), but we can do better. There are two primary strategies:\n\nHeap-based approach: Maintain a min-heap (for K largest) or max-heap (for K smallest) of size K. Iterate through all elements, pushing each into the heap and popping when size exceeds K. The heap acts as a filter -- after processing all elements, the K desired elements remain. This runs in O(n log K), which is significantly faster than O(n log n) when K is much smaller than n.\n\nQuickselect approach: Based on the partition step of quicksort, quickselect rearranges the array so that the element at index K is in its correct sorted position, with all smaller elements to its left and all larger to its right. This runs in O(n) average case (O(n^2) worst case, mitigated by random pivot selection). After quickselect, the K elements on the appropriate side are the answer (though not in sorted order).\n\nThe heap approach is preferred when: you need the elements in sorted order, the data is streaming, or K is small relative to n. Quickselect is preferred when: you need average O(n) performance, don't need sorted output, and can modify the input array.",
+    "whenToUse": "Use Top K Elements when:\n1. Finding the K largest or K smallest elements in an unsorted array -- use a min-heap of size K for largest, max-heap for smallest\n2. Finding the Kth largest or Kth smallest element specifically -- heap gives O(n log K), quickselect gives O(n) average\n3. Finding the K most frequent elements -- build frequency map first, then use heap on frequencies\n4. Finding K closest points to origin or any reference point -- heap with distance as priority\n5. Sorting characters by frequency -- frequency map plus heap extraction in order\n6. Processing streaming data where you need top K at any point -- heap naturally supports incremental updates\n7. The problem involves partial sorting where only K elements matter, not the full sorted order\n8. Merging K sorted streams where you need the overall top K from the merged result",
+    "whyItWorks": "Top K Elements works because partial ordering is cheaper than full sorting:\n1. A min-heap of size K maintains the K largest elements seen so far. The heap root (minimum of the K largest) acts as a threshold -- any new element smaller than the root cannot be in the top K and is discarded in O(1). Only elements that beat the threshold trigger an O(log K) heap operation\n2. Quickselect works because partitioning around a pivot splits the array into elements less than and greater than the pivot. If the pivot lands at position K, we are done. If it lands at position < K, we only recurse on the right side. Each recursion halves the search space on average: n + n/2 + n/4 + ... = O(2n) = O(n)\n3. Using a min-heap for K largest (not max-heap) is counterintuitive but correct: the min-heap's root is the smallest of the K largest, so it is the threshold for admission. We pop the root (smallest of top K) when a larger element arrives, maintaining exactly K elements\n4. For frequency-based problems, the separation of concerns (count frequencies in O(n), then find top K frequencies in O(n log K)) gives clean, efficient solutions",
+    "commonUseCases": [
+      "Kth Largest Element in an Array: find the Kth largest using min-heap of size K or quickselect",
+      "Top K Frequent Elements: build frequency map, then extract K most frequent using heap",
+      "K Closest Points to Origin: use max-heap of size K with Euclidean distance as priority",
+      "Sort Characters By Frequency: count character frequencies, heap-extract in descending order",
+      "Kth Largest Element in a Stream: maintain a min-heap of size K, return root for each query",
+      "Kth Smallest Element in a Sorted Matrix: use min-heap initialized with first row, extract K times",
+      "Find K Pairs with Smallest Sums: use min-heap to lazily generate pairs in order of sum",
+      "Reorganize String: use max-heap of (frequency, char) to greedily place most frequent characters apart",
+      "Least Number of Unique Integers after K Removals: count frequencies, remove least frequent first",
+      "Task Scheduler: use max-heap to schedule most frequent tasks first with cooldown"
+    ],
+    "timeComplexity": "O(n log k) with heap, O(n) average with quickselect",
+    "spaceComplexity": "O(k) for heap approach, O(1) extra for quickselect (modifies input)",
+    "pseudoCode": "K LARGEST ELEMENTS (Min-Heap of size K):\nfunction topKLargest(nums, k):\n    minHeap = new MinHeap()\n    \n    for num in nums:\n        minHeap.push(num)\n        if minHeap.size() > k:\n            minHeap.pop()  // Remove smallest of top K\n    \n    return minHeap.toArray()  // Contains K largest\n\nKTH LARGEST (Quickselect):\nfunction kthLargest(nums, k):\n    // Convert to finding (n-k)th smallest (0-indexed)\n    targetIdx = len(nums) - k\n    return quickselect(nums, 0, len(nums) - 1, targetIdx)\n\nfunction quickselect(nums, left, right, target):\n    if left == right:\n        return nums[left]\n    \n    // Random pivot to avoid worst case\n    pivotIdx = random(left, right)\n    pivotIdx = partition(nums, left, right, pivotIdx)\n    \n    if pivotIdx == target:\n        return nums[pivotIdx]\n    elif pivotIdx < target:\n        return quickselect(nums, pivotIdx + 1, right, target)\n    else:\n        return quickselect(nums, left, pivotIdx - 1, target)\n\nTOP K FREQUENT ELEMENTS:\nfunction topKFrequent(nums, k):\n    // Step 1: Count frequencies O(n)\n    freqMap = {}\n    for num in nums:\n        freqMap[num] = freqMap.get(num, 0) + 1\n    \n    // Step 2: Use min-heap of size k on frequencies O(m log k)\n    minHeap = new MinHeap()  // keyed by frequency\n    for num, freq in freqMap:\n        minHeap.push((freq, num))\n        if minHeap.size() > k:\n            minHeap.pop()\n    \n    return [num for freq, num in minHeap]",
+    "triggerSignals": [
+      "'Kth largest' or 'Kth smallest' element in unsorted data",
+      "'Top K' most frequent, closest, or otherwise ranked elements",
+      "Problem asks for partial sorting -- only K elements matter",
+      "Streaming data where you need running top K at any time",
+      "Need K closest points to a reference location",
+      "Sorting elements by frequency or some computed priority",
+      "Problem can be solved by maintaining a fixed-size priority queue",
+      "Keywords: 'K largest', 'K smallest', 'K most frequent', 'K closest'"
+    ],
+    "commonMistakes": [
+      "Using wrong heap type: for K largest elements, use a MIN-heap of size K (not max-heap). The min-heap root is the threshold; anything smaller gets rejected. Using max-heap gives the single largest but not the top K efficiently.",
+      "Forgetting to handle K > n: if K exceeds the number of elements, the entire collection is the answer. Not handling this causes errors or empty results.",
+      "Quickselect worst case: without random pivot selection, quickselect degrades to O(n^2) on already-sorted or pathological inputs. Always randomize the pivot or use median-of-three.",
+      "Comparing wrong fields in heap: when storing (priority, value) tuples in the heap, ensure the priority field comes first for correct comparison. In Python, heapq compares tuples lexicographically, so (frequency, element) must have frequency first.",
+      "Not using frequency map for frequency problems: jumping straight to a heap without first building a frequency map leads to counting duplicates incorrectly. Always separate counting from selection.",
+      "Modifying input with quickselect when not allowed: quickselect rearranges the array in-place. If the original order must be preserved, make a copy first or use the heap approach instead."
+    ],
+    "resources": [
+      {
+        "title": "Heap / Top K - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      },
+      {
+        "title": "Top K Elements Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Top K Elements Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Top K Elements Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440008",
+      "550e8400-e29b-41d4-a716-446655440021"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440021",
+    "name": "K-way Merge",
+    "description": "Merge K sorted sequences efficiently using a min-heap to always process the globally smallest element next.",
+    "category": "Heap",
+    "whatItIs": "K-way Merge is a technique for combining K sorted sequences (arrays, linked lists, or iterators) into a single sorted output. The core idea is to use a min-heap of size K to always identify the globally smallest unprocessed element across all K sequences. Initially, the first element from each sequence is pushed into the heap. We then repeatedly extract the minimum, add it to the result, and push the next element from that same sequence into the heap.\n\nThis approach generalizes the classic merge step of merge sort (which merges 2 sorted arrays) to K sequences. Without a heap, comparing K candidates at each step would take O(K) time, making the total O(N*K) where N is the total number of elements. The heap reduces each comparison step to O(log K), giving O(N log K) total time.\n\nK-way merge is fundamental in external sorting (sorting data that doesn't fit in memory), database merge joins, and distributed systems where sorted data from multiple sources must be combined. The pattern also applies to problems where you don't literally merge but need to find elements across K sorted sequences in order, such as finding the Kth smallest element in a sorted matrix or the smallest range covering elements from K lists.",
+    "whenToUse": "Use K-way Merge when:\n1. Merging K sorted linked lists or arrays into one sorted output -- the classic application using a min-heap of size K\n2. Finding the Kth smallest element across multiple sorted sequences -- extract from min-heap K times\n3. Finding the smallest range that includes at least one element from each of K sorted lists -- track max while extracting min from heap\n4. Merging K sorted iterators or streams in a streaming/online fashion\n5. External sorting -- data is divided into K sorted chunks that must be merged in a memory-efficient way\n6. Finding the Kth smallest pair sum from two sorted arrays -- use heap to lazily generate pair sums in order\n7. The problem involves multiple sorted inputs and asks for a globally sorted or Kth-order result\n8. Matrix problems where rows or columns are individually sorted and you need elements in global sorted order",
+    "whyItWorks": "K-way Merge works because the min-heap maintains the invariant that it always contains the smallest unprocessed element from each of the K sequences:\n1. Since each sequence is sorted, the smallest unprocessed element from sequence i is always the next element in that sequence. So only K candidates (one per sequence) are ever relevant at any time\n2. The min-heap finds the global minimum among these K candidates in O(log K) time, which is optimal for comparison-based selection from K elements\n3. After extracting the minimum and advancing that sequence's pointer, pushing the new element from the same sequence restores the invariant in O(log K)\n4. Total work is O(N log K) because each of the N total elements is pushed and popped from the heap exactly once, and each operation costs O(log K)\n5. Space is O(K) for the heap (not O(N)), making it memory-efficient -- critical for external sorting where N might be billions but K (number of sorted runs) is manageable",
+    "commonUseCases": [
+      "Merge K Sorted Lists: merge K sorted linked lists into one sorted list using min-heap",
+      "Smallest Range Covering Elements from K Lists: find smallest range [a,b] containing at least one element from each list",
+      "Kth Smallest Element in a Sorted Matrix: use min-heap initialized with first row/column, extract K times",
+      "Find K Pairs with Smallest Sums: lazily generate pair sums from two sorted arrays using min-heap",
+      "Merge Sorted Array: merge two sorted arrays in-place (special case K=2)",
+      "Ugly Number II: merge three sorted sequences (multiples of 2, 3, 5) using pointers or heap",
+      "Super Ugly Number: generalize ugly numbers to K primes using K-way merge",
+      "Kth Smallest Number in Multiplication Table: binary search + counting, or K-way merge approach",
+      "Merge K Sorted Arrays: generalize merge two sorted arrays to K using min-heap"
+    ],
+    "timeComplexity": "O(N log K) where N = total elements across all lists, K = number of lists",
+    "spaceComplexity": "O(K) for the min-heap, O(N) for the output",
+    "pseudoCode": "MERGE K SORTED LISTS:\nfunction mergeKLists(lists):\n    minHeap = new MinHeap()\n    \n    // Initialize heap with head of each list\n    for i in 0 to len(lists) - 1:\n        if lists[i] != null:\n            minHeap.push((lists[i].val, i, lists[i]))\n    \n    dummy = new ListNode(0)\n    current = dummy\n    \n    while not minHeap.isEmpty():\n        val, listIdx, node = minHeap.pop()\n        \n        current.next = node\n        current = current.next\n        \n        // Push next element from same list\n        if node.next != null:\n            minHeap.push((node.next.val, listIdx, node.next))\n    \n    return dummy.next\n\nSMALLEST RANGE COVERING K LISTS:\nfunction smallestRange(lists):\n    minHeap = new MinHeap()\n    currentMax = -infinity\n    rangeStart = 0\n    rangeEnd = infinity\n    \n    // Initialize: push first element from each list\n    for i in 0 to len(lists) - 1:\n        minHeap.push((lists[i][0], i, 0))  // (value, listIdx, elemIdx)\n        currentMax = max(currentMax, lists[i][0])\n    \n    while minHeap.size() == len(lists):\n        minVal, listIdx, elemIdx = minHeap.pop()\n        \n        // Update best range if current is smaller\n        if currentMax - minVal < rangeEnd - rangeStart:\n            rangeStart = minVal\n            rangeEnd = currentMax\n        \n        // Push next element from same list\n        if elemIdx + 1 < len(lists[listIdx]):\n            nextVal = lists[listIdx][elemIdx + 1]\n            minHeap.push((nextVal, listIdx, elemIdx + 1))\n            currentMax = max(currentMax, nextVal)\n        else:\n            break  // One list exhausted, can't cover all K lists\n    \n    return [rangeStart, rangeEnd]\n\nKTH SMALLEST IN SORTED MATRIX:\nfunction kthSmallest(matrix, k):\n    n = len(matrix)\n    minHeap = new MinHeap()\n    \n    // Initialize with first element of each row\n    for i in 0 to min(n, k) - 1:\n        minHeap.push((matrix[i][0], i, 0))\n    \n    // Extract min k times\n    for _ in 0 to k - 1:\n        val, row, col = minHeap.pop()\n        \n        if col + 1 < n:\n            minHeap.push((matrix[row][col + 1], row, col + 1))\n    \n    return val",
+    "triggerSignals": [
+      "Problem mentions 'merge K sorted' lists, arrays, or sequences",
+      "Need to find Kth smallest/largest across multiple sorted inputs",
+      "Finding smallest range covering elements from K different sorted lists",
+      "External sorting or merging sorted runs from disk",
+      "Multiple sorted iterators that need to be consumed in global sorted order",
+      "Problem involves a sorted matrix and asks for Kth smallest element",
+      "Generating sorted sequence from K generators (like ugly numbers)",
+      "Keywords: 'merge K', 'K sorted lists', 'smallest range', 'Kth element across lists'"
+    ],
+    "commonMistakes": [
+      "Not including a tiebreaker in heap entries: when two elements have equal values, the heap may try to compare uncomparable objects (like ListNode). Include a unique index (like list index) as a tiebreaker: (value, listIndex, node).",
+      "Forgetting to check for empty lists: some of the K lists may be empty (null head). Must skip null lists when initializing the heap; otherwise, null pointer errors occur.",
+      "Pushing from wrong list after extraction: after extracting the minimum, the next element must come from the same list that the minimum came from. Pushing from the wrong list breaks the sorted invariant.",
+      "Using O(N*K) approach instead of heap: comparing all K heads in a linear scan at each step gives O(N*K). The heap approach reduces this to O(N log K), which is critical when K is large.",
+      "Not tracking current maximum for range problems: the Smallest Range problem requires tracking the current maximum across all K lists alongside the min-heap's minimum. Forgetting to update the maximum when pushing new elements gives wrong ranges.",
+      "Heap size drops below K for range problems: in the Smallest Range problem, once any list is exhausted, the heap size drops below K and no valid range exists. Must break out of the loop when this happens."
+    ],
+    "resources": [
+      {
+        "title": "K-way Merge - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      },
+      {
+        "title": "K-way Merge Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "K-way Merge Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "K-way Merge Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440008",
+      "550e8400-e29b-41d4-a716-446655440020"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440022",
+    "name": "Shortest Path Algorithms",
+    "description": "Find shortest paths in weighted graphs using Dijkstra's, Bellman-Ford, or Floyd-Warshall algorithms.",
+    "category": "Graph",
+    "whatItIs": "Shortest Path Algorithms are a family of graph algorithms for finding the minimum-cost path between vertices in weighted graphs. Each algorithm has distinct strengths and use cases:\n\nDijkstra's Algorithm finds single-source shortest paths in graphs with non-negative edge weights. It uses a min-heap (priority queue) to greedily process the vertex with the smallest known distance, relaxing its neighbors. Time: O((V+E) log V) with a binary heap. Dijkstra's fails with negative weights because it assumes once a vertex is finalized, no shorter path exists -- a negative edge could violate this.\n\nBellman-Ford Algorithm handles graphs with negative edge weights (but not negative cycles). It relaxes all edges V-1 times, guaranteeing convergence because the shortest path has at most V-1 edges. An extra pass detects negative cycles. Time: O(V*E). Slower than Dijkstra's but more versatile.\n\nFloyd-Warshall Algorithm finds shortest paths between ALL pairs of vertices. It uses dynamic programming, considering each vertex as a potential intermediate node. Time: O(V^3), Space: O(V^2). Best when you need all-pairs shortest paths or the graph is dense.\n\nChoosing the right algorithm depends on: edge weight signs (negative or not), single-source vs all-pairs, and graph density.",
+    "whenToUse": "Use Shortest Path Algorithms when:\n1. Finding the shortest (minimum cost) path in a weighted graph -- Dijkstra's for non-negative weights, Bellman-Ford if negative weights exist\n2. Network delay time problems -- find the time for a signal to reach all nodes from a source (single-source shortest path)\n3. Finding cheapest flights or routes with constraints like at most K stops -- use modified Bellman-Ford with K relaxation rounds\n4. All-pairs shortest path is needed -- Floyd-Warshall when V is small (up to ~500), or run Dijkstra's from each vertex for sparse graphs\n5. Detecting negative weight cycles in a graph -- Bellman-Ford's extra pass detects if further relaxation is possible\n6. Path with maximum probability or minimum product -- transform weights using logarithms to convert multiplication to addition, then apply shortest path\n7. Problems involving weighted grids where movement costs vary by cell\n8. Finding if all vertices are reachable and what the maximum shortest-path distance is (network delay)",
+    "whyItWorks": "Shortest path algorithms work based on the principle of relaxation -- improving distance estimates until they converge to optimal values:\n1. Dijkstra's works because with non-negative weights, the vertex with the smallest tentative distance is guaranteed to have its final shortest distance. No future path through unprocessed vertices could be shorter (since all remaining edges add non-negative weight). The greedy choice is provably optimal\n2. Bellman-Ford works because any shortest path has at most V-1 edges (in a graph without negative cycles). Each of the V-1 iterations guarantees at least one more vertex gets its correct shortest distance. After V-1 rounds, all shortest paths are found. A V-th round that still relaxes indicates a negative cycle\n3. Floyd-Warshall works by DP: dist[i][j][k] = shortest path from i to j using only vertices {1..k} as intermediates. The recurrence is: dist[i][j][k] = min(dist[i][j][k-1], dist[i][k][k-1] + dist[k][j][k-1]). By processing vertices as intermediate nodes one by one, all shortest paths are computed",
+    "commonUseCases": [
+      "Network Delay Time: find time for signal to reach all nodes from source using Dijkstra's",
+      "Cheapest Flights Within K Stops: shortest path with hop constraint using modified Bellman-Ford",
+      "Path with Maximum Probability: maximize product of probabilities (use log transform + Dijkstra's or direct modification)",
+      "Path with Minimum Effort: minimize maximum absolute difference along path using Dijkstra's with modified relaxation",
+      "Swim in Rising Water: find minimum time to reach bottom-right using Dijkstra's or binary search + BFS",
+      "Find the City With the Smallest Number of Neighbors at a Threshold Distance: Floyd-Warshall for all-pairs shortest paths",
+      "Shortest Path in Weighted Grid: Dijkstra's treating grid cells as graph nodes with weighted edges",
+      "Design Graph With Shortest Path Calculator: maintain graph and answer shortest path queries dynamically",
+      "Shortest Path to Get All Keys: BFS with bitmask state for keys collected",
+      "Number of Ways to Arrive at Destination: Dijkstra's counting number of shortest paths"
+    ],
+    "timeComplexity": "Dijkstra: O((V+E) log V), Bellman-Ford: O(V*E), Floyd-Warshall: O(V^3)",
+    "spaceComplexity": "Dijkstra: O(V+E), Bellman-Ford: O(V), Floyd-Warshall: O(V^2)",
+    "pseudoCode": "DIJKSTRA'S ALGORITHM:\nfunction dijkstra(graph, source, n):\n    dist = array of size n filled with infinity\n    dist[source] = 0\n    minHeap = [(0, source)]  // (distance, node)\n    \n    while minHeap:\n        d, u = minHeap.pop()   // Extract minimum\n        \n        if d > dist[u]:\n            continue  // Skip outdated entry\n        \n        for (v, weight) in graph[u]:\n            newDist = dist[u] + weight\n            if newDist < dist[v]:\n                dist[v] = newDist\n                minHeap.push((newDist, v))\n    \n    return dist\n\nBELLMAN-FORD ALGORITHM:\nfunction bellmanFord(edges, source, n):\n    dist = array of size n filled with infinity\n    dist[source] = 0\n    \n    // Relax all edges V-1 times\n    for i in 1 to n - 1:\n        for (u, v, weight) in edges:\n            if dist[u] != infinity and dist[u] + weight < dist[v]:\n                dist[v] = dist[u] + weight\n    \n    // Check for negative weight cycles\n    for (u, v, weight) in edges:\n        if dist[u] != infinity and dist[u] + weight < dist[v]:\n            return \"Negative cycle detected\"\n    \n    return dist\n\nFLOYD-WARSHALL ALGORITHM:\nfunction floydWarshall(graph, n):\n    // Initialize distance matrix\n    dist = 2D array n x n filled with infinity\n    for i in 0 to n - 1:\n        dist[i][i] = 0\n    for (u, v, weight) in edges:\n        dist[u][v] = weight\n    \n    // Consider each vertex as intermediate\n    for k in 0 to n - 1:\n        for i in 0 to n - 1:\n            for j in 0 to n - 1:\n                if dist[i][k] + dist[k][j] < dist[i][j]:\n                    dist[i][j] = dist[i][k] + dist[k][j]\n    \n    return dist",
+    "triggerSignals": [
+      "Problem asks for shortest or cheapest path in a weighted graph",
+      "Network delay, signal propagation, or minimum cost routing",
+      "Weighted grid where movement costs vary by cell or direction",
+      "Shortest path with constraints like maximum K stops or edges",
+      "Need all-pairs shortest paths (Floyd-Warshall) for small V",
+      "Graph has negative edge weights (Bellman-Ford required)",
+      "Detecting negative weight cycles in a graph",
+      "Problem involves maximizing probability or minimizing maximum edge (modified Dijkstra's)",
+      "Keywords: 'minimum cost', 'shortest path', 'cheapest route', 'network delay'"
+    ],
+    "commonMistakes": [
+      "Using Dijkstra's with negative weights: Dijkstra's algorithm is incorrect for graphs with negative edge weights. A vertex finalized with distance d might later be reachable via a negative edge for less than d. Use Bellman-Ford instead.",
+      "Not skipping stale heap entries in Dijkstra's: when using a lazy deletion approach (pushing new entries without removing old ones), must check if extracted distance exceeds known distance and skip if so. Missing this check causes incorrect results and TLE.",
+      "Wrong number of relaxation rounds in Bellman-Ford: for exactly K stops (edges), run only K rounds of relaxation, not V-1. Also, must use a copy of distances from the previous round to avoid using updates from the current round (which effectively allows extra edges).",
+      "Integer overflow when summing distances: adding infinity + weight can overflow. Always check if dist[u] is infinity before attempting relaxation to avoid overflow errors.",
+      "Floyd-Warshall loop order: the outermost loop MUST be the intermediate vertex k. Using i or j as the outermost loop gives incorrect results because intermediate vertices aren't fully considered.",
+      "Not initializing self-distances to 0: in Floyd-Warshall, dist[i][i] must be 0, not infinity. In Dijkstra, dist[source] must be 0. Forgetting these initializations causes all distances to remain infinity."
+    ],
+    "resources": [
+      {
+        "title": "Shortest Path - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      },
+      {
+        "title": "Shortest Path Algorithms Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Shortest Path Algorithms Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Shortest Path Algorithms Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440005",
+      "550e8400-e29b-41d4-a716-446655440006",
+      "550e8400-e29b-41d4-a716-446655440023"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440023",
+    "name": "Minimum Spanning Tree",
+    "description": "Find the minimum-cost subset of edges that connects all vertices using Kruskal's or Prim's algorithm.",
+    "category": "Graph",
+    "whatItIs": "A Minimum Spanning Tree (MST) of a connected, weighted, undirected graph is a subset of edges that connects all vertices with the minimum possible total edge weight, forming a tree (no cycles, exactly V-1 edges for V vertices). Two classic algorithms find the MST:\n\nKruskal's Algorithm takes a greedy, edge-centric approach: sort all edges by weight, then process them in order, adding each edge to the MST if it doesn't create a cycle (checked using Union-Find). This is O(E log E) due to sorting, with near-constant-time cycle detection via Union-Find with path compression and union by rank. Kruskal's is ideal for sparse graphs where E is much less than V^2.\n\nPrim's Algorithm takes a greedy, vertex-centric approach: start from any vertex, repeatedly add the cheapest edge connecting a visited vertex to an unvisited vertex. Using a min-heap (priority queue), this runs in O(E log V). Prim's is ideal for dense graphs and naturally grows the MST from a single connected component.\n\nBoth algorithms produce the same MST (or an MST of equal weight if multiple exist) because both rely on the cut property: for any cut of the graph, the minimum weight edge crossing the cut is in some MST. This greedy choice is always safe.",
+    "whenToUse": "Use Minimum Spanning Tree when:\n1. You need to connect all nodes (cities, computers, points) with minimum total cost -- the classic MST application\n2. The problem asks for minimum cost to connect all points or build a network\n3. Finding the minimum cost to make a graph connected by adding edges\n4. Network design problems: minimum cable to connect buildings, minimum pipe to connect houses\n5. Approximation algorithms for NP-hard problems like Traveling Salesman -- MST weight is a lower bound and 2-approximation\n6. Clustering: removing the K-1 most expensive MST edges gives K clusters with maximum inter-cluster distance\n7. The problem involves a weighted undirected graph and asks for minimum total weight to maintain connectivity\n8. Critical and pseudo-critical edges: determine which edges must be or can be in some MST",
+    "whyItWorks": "MST algorithms work because of the cut property and the cycle property of spanning trees:\n1. Cut Property: for any partition of vertices into two non-empty sets S and V-S, the minimum weight edge crossing the cut (one endpoint in S, one in V-S) is in some MST. Both Kruskal's and Prim's exploit this -- they always pick the cheapest edge that expands connectivity\n2. Cycle Property: the maximum weight edge in any cycle is NOT in any MST (it could be replaced by any other edge in the cycle for a lighter spanning tree). Kruskal's implicitly uses this by rejecting edges that would create cycles\n3. Kruskal's processes edges globally by weight, using Union-Find to check if an edge connects two different components. Since it picks the lightest edge crossing any cut, each chosen edge satisfies the cut property\n4. Prim's grows one component greedily. The min-heap ensures the cheapest edge crossing the cut between visited and unvisited vertices is always selected. By the cut property, this edge is in some MST\n5. Both algorithms make V-1 edge selections, producing exactly a spanning tree (connected, acyclic, V-1 edges)",
+    "commonUseCases": [
+      "Min Cost to Connect All Points: compute MST of complete graph with Manhattan distance weights using Prim's or Kruskal's",
+      "Connecting Cities With Minimum Cost: find MST to connect all cities, or determine if connection is possible",
+      "Minimum Cost to Make at Least One Valid Path in a Grid: not pure MST but related minimum connectivity problem",
+      "Find Critical and Pseudo-Critical Edges in MST: determine which edges must be or can be in an MST",
+      "Optimize Water Distribution in a Village: model water source as virtual node, find MST of augmented graph",
+      "Minimum Number of Edges to Build Redundant Connection: MST plus one extra edge for redundancy",
+      "Network infrastructure planning: minimum cable/pipe length to connect all locations",
+      "Clustering with maximum separation: remove K-1 heaviest MST edges for K clusters",
+      "Checking if a Graph is a Tree: V-1 edges and connected (MST of the graph is the graph itself)"
+    ],
+    "timeComplexity": "Kruskal: O(E log E), Prim: O(E log V)",
+    "spaceComplexity": "Kruskal: O(V) for Union-Find, Prim: O(V + E) for adjacency list and heap",
+    "pseudoCode": "KRUSKAL'S ALGORITHM:\nfunction kruskal(n, edges):\n    // Sort edges by weight\n    edges.sort(key=lambda e: e.weight)\n    \n    uf = UnionFind(n)\n    mstWeight = 0\n    mstEdges = []\n    \n    for (u, v, weight) in edges:\n        // If u and v are in different components, add edge\n        if uf.find(u) != uf.find(v):\n            uf.union(u, v)\n            mstWeight += weight\n            mstEdges.append((u, v, weight))\n            \n            // MST complete when we have V-1 edges\n            if len(mstEdges) == n - 1:\n                break\n    \n    // Check if graph is connected\n    if len(mstEdges) != n - 1:\n        return -1  // Not connected\n    \n    return mstWeight\n\nPRIM'S ALGORITHM:\nfunction prim(n, adjList):\n    visited = set()\n    minHeap = [(0, 0)]  // (weight, startNode)\n    mstWeight = 0\n    \n    while minHeap and len(visited) < n:\n        weight, u = minHeap.pop()\n        \n        if u in visited:\n            continue\n        \n        visited.add(u)\n        mstWeight += weight\n        \n        // Add all edges from u to unvisited neighbors\n        for (v, edgeWeight) in adjList[u]:\n            if v not in visited:\n                minHeap.push((edgeWeight, v))\n    \n    if len(visited) != n:\n        return -1  // Not connected\n    \n    return mstWeight\n\nMIN COST TO CONNECT ALL POINTS:\nfunction minCostConnectPoints(points):\n    n = len(points)\n    // Build complete graph with Manhattan distances\n    edges = []\n    for i in 0 to n - 1:\n        for j in i + 1 to n - 1:\n            dist = abs(points[i][0] - points[j][0])\n                 + abs(points[i][1] - points[j][1])\n            edges.append((dist, i, j))\n    \n    // Apply Kruskal's\n    edges.sort()\n    uf = UnionFind(n)\n    totalCost = 0\n    edgesUsed = 0\n    \n    for (dist, u, v) in edges:\n        if uf.find(u) != uf.find(v):\n            uf.union(u, v)\n            totalCost += dist\n            edgesUsed += 1\n            if edgesUsed == n - 1:\n                break\n    \n    return totalCost",
+    "triggerSignals": [
+      "Problem asks to connect all nodes/points/cities with minimum total cost",
+      "Keywords: 'minimum cost to connect', 'minimum spanning tree', 'network design'",
+      "Building minimum-cost infrastructure (cables, roads, pipes) connecting all locations",
+      "Finding critical edges whose removal increases MST cost or disconnects the graph",
+      "Clustering problem where you want to partition into K groups with maximum separation",
+      "Weighted undirected graph where you need minimum total weight to keep all vertices connected",
+      "Problem involves Union-Find for connectivity alongside edge weight optimization",
+      "Graph connectivity check: is the graph a tree (V-1 edges, connected)?"
+    ],
+    "commonMistakes": [
+      "Applying MST to directed graphs: MST algorithms (Kruskal's and Prim's) work on undirected graphs. For directed graphs, you need Edmonds' algorithm (minimum spanning arborescence), which is fundamentally different.",
+      "Forgetting to check connectivity: MST only exists for connected graphs. If the graph is disconnected, the algorithm produces a minimum spanning forest. Must verify that exactly V-1 edges were added or that all vertices were visited.",
+      "Not using Union-Find in Kruskal's: checking for cycles with DFS/BFS during Kruskal's is O(V) per edge, making total O(E*V). Union-Find with path compression makes cycle detection nearly O(1), which is critical for performance.",
+      "Adding edges to already-visited vertices in Prim's: after extracting a vertex from the heap, must check if it's already visited before processing. Skipping this check leads to cycles and incorrect MST weight.",
+      "Generating all O(V^2) edges for complete graphs when unnecessary: for problems like Min Cost to Connect All Points, generating all edges is O(V^2) which may be required, but for sparse graph inputs, only use given edges.",
+      "Confusing MST with shortest path: MST minimizes total edge weight across the entire tree, NOT the path weight between any specific pair of vertices. The MST path between two vertices may not be the shortest path."
+    ],
+    "resources": [
+      {
+        "title": "MST - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      },
+      {
+        "title": "Minimum Spanning Tree Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "Minimum Spanning Tree Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "Minimum Spanning Tree Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440011",
+      "550e8400-e29b-41d4-a716-446655440009",
+      "550e8400-e29b-41d4-a716-446655440022"
+    ]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440024",
+    "name": "String Matching Algorithms",
+    "description": "Efficiently find pattern occurrences in text using KMP, Rabin-Karp, or Z-algorithm for O(n+m) matching.",
+    "category": "String",
+    "whatItIs": "String Matching Algorithms solve the fundamental problem of finding all occurrences of a pattern string P (length m) within a text string T (length n). The naive approach checks every position in T, giving O(n*m) worst case. Advanced algorithms achieve O(n+m) by preprocessing the pattern to avoid redundant comparisons.\n\nKMP (Knuth-Morris-Pratt) preprocesses the pattern to build a failure function (also called the LPS -- Longest Proper Prefix which is also a Suffix -- array). When a mismatch occurs at pattern position j, the LPS tells us the longest prefix of the pattern that matches a suffix of the text matched so far, allowing us to skip ahead instead of restarting. This gives O(n+m) worst case with O(m) space.\n\nRabin-Karp uses rolling hash functions to compare the pattern with text substrings in O(1) average time per position. A hash match triggers an exact character comparison to handle collisions. Average case is O(n+m), but worst case is O(n*m) if many hash collisions occur. It excels at multiple pattern search.\n\nZ-Algorithm computes the Z-array: Z[i] is the length of the longest substring starting at position i that matches a prefix of the string. By concatenating pattern + separator + text and computing the Z-array, any position where Z[i] equals the pattern length indicates a match. This is O(n+m) with elegant implementation.",
+    "whenToUse": "Use String Matching Algorithms when:\n1. Finding all occurrences of a pattern in a text efficiently -- KMP or Z-algorithm for guaranteed O(n+m) worst case\n2. Searching for multiple patterns simultaneously in the same text -- Rabin-Karp with multiple hashes or Aho-Corasick\n3. Detecting repeated substrings or periodic patterns -- KMP failure function reveals the period of a string\n4. Checking if a string is a rotation of another -- concatenate string with itself and search for the other\n5. Finding the shortest palindrome by prepending characters -- use KMP on reverse(s) + '#' + s to find longest palindromic prefix\n6. Repeated substring pattern detection -- check if the string is a repetition of a substring using KMP's LPS array\n7. Problems requiring efficient substring search in large texts where O(n*m) is too slow\n8. Rolling hash is useful for string comparison problems, plagiarism detection, and DNA sequence matching",
+    "whyItWorks": "String matching algorithms achieve O(n+m) by exploiting structural information about the pattern:\n1. KMP works because when a mismatch occurs after matching j characters, the LPS array tells us the longest proper prefix of pattern[0..j-1] that is also a suffix. This means those characters already match the text, so we can resume matching from position LPS[j-1] in the pattern instead of restarting. No text character is ever re-examined, giving O(n) matching after O(m) preprocessing\n2. Rabin-Karp works because rolling hash computation is O(1) per position: hash(s[i+1..i+m]) can be computed from hash(s[i..i+m-1]) by removing the contribution of s[i] and adding s[i+m]. This avoids O(m) per-position string comparison in the average case\n3. Z-algorithm works because the Z-box optimization reuses previously computed Z-values to skip known matching positions. If we know Z[k] = L for some k in [l, r], and we are computing Z[i] where i is in [l, r], we can initialize Z[i] from Z[i-l] and only extend beyond the known boundary. Each character is compared at most twice, giving O(n)\n4. All three algorithms share the principle: preprocess to avoid redundant comparisons during the matching phase",
+    "commonUseCases": [
+      "Implement strStr (Find Index of First Occurrence): classic string matching using KMP or Z-algorithm",
+      "Repeated Substring Pattern: check if string s equals some substring repeated K times using KMP LPS array",
+      "Shortest Palindrome: find longest palindromic prefix using KMP on reverse(s)+'#'+s, then prepend remaining",
+      "Longest Happy Prefix: find longest prefix that is also a suffix using KMP failure function directly",
+      "Rotate String: check if s2 is a rotation of s1 by searching s2 in s1+s1",
+      "Count Occurrences of Pattern: count all non-overlapping or overlapping occurrences using KMP matching",
+      "Longest Prefix Suffix: compute the LPS array itself (the KMP failure function) for pattern analysis",
+      "String matching with wildcards: extend basic matching with special character handling",
+      "DNA sequence alignment: use rolling hash (Rabin-Karp) for fast substring comparison in genomic data",
+      "Plagiarism detection: Rabin-Karp with multiple hash functions to find matching text segments"
+    ],
+    "timeComplexity": "KMP: O(n+m), Z-algorithm: O(n+m), Rabin-Karp: O(n+m) average / O(n*m) worst",
+    "spaceComplexity": "KMP: O(m) for LPS array, Z-algorithm: O(n+m) for Z-array, Rabin-Karp: O(1) extra",
+    "pseudoCode": "KMP ALGORITHM:\n// Step 1: Build LPS (Longest Proper Prefix = Suffix) array\nfunction buildLPS(pattern):\n    m = len(pattern)\n    lps = array of size m filled with 0\n    length = 0  // Length of previous longest prefix suffix\n    i = 1\n    \n    while i < m:\n        if pattern[i] == pattern[length]:\n            length++\n            lps[i] = length\n            i++\n        else:\n            if length != 0:\n                length = lps[length - 1]  // Fall back\n                // Do NOT increment i\n            else:\n                lps[i] = 0\n                i++\n    \n    return lps\n\n// Step 2: Search using LPS\nfunction kmpSearch(text, pattern):\n    n = len(text)\n    m = len(pattern)\n    lps = buildLPS(pattern)\n    \n    i = 0  // Index in text\n    j = 0  // Index in pattern\n    matches = []\n    \n    while i < n:\n        if text[i] == pattern[j]:\n            i++\n            j++\n        \n        if j == m:\n            matches.append(i - j)  // Match found at index i-j\n            j = lps[j - 1]        // Continue searching\n        elif i < n and text[i] != pattern[j]:\n            if j != 0:\n                j = lps[j - 1]    // Use LPS to skip\n            else:\n                i++\n    \n    return matches\n\nRABIN-KARP (Rolling Hash):\nfunction rabinKarp(text, pattern):\n    n = len(text), m = len(pattern)\n    base = 256, mod = 10^9 + 7\n    \n    // Compute hash of pattern and first window\n    patHash = 0, textHash = 0\n    highPow = 1  // base^(m-1) mod mod\n    \n    for i in 0 to m - 1:\n        patHash = (patHash * base + pattern[i]) % mod\n        textHash = (textHash * base + text[i]) % mod\n        if i > 0:\n            highPow = (highPow * base) % mod\n    \n    // Slide window\n    for i in 0 to n - m:\n        if patHash == textHash:\n            if text[i:i+m] == pattern:  // Verify on hash match\n                return i\n        \n        // Roll hash: remove text[i], add text[i+m]\n        if i + m < n:\n            textHash = (textHash - text[i] * highPow) % mod\n            textHash = (textHash * base + text[i + m]) % mod\n            textHash = (textHash + mod) % mod  // Handle negative\n    \n    return -1\n\nZ-ALGORITHM:\nfunction zFunction(s):\n    n = len(s)\n    z = array of size n filled with 0\n    l = 0, r = 0  // Z-box [l, r)\n    \n    for i in 1 to n - 1:\n        if i < r:\n            z[i] = min(r - i, z[i - l])\n        \n        // Extend z[i] by comparing characters\n        while i + z[i] < n and s[z[i]] == s[i + z[i]]:\n            z[i]++\n        \n        // Update Z-box if needed\n        if i + z[i] > r:\n            l = i\n            r = i + z[i]\n    \n    return z",
+    "triggerSignals": [
+      "Problem requires finding pattern occurrences in a text string efficiently",
+      "Need to check if a string has a repeated substring pattern",
+      "Finding the shortest palindrome achievable by prepending characters",
+      "Checking if one string is a rotation of another",
+      "Problem mentions 'pattern matching', 'substring search', or 'strStr'",
+      "Need to find the longest prefix which is also a suffix (LPS)",
+      "Multiple pattern search in the same text (Rabin-Karp or Aho-Corasick)",
+      "String periodicity detection -- is the string a repeated unit?",
+      "DNA or text search requiring better than O(n*m) worst case"
+    ],
+    "commonMistakes": [
+      "Off-by-one in LPS construction: when a mismatch occurs and length > 0, you must fall back to lps[length-1] WITHOUT incrementing i. Incrementing i in this case skips a potential match and corrupts the LPS array.",
+      "Negative hash values in Rabin-Karp: when rolling the hash by subtracting the outgoing character's contribution, the result can become negative. Always add the modulus before taking mod: hash = ((hash - char * highPow) % mod + mod) % mod.",
+      "Not verifying on hash match: Rabin-Karp hash collisions are possible (two different strings with same hash). Every hash match MUST be followed by character-by-character verification. Skipping this gives false positives.",
+      "Wrong Z-array initialization: Z[0] is undefined by convention (it would be the entire string length). Most implementations set Z[0] = 0 or n and start the loop from i = 1. Using Z[0] incorrectly breaks the algorithm.",
+      "Forgetting the separator in Z-algorithm string matching: when searching for pattern P in text T, must concatenate as P + '$' + T (where '$' doesn't appear in P or T). Without the separator, Z-values can extend across the boundary, giving incorrect matches.",
+      "Using KMP failure function values directly as match indices: the LPS/failure array stores prefix lengths, not text positions. Match positions are computed during the search phase when j equals the pattern length."
+    ],
+    "resources": [
+      {
+        "title": "String Algorithms - CP-Algorithms",
+        "url": "https://cp-algorithms.com/string/prefix-function.html",
+        "type": "article"
+      },
+      {
+        "title": "String Matching Algorithms Problems - LeetCode",
+        "url": "https://leetcode.com/",
+        "type": "practice"
+      },
+      {
+        "title": "String Matching Algorithms Pattern - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/",
+        "type": "article"
+      },
+      {
+        "title": "String Matching Algorithms Explained - YouTube",
+        "url": "https://www.youtube.com/",
+        "type": "video"
+      },
+      {
+        "title": "String Matching Algorithms Course - NeetCode",
+        "url": "https://neetcode.io/",
+        "type": "course"
+      }
+    ],
+    "relatedPatternIds": [
+      "550e8400-e29b-41d4-a716-446655440012",
+      "550e8400-e29b-41d4-a716-446655440002"
     ]
   }
 ]
