@@ -305,27 +305,43 @@
     "name": "Backtracking",
     "description": "Build solutions incrementally, abandoning paths that fail to satisfy constraints.",
     "category": "Backtracking",
-    "whatItIs": "Backtracking explores all possible solutions by making choices, recursing, and undoing choices.",
-    "whenToUse": "Use Backtracking when: Need to generate all solutions, Making sequences of decisions, Finding solutions with constraints",
-    "whyItWorks": "Systematic exploration ensures completeness, Early pruning avoids exploring invalid paths",
+    "whatItIs": "Backtracking is a systematic algorithmic technique for finding all (or some) solutions to computational problems by incrementally building candidates and abandoning (backtracking from) each partial candidate as soon as it determines the candidate cannot lead to a valid solution. It's essentially a refined brute force approach that prunes the search space. The algorithm makes a choice, recursively explores that choice, and if it doesn't work out (violates constraints or leads to invalid solutions), it undoes that choice (backtracks) and tries the next option. This choose-explore-unchoose pattern continues until all possibilities are exhausted. Backtracking is the go-to technique for constraint satisfaction problems, combinatorial optimization, and puzzle solving where you need enumerate all solutions or find any valid solution under constraints.",
+    "whenToUse": "Use Backtracking when: (1) Need to generate ALL solutions (permutations, combinations, subsets). (2) Problem involves making a sequence of decisions under constraints. (3) Problem is about finding ANY valid solution satisfying constraints (Sudoku, N-Queens). (4) Need to explore all possible paths/configurations. (5) Problem asks for 'all possible ways' or 'count all solutions'. (6) Constraint satisfaction problems (placing items with restrictions). (7) Puzzle solving (crossword, maze with restrictions). (8) Generating valid strings/sequences (balanced parentheses, IP addresses). (9) Partitioning problems (split array into valid subsets). The key indicator is needing exhaustive search with the ability to prune invalid branches early.",
+    "whyItWorks": "Backtracking works by systematically exploring the entire solution space while intelligently pruning branches that cannot lead to valid solutions. The pruning is crucial - by checking constraints as you build the solution incrementally, you can abandon an entire subtree of possibilities as soon as a violation is detected, avoiding wasted exploration of billions of invalid paths. Without pruning, complete enumeration would be intractable. The recursive structure naturally handle the 'undo' operation - as the recursion unwinds, the previous state is restored. This makes backtracking both complete (finds all solutions) and efficient (prunes impossible branches).",
     "commonUseCases": [
-      "N-Queens",
-      "Sudoku solver",
-      "Permutations",
-      "Combination sum",
-      "Word search"
+      "N-Queens - Place N queens on N×N chessboard",
+      "Sudoku solver - Fill board satisfying constraints",
+      "Generate all permutations - All arrangements of elements",
+      "Generate all combinations - All C(n,k) subsets",
+      "Combination sum - Find all combinations summing to target",
+      "Word search in grid - Find word following path",
+      "Palindrome partitioning - All ways to partition into palindromes",
+      "Letter combinations of phone number",
+      "Restore IP addresses - Valid IP from digits",
+      "Subsets - Generate power set",
+      "Generate parentheses - All valid combinations"
     ],
-    "timeComplexity": "O(n!)",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "Recursive choice, recurse, undo pattern...",
+    "timeComplexity": "O(b^d) where b=branching factor, d=depth; often O(n!) or O(2^n)",
+    "spaceComplexity": "O(d) for recursion stack plus O(solution size) for path tracking",
+    "pseudoCode": "STANDARD BACKTRACKING TEMPLATE:\nfunction backtrack(state, choices, constraints):\n    if isComplete(state):\n        results.add(copy(state))\n        return\n    \n    for choice in choices:\n        if isValid(choice, state, constraints):\n            // Choose\n            makeChoice(state, choice)\n            \n            // Explore\n            backtrack(state, nextChoices, constraints)\n            \n            // Unchoose (backtrack)\n            undoChoice(state, choice)\n\nPERMUTATIONS:\nfunction permute(nums, path, used, result):\n    if len(path) == len(nums):\n        result.add(copy(path))\n        return\n    \n    for i in 0 to len(nums):\n        if used[i]: continue\n        \n        used[i] = true\n        path.append(nums[i])\n        \n        permute(nums, path, used, result)\n        \n        path.pop()\n        used[i] = false\n\nCOMBINATIONS:\nfunction combine(n, k, start, path, result):\n    if len(path) == k:\n        result.add(copy(path))\n        return\n    \n    for i in start to n+1:\n        path.append(i)\n        combine(n, k, i+1, path, result)  // Note: i+1 avoids reuse\n        path.pop()\n\nCONSTRAINT PRUNING:\nfunction solveSudoku(board):\n    for row in 0 to 9:\n        for col in 0 to 9:\n            if board[row][col] == '.': \n                for digit in '1' to '9':\n                    if isValid(board, row, col, digit):\n                        board[row][col] = digit\n                        \n                        if solveSudoku(board):\n                            return true\n                        \n                        board[row][col] = '.'  // Backtrack\n                \n                return false  // No valid digit found\n    \n    return true  // All cells filled",
     "triggerSignals": [
-      "Generate all permutations/combinations",
-      "Find all solutions",
-      "Constraint satisfaction"
+      "'Generate ALL permutations/combinations/subsets'",
+      "'Find all solutions' or 'count all ways'",
+      "Constraint satisfaction (N-Queens, Sudoku)",
+      "'All possible arrangements/configurations'",
+      "Making sequence of choices with backtracking",
+      "Puzzle solving with constraints",
+      "'Partition into valid groups'",
+      "Path finding with obstacle/constraint checking"
     ],
     "commonMistakes": [
-      "Forgetting to backtrack",
-      "Not copying path when saving"
+      "Forgetting to backtrack/undo changes: THE most common mistake. After exploring a choice, you MUST undo it before trying the next choice. Otherwise state corrupts and gives wrong results.",
+      "Not making a copy when saving solution: When adding path/state to results, must add a COPY, not the reference. The reference will be modified by subsequent backtracking.",
+      "Incorrect base case: Base case determines when you've found a complete solution. Wrong condition means incomplete or invalid solutions get added.",
+      "Forgetting to pass updated state: When recursing, ensure you pass the modified state (like start+1 for combinations to avoid reusing elements).",
+      "Not pruning early enough: Check constraints as soon as possible. Waiting until base case wastes time exploring doomed branches.",
+      "Modifying input incorrectly: Some problems require modifying input (like Sudoku board). Must track what to undo. Using wrong undo logic breaks solution.",
+      "Wrong loop range: In combinations (no reuse), start from current index+1. In permutations (no repeats), skip used elements. Getting this wrong causes duplicates or missing solutions."
     ],
     "resources": [
       {
@@ -340,27 +356,42 @@
     "name": "Heap / Priority Queue",
     "description": "Efficiently maintain and access the minimum or maximum element in a dynamic collection.",
     "category": "Heap",
-    "whatItIs": "A Heap is a complete binary tree where parents are smaller/larger than children.",
-    "whenToUse": "Use Heap when: Need repeated access to min/max, Finding k largest/smallest, Merge k sorted lists",
-    "whyItWorks": "Heap property ensures min/max is always at root, Tree structure gives O(log n) operations",
+    "whatItIs": "A Heap is a specialized tree-based data structure that maintains a partial ordering property: in a min-heap, parent nodes are smaller than their children; in a max-heap, parents are larger. This heap property is weaker than complete sorting but much cheaper to maintain - insertions and deletions are O(log n) instead of the O(n) needed to maintain a sorted array. Heaps are typically implemented as complete binary trees stored in arrays, where for node at index i, the left child is at 2i+1 and right child at 2i+2. Priority Queues are the abstract data type that heaps implement, providing quick access (O(1)) to the highest-priority (min or max) element and efficient (O(log n)) insertion and removal. Heaps are the secret sauce behind efficient algorithms for top-K problems, streaming data, task scheduling, and graph algorithms like Dijkstra's.",
+    "whenToUse": "Use Heap/Priority Queue when: (1) Need repeated access to minimum or maximum element (K largest/smallest problems). (2) Processing elements in priority order rather than insertion order. (3) Merging K sorted lists/arrays efficiently. (4) Finding median in a data stream (using two heaps). (5) Task scheduling where priority matters. (6) Graph algorithms (Dijkstra's shortest path, Prim's MST). (7) Implementing efficient sorting (heapsort). (8) Finding K-th largest/smallest element. (9) Top K frequent elements. (10) Continuous median calculation. The key insight is when you need 'best so far' tracking in a dynamic set where elements are added/removed frequently.",
+    "whyItWorks": "Heaps work by maintaining a weaker invariant than full sorting. The heap property only requires parent ≥ children (max-heap) or parent ≤ children (min-heap), not global ordering. This partial order is sufficient for finding min/max and can be maintained with O(log n) operations via bubble-up (heapify-up) after insertion and bubble-down (heapify-down) after deletion. The tree height is log n for n elements, so worst-case path length is log n. The array representation is cache-friendly and space-efficient with no pointer overhead. For K-largest problems, maintaining a min-heap of size K means you always have the K largest elements, and checking if a new element belongs takes O(log K) not O(K).",
     "commonUseCases": [
-      "Kth largest element",
-      "Merge k sorted lists",
-      "Find median",
-      "Task scheduler",
-      "Top k frequent"
+      "Kth largest element in array - Min-heap of size K",
+      "Merge K sorted lists - Min-heap of K elements",
+      "Find median from data stream - Two heaps (max + min)",
+      "Task scheduler with cooldown - Priority queue by priority",
+      "Top K frequent elements - Heap of (frequency, element) pairs",
+      "Dijkstra's shortest path - Min-heap of (distance, node)",
+      "Meeting rooms II - Min-heap of end times",
+      "Ugly number - Min-heap for generating sequence",
+      "IPO maximize capital - Two heaps for available projects",
+      "Sliding window maximum - Deque (not heap) is better but heap works"
     ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(n)",
-    "pseudoCode": "Insert with bubble-up, Extract with bubble-down...",
+    "timeComplexity": "Insert: O(log n), ExtractMin/Max: O(log n), Peek: O(1), Heapify: O(n)",
+    "spaceComplexity": "O(n) for storing n elements",
+    "pseudoCode": "MIN-HEAP OPERATIONS:\nclass MinHeap:\n    function insert(val):\n        heap.append(val)\n        bubbleUp(len(heap)-1)\n    \n    function extractMin():\n        if isEmpty(): return null\n        \n        min = heap[0]\n        heap[0] = heap[len(heap)-1]\n        heap.pop()\n        bubbleDown(0)\n        return min\n    \n    function bubbleUp(index):\n        while index > 0:\n            parent = (index-1) // 2\n            if heap[index] < heap[parent]:\n                swap(heap[index], heap[parent])\n                index = parent\n            else:\n                break\n    \n    function bubbleDown(index):\n        while true:\n            smallest = index\n            left = 2*index + 1\n            right = 2*index + 2\n            \n            if left < len(heap) and heap[left] < heap[smallest]:\n                smallest = left\n            if right < len(heap) and heap[right] < heap[smallest]:\n                smallest = right\n            \n            if smallest == index:\n                break\n            \n            swap(heap[index], heap[smallest])\n            index = smallest\n\nK LARGEST ELEMENTS:\nfunction kLargest(arr, k):\n    minHeap = new MinHeap()\n    \n    for num in arr:\n        minHeap.insert(num)\n        if len(minHeap) > k:\n            minHeap.extractMin()\n    \n    return minHeap.toArray()\n\nMERGE K SORTED LISTS:\nfunction mergeKLists(lists):\n    minHeap = new MinHeap()\n    result = []\n    \n    // Initialize heap with first element from each list\n    for i, list in enumerate(lists):\n        if list:\n            minHeap.insert((list.val, i, list))\n    \n    while not minHeap.isEmpty():\n        val, listIdx, node = minHeap.extractMin()\n        result.append(val)\n        \n        if node.next:\n            minHeap.insert((node.next.val, listIdx, node.next))\n    \n    return result",
     "triggerSignals": [
-      "Kth largest/smallest",
-      "Merge k sorted",
-      "Continuously find min/max"
+      "'Kth largest' or 'Kth smallest' element",
+      "'Top K' anything (frequent, largest, smallest)",
+      "'Merge K sorted' lists/arrays",
+      "'Find median' from stream or dynamic data",
+      "Need to 'continuously find min/max' as elements change",
+      "Task/event scheduling with priorities",
+      "'Process in priority order'",
+      "Graph algorithms (Dijkstra,Prim)"
     ],
     "commonMistakes": [
-      "Using wrong heap type",
-      "Forgetting to negate for max-heap"
+      "Using wrong heap type: For K largest elements, use MIN-heap (counterintuitive!). For K smallest, use MAX-heap. The heap stores the K items and kicks out worst one, so heap top is the threshold.",
+      "Not handling heap size carefully: When maintaining size K, must check size AFTER inserting, not before. Insert first, then pop if size > K.",
+      "Forgetting to negate for max-heap: In languages with only min-heap (like Python's heapq), negate values to simulate max-heap: insert(-val), extract, then negate again.",
+      "Comparing wrong elements in tuples: When using (priority, value) tuples, ensure the comparison element is first. Python compares tuples lexicographically.",
+      "Not handling equal priorities: When priorities are equal, need tiebreaker (like insertion order) or you'll get comparison errors with non-comparable objects.",
+      "Building heap inefficiently: heapify() is O(n) but adding elements one-by-one is O(n log n). Use heapify when possible.",
+      "Using heap for every sliding window: Heaps work but deque is often better for sliding window problems with specific patterns."
     ],
     "resources": [
       {
