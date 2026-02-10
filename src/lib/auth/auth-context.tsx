@@ -17,7 +17,7 @@ interface AuthContextType {
   user: UserInfo | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (data: LoginRequest) => Promise<void>;
+  login: (data: LoginRequest, redirectTo?: string) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const login = useCallback(
-    async (data: LoginRequest) => {
+    async (data: LoginRequest, redirectTo?: string) => {
       setIsLoading(true);
       setError(null);
 
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const userInfo = await authApi.getUserInfo();
         setUser(userInfo);
         // Use replace to avoid back button going to login page
-        router.replace(ROUTES.practice);
+        router.replace(redirectTo || ROUTES.practice);
       } catch (err) {
         if (err instanceof AuthError) {
           setError(err.message);
@@ -91,12 +91,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       try {
         await authApi.register(data);
-        // Auto-login after registration
-        await authApi.login(data);
-        const userInfo = await authApi.getUserInfo();
-        setUser(userInfo);
-        // Use replace to avoid back button going to register page
-        router.replace(ROUTES.practice);
+        // Redirect to login so user can verify their credentials
+        router.replace(`${ROUTES.login}?registered=true`);
       } catch (err) {
         if (err instanceof AuthError) {
           if (err.errors) {

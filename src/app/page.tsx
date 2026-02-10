@@ -95,9 +95,9 @@ function TypingText({ texts, className }: { texts: string[]; className?: string 
 export default function Home() {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
-  const problemsCounter = useAnimatedCounter(2700);
-  const patternsCounter = useAnimatedCounter(15);
-  const successCounter = useAnimatedCounter(87);
+  const { count: problemsCount, start: startProblems } = useAnimatedCounter(2700);
+  const { count: patternsCount, start: startPatterns } = useAnimatedCounter(15);
+  const { count: successCount, start: startSuccess } = useAnimatedCounter(87);
 
   // Redirect authenticated users to dashboard
   useEffect(() => {
@@ -106,26 +106,26 @@ export default function Home() {
     }
   }, [isAuthenticated, isLoading, router]);
 
-  // Start counters when visible
+  // Start counters when stats section becomes visible
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            problemsCounter.start();
-            patternsCounter.start();
-            successCounter.start();
+            startProblems();
+            startPatterns();
+            startSuccess();
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     );
 
     const statsSection = document.getElementById("stats-section");
     if (statsSection) observer.observe(statsSection);
 
     return () => observer.disconnect();
-  }, [problemsCounter, patternsCounter, successCounter]);
+  }, [startProblems, startPatterns, startSuccess]);
 
   // Show loading while checking auth
   if (isLoading) {
@@ -409,19 +409,19 @@ export default function Home() {
               <div className="grid grid-cols-3 gap-8 text-center">
                 <div>
                   <p className="text-4xl md:text-5xl font-bold text-primary">
-                    {problemsCounter.count}+
+                    {problemsCount}+
                   </p>
                   <p className="text-muted-foreground mt-2">LeetCode Problems</p>
                 </div>
                 <div>
                   <p className="text-4xl md:text-5xl font-bold text-primary">
-                    {patternsCounter.count}
+                    {patternsCount}
                   </p>
                   <p className="text-muted-foreground mt-2">Core Patterns</p>
                 </div>
                 <div>
                   <p className="text-4xl md:text-5xl font-bold text-primary">
-                    {successCounter.count}%
+                    {successCount}%
                   </p>
                   <p className="text-muted-foreground mt-2">Pattern Coverage</p>
                 </div>

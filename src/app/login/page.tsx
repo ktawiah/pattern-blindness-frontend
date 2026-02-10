@@ -31,8 +31,10 @@ function LoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Get OAuth error from URL params (computed on render, not in effect)
+  // Get URL params (computed on render, not in effect)
   const oauthError = searchParams.get("error");
+  const justRegistered = searchParams.get("registered") === "true";
+  const redirectTo = searchParams.get("redirect");
   const [localError, setLocalError] = useState<string | null>(
     oauthError ? decodeURIComponent(oauthError) : null
   );
@@ -48,7 +50,7 @@ function LoginContent() {
     }
 
     try {
-      await login({ email, password });
+      await login({ email, password }, redirectTo || undefined);
     } catch {
       // Error is handled by auth context
     }
@@ -78,6 +80,13 @@ function LoginContent() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {justRegistered && !displayError && (
+              <Alert className="border-green-500/20 bg-green-50 dark:bg-green-950/20 text-green-800 dark:text-green-200">
+                <AlertDescription>
+                  Account created successfully! Sign in with your credentials.
+                </AlertDescription>
+              </Alert>
+            )}
             {displayError && (
               <Alert variant="destructive">
                 <AlertDescription>{displayError}</AlertDescription>
