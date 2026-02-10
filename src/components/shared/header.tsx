@@ -29,12 +29,12 @@ export function Header() {
   return (
     <header className="border-b">
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Button className="flex items-center justify-center gap-2 mb-4 bg-white hover:bg-white text-black rounded-full pointer-cursor">
+        <Link href="/" className="flex items-center justify-center gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-full px-4 py-2 cursor-pointer">
           <span className="text-2xl" aria-hidden="true">
             🧠
           </span>
           <span className="font-bold text-xl">Pattern Blindness</span>
-        </Button>
+        </Link>
 
         <div className="flex items-center gap-2 md:gap-4">
           {/* Always visible links */}
@@ -83,7 +83,7 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-2">
                     <User className="h-4 w-4" />
-                    <span className="hidden sm:inline max-w-24 truncate">
+                    <span className="hidden sm:inline max-w-40 truncate">
                       {user?.email?.split("@")[0]}
                     </span>
                   </Button>

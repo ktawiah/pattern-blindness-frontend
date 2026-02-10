@@ -46,9 +46,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         try {
           const userInfo = await authApi.getUserInfo();
           setUser(userInfo);
-        } catch {
-          // Token expired or invalid, clear it
-          authApi.logout();
+        } catch (err) {
+          // Only logout on auth errors (401/403), not network failures
+          if (err instanceof AuthError && (err.status === 401 || err.status === 403)) {
+            authApi.logout();
+          }
         }
       }
       setIsLoading(false);

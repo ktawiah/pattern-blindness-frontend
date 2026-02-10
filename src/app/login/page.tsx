@@ -65,14 +65,12 @@ function LoginContent() {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-        <Button
-            className="flex items-center justify-center gap-2 mb-4 bg-white hover:bg-white text-black rounded-full"
-          >
+        <Link href="/" className="flex items-center justify-center gap-2 mb-4 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-full px-4 py-2">
             <span className="text-3xl" aria-hidden="true">
               🧠
             </span>
             <span className="font-bold text-xl">Pattern Blindness</span>
-          </Button>
+          </Link>
           <CardTitle className="text-2xl">Welcome back</CardTitle>
           <CardDescription>
             Sign in to your account to continue practicing

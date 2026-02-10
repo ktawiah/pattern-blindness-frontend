@@ -46,8 +46,9 @@ export function useFeaturePhase(): FeaturePhaseState {
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfileResponse | null>(null);
 
+  const userEmail = user?.email;
   const fetchProfile = useCallback(async () => {
-    if (!user) {
+    if (!userEmail) {
       setIsLoading(false);
       return;
     }
@@ -65,7 +66,7 @@ export function useFeaturePhase(): FeaturePhaseState {
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, [userEmail]);
 
   useEffect(() => {
     if (!authLoading) {

@@ -148,20 +148,20 @@ export default function Home() {
           {/* Background gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background" />
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-gray-100 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-gray-100 dark:bg-gray-800 rounded-full blur-3xl" />
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <Badge variant="outline" className="mb-6 px-4 py-1.5 border-primary/30 bg-primary/5">
                 <Zap className="h-3 w-3 mr-1 text-primary" />
-                Built for experienced by engineers
+                Built for experienced engineers
                 <Zap className="h-3 w-3 mr-1 text-primary" />
               </Badge>
 
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
                 You know the patterns.
                 <br />
-                <span className="bg-gradient-to-r from-black via-gray-200 to-black bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-black via-gray-200 to-black dark:from-white dark:via-gray-500 dark:to-white bg-clip-text text-transparent">
                   Why can&apos;t you see them?
                 </span>
               </h1>
@@ -275,7 +275,7 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               <Card className="bg-gradient-to-b from-gray-50 to-gray-white">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
                     <Brain className="h-6 w-6 text-black" />
                   </div>
                   <CardTitle>Forced Thinking</CardTitle>
@@ -292,7 +292,7 @@ export default function Home() {
 
               <Card className="bg-gradient-to-b from-gray-50 to-gray-white">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
                     <Target className="h-6 w-6 text-black" />
                   </div>
                   <CardTitle>Wrong Approach Reveal</CardTitle>
@@ -309,7 +309,7 @@ export default function Home() {
 
               <Card className="bg-gradient-to-b from-gray-50 to-gray-white">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
                     <BarChart3 className="h-6 w-6 text-black" />
                   </div>
                   <CardTitle>Confidence Calibration</CardTitle>
@@ -378,7 +378,7 @@ export default function Home() {
                     <div key={item.step} className="relative">
                       <Card className="bg-gradient-to-b from-gray-50 to-gray-white h-full hover:shadow-lg transition-shadow">
                         <CardHeader className="pb-2">
-                          <div className={`w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-2 mx-auto relative z-100 border-4 border-background`}>
+                          <div className={`w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-2 mx-auto relative z-100 border-4 border-background`}>
                             <item.icon className={`h-5 w-5`} />
                           </div>
                           <Badge variant="outline" className="w-fit mx-auto mb-2">
@@ -478,7 +478,7 @@ export default function Home() {
         <section className="py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-background" />
           <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-gray-100 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-gray-100 dark:bg-gray-800 rounded-full blur-3xl" />
 
           <div className="container mx-auto px-4 text-center relative z-10">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">

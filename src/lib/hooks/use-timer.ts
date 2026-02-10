@@ -34,7 +34,7 @@ export function useTimer({
   }, [onComplete]);
 
   useEffect(() => {
-    if (!isRunning || timeLeft <= 0) return;
+    if (!isRunning) return;
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -49,7 +49,7 @@ export function useTimer({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, timeLeft]);
+  }, [isRunning]);
 
   const start = useCallback(() => {
     if (timeLeft > 0) {

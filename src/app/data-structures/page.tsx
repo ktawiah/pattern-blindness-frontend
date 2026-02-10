@@ -67,7 +67,7 @@ export default function DataStructuresPage() {
   // Group data structures by category
   const dataStructuresByCategory = filteredDataStructures.reduce(
     (acc, ds) => {
-      const category = (getDataStructureCategoryLabel(ds.category) == "Linear") ? "Linear" : "Non-Linear";
+      const category = (getDataStructureCategoryLabel(ds.category) === "Linear") ? "Linear" : "Non-Linear";
       if (!acc[category]) {
         acc[category] = [];
       }

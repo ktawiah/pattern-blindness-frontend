@@ -76,7 +76,8 @@ export const authApi = {
       localStorage.setItem(STORAGE_KEYS.authToken, response.accessToken);
       localStorage.setItem(STORAGE_KEYS.refreshToken, response.refreshToken);
       // Set cookie for middleware auth check
-      document.cookie = `pb_access_token=${response.accessToken}; path=/; max-age=${response.expiresIn}; SameSite=Lax`;
+      const secure = window.location.protocol === "https:" ? "; Secure" : "";
+      document.cookie = `pb_access_token=${response.accessToken}; path=/; max-age=${response.expiresIn}; SameSite=Lax${secure}`;
     }
 
     return response;

@@ -131,7 +131,7 @@ export function BlindSpotRadar({ className }: BlindSpotRadarProps) {
             </span>
           </div>
           <Progress
-            value={(stats.uniquePatternsPracticed / stats.totalPatterns) * 100}
+            value={stats.totalPatterns > 0 ? (stats.uniquePatternsPracticed / stats.totalPatterns) * 100 : 0}
           />
         </div>
 
